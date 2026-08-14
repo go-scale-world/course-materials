@@ -1,0 +1,9 @@
+Student Gmail details
+
+Student 1 : lavi Gupta 		Scalestudent1@gmail.com
+Student 2 : Suhani Kumar	Scalestudent2@gmail.com
+Student 3 : Mhd. Imad		Scalestudent3@gmail.com
+Student 4 : Mhd. Faizan		Scalestudent04@gmail.com
+Student 5 : Mhd. Akmal		Scalestudent05@gmail.com
+
+Password for all accounts: Scale@1508
