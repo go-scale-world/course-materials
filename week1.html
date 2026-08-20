@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 — Agentic AI Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="shell">
+
+  <div class="overlay" data-overlay></div>
+  <aside class="sidebar" aria-label="Course weeks">
+    <div class="sidebar-brand"><span class="dot" aria-hidden="true"></span><span>Agentic AI Course</span></div>
+    <nav aria-label="Weeks">
+      <p class="sidebar-group-label">Home</p>
+      <ul><li><a class="nav-link" href="index.html"><span class="num">•</span> Overview</a></li></ul>
+      <p class="sidebar-group-label">Weeks</p>
+      <ul>
+        <li><a class="nav-link active" href="week1.html"><span class="num">1</span> Agentic AI Foundations</a></li>
+        <li><a class="nav-link" href="week2.html"><span class="num">2</span> Retrieval-Augmented Generation</a></li>
+        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">3</span> Week 3</a></li>
+        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">4</span> Week 4</a></li>
+        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">5</span> Week 5</a></li>
+        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">6</span> Week 6</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button type="button" data-sidebar-toggle aria-expanded="false" aria-controls="sidebar" aria-label="Open week navigation">☰</button>
+      <span>Week 1</span>
+    </div>
+
+    <main id="main" class="content">
+      <p class="eyebrow">Week 1 · Detailed Notes</p>
+      <h1>Agentic AI Foundations &amp; Ticket Understanding</h1>
+
+      <nav class="section-nav" aria-label="Jump to section">
+        <a href="#s1">1. AI We Know</a>
+        <a href="#core-ai-1">LLM Fundamentals</a>
+        <a href="#core-ai-2">SLM vs LLM</a>
+        <a href="#s2">2. Limits</a>
+        <a href="#s3">3. Agentic AI</a>
+        <a href="#s7">7. Example</a>
+        <a href="#s9">9. Prompt Building</a>
+        <a href="#s12">12. Metrics</a>
+        <a href="#s13">13. Schema</a>
+        <a href="#quiz1">Quiz</a>
+      </nav>
+
+      <section id="s1">
+        <h2>1. The AI We Already Know</h2>
+        <p>Let's start with something familiar. Most of us have used tools like ChatGPT. You type a question, and it answers. You ask it to write something, and it writes it. You ask it to explain something, and it explains it.</p>
+        <p>This is the AI most people already know:</p>
+        <ul>
+          <li>It can <strong>write</strong> things — emails, messages, stories, code.</li>
+          <li>It can <strong>summarize</strong> things — turn a long article into a short one.</li>
+          <li>It can <strong>answer</strong> questions — almost like a very well-read friend.</li>
+          <li>It can <strong>generate code</strong> — if you describe what you want, it can write it for you.</li>
+        </ul>
+        <p>This is genuinely useful. But here's the thing to notice: in every single one of these examples, <strong>you</strong> are the one driving. You ask, it answers. You ask again, it answers again. It never moves on its own.</p>
+        <p>Keep that observation in your pocket. It matters a lot in a minute.</p>
+      </section>
+
+      <section id="s2">
+        <h2>2. What It Can't Do</h2>
+        <p>Now let's flip the coin and look at the limits of this same AI — the ones we don't usually notice because we're used to working around them.</p>
+        <ul>
+          <li><strong>It can't act on its own.</strong> It can tell you <em>how</em> to send an email, but it won't actually send it. You still have to do that part.</li>
+          <li><strong>It forgets things.</strong> Unless you remind it, it doesn't remember what happened two messages ago. Every reply depends on what you just said, not what came before.</li>
+          <li><strong>It doesn't check its own work.</strong> If it makes a mistake, it won't notice unless you point it out.</li>
+          <li><strong>It always waits.</strong> It never decides to do something by itself. It sits there until you type the next instruction.</li>
+        </ul>
+        <p>Think about what this means in a real work setting. Imagine a company gets 200 support tickets a day. A regular AI tool can help <em>write a reply</em> to one ticket. But it can't:</p>
+        <ul>
+          <li>Notice that 15 of those 200 tickets are actually about the <em>same</em> problem.</li>
+          <li>Decide on its own which ones are urgent.</li>
+          <li>Prepare a report and send it to the right person.</li>
+        </ul>
+        <p>A human still has to do all of that noticing and deciding. The AI is a helpful pen, not a helpful employee. This gap — between <em>just answering</em> and <em>actually handling things</em> — is exactly the gap we need to close.</p>
+      </section>
+
+      <section id="s3">
+        <h2>3. Enter Agentic AI — The Saver</h2>
+        <p>This is where <strong>Agentic AI</strong> walks in.</p>
+        <p>If the last section was about an AI that only answers when asked, Agentic AI is about an AI that can <strong>decide what needs to be done, and go do it</strong> — with a goal in mind, not just a question to answer.</p>
+        <p>It's not a new kind of magic. It's the same kind of AI model we just talked about, but now it's allowed to:</p>
+        <ul>
+          <li>Look at information on its own.</li>
+          <li>Make small decisions along the way.</li>
+          <li>Take steps, one after another, toward a goal.</li>
+          <li>Use tools to actually get things done, not just describe them.</li>
+        </ul>
+        <p>It's the "saver" because it picks up exactly where the regular AI stopped — right at the point where a human had to step in.</p>
+      </section>
+
+      <section id="s4">
+        <h2>4. Basic Definition</h2>
+        <p>Now that we've felt the gap and seen what fills it, here's the plain definition:</p>
+        <div class="definition">
+          <p>Agentic AI is an AI system that can decide, act, and work toward a goal — with less step-by-step instruction from a human.</p>
+        </div>
+        <p>Instead of just replying to one message, it can look at a situation, figure out what needs to happen, do it in steps, and only come back to a human when it truly needs help or approval.</p>
+      </section>
+
+      <section id="s5">
+        <h2>5. Gen AI vs Agentic AI</h2>
+        <p>Now that we've lived through both sides, here's the same idea laid out clearly:</p>
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Gen AI (like ChatGPT)</th><th>Agentic AI</th></tr></thead>
+          <tbody>
+            <tr><td>How it works</td><td>Answers one prompt at a time</td><td>Works through a goal in multiple steps</td></tr>
+            <tr><td>Memory</td><td>Usually forgets past steps unless reminded</td><td>Can remember and use past information</td></tr>
+            <tr><td>Action</td><td>Only describes what to do</td><td>Can actually take the action</td></tr>
+            <tr><td>Decision-making</td><td>Makes no real decisions, just responds</td><td>Makes small decisions along the way</td></tr>
+            <tr><td>Human involvement</td><td>Needed at every single step</td><td>Needed mainly for approval or unclear cases</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p>Nothing here is "one is bad, one is good." Agentic AI is simply Gen AI with more responsibility handed to it.</p>
+      </section>
+
+      <section id="s6">
+        <h2>6. Applications in Enterprises — A Quick Overview</h2>
+        <p>Companies are already using this idea in real, practical ways:</p>
+        <ul>
+          <li><strong>Support ticket triage</strong> — reading tickets and sorting them by product, urgency, and topic.</li>
+          <li><strong>IT monitoring</strong> — watching system logs and deciding when something needs a human's attention.</li>
+          <li><strong>Sales lead qualification</strong> — checking incoming leads and passing only the good ones to a salesperson.</li>
+          <li><strong>Invoice checking</strong> — matching an invoice against a purchase order and flagging mismatches.</li>
+        </ul>
+        <p>The common thread in all of these: a repetitive judgment call that used to need a human's constant attention, now handled by something that watches continuously and only escalates when needed.</p>
+      </section>
+
+      <section id="s7">
+        <h2>7. One Example, Broken Down Properly</h2>
+        <p>Concepts stick better with a real example. So let's do this in three parts: first a simple everyday example that uses the real building-block concepts of agentic AI, then a one-page glossary of those exact concepts, and finally our actual course project explained the same way.</p>
+
+        <h3>7.1 A Simple Example, Using the Real Building Blocks</h3>
+        <p>Imagine a <strong>Trip Planning Agent</strong> — you tell it "plan me a 3-day trip to Goa," and it takes it from there.</p>
+        <p>Here's what actually happens behind the scenes, step by step:</p>
+        <ol class="steps">
+          <li><strong>The LLM (the brain)</strong> — a large language model reads your request and understands what you actually want: 3 days, Goa, and it needs to figure out flights, stay, and a day-by-day plan.</li>
+          <li><strong>Tooling (the hands)</strong> — the agent doesn't know flight prices or hotel availability by itself, so it uses tools — a flight-search tool, a hotel-search tool, a weather tool — the same way you'd open different apps to check different things.</li>
+          <li><strong>RAG — Retrieval-Augmented Generation (the memory lookup)</strong> — before suggesting anything, it retrieves your past trip notes (maybe you once wrote "I don't like early morning flights"), and uses that real information instead of guessing.</li>
+          <li><strong>Multi-Agent Architecture (the team)</strong> — instead of one single agent doing everything, the work is split — one smaller agent handles flights, another handles hotels, another puts the final itinerary together. They coordinate like a small team, not one overloaded worker.</li>
+          <li><strong>MCP — Model Context Protocol (the universal plug)</strong> — each tool (flights, hotels, weather) connects to the agent through one standard connection method, instead of needing custom wiring for every single tool.</li>
+          <li><strong>Feedback (the correction loop)</strong> — if you say "no, I don't want that hotel," the agent doesn't just apologize — it adjusts its next suggestion based on that correction.</li>
+        </ol>
+        <p>Notice this wasn't one big magic step. It was the LLM thinking, tools acting, RAG grounding it in real facts, multiple agents splitting the work, MCP connecting everything cleanly, and feedback correcting it along the way. This exact pattern is what we'll now name properly, and then reuse for our own project.</p>
+
+        <h3>7.2 The Fundamental Agentic AI Concepts — One Page</h3>
+        <p class="lede" style="font-size:14px;">Tap a card to flip it and see the explanation.</p>
+        <div class="glossary-grid" id="glossary1"></div>
+
+        <h3>7.3 Now the Same Concepts, Applied to EPC</h3>
+        <p>Our course project is called <strong>EPC — Enterprise Problem Consolidation Agent</strong>. It deals with customer support tickets. Let's explain it using the exact same six concepts:</p>
+        <ul>
+          <li><strong>LLM</strong> — Gemini reads each incoming ticket and understands what it's actually about — the product, the issue, how it's phrased.</li>
+          <li><strong>Tooling</strong> — the agent uses tools to look things up and take action — checking ticket history, searching for related cases, and later, sending notifications.</li>
+          <li><strong>RAG</strong> — before deciding how serious a ticket is, EPC retrieves related historical incidents from Google Drive and a vector search system, so its judgment is grounded in real past cases, not guesses.</li>
+          <li><strong>Multi-Agent Architecture</strong> — the work is split across four coordinated agents: one extracts meaning from the ticket, one clusters similar tickets together, one scores business impact, and one prepares the escalation for a human.</li>
+          <li><strong>MCP</strong> — this is how EPC connects cleanly to enterprise tools like Gmail, Drive, and Chat, without needing custom code for every single one.</li>
+          <li><strong>Feedback</strong> — when a human approves or rejects an escalation, that decision feeds back into the system, shaping how it behaves next time.</li>
+        </ul>
+        <p>Same six building blocks. Same pattern from the trip planner. Just applied to a real business problem — catching an emerging issue within minutes, instead of after a hundred people have already complained.</p>
+      </section>
+
+      <section id="s8">
+        <h2>8. The First Step in Working With AI — The Prompt</h2>
+        <p>So — how do we actually <em>talk</em> to something like this? Every single interaction, no matter how smart the agent is, starts the same way: with a <strong>prompt</strong>.</p>
+        <p>A prompt is simply the instruction we give the AI — in plain words, telling it what we want it to do.</p>
+        <p>This is the real starting point of working with any AI, agentic or not. Get the prompt wrong, and everything downstream — decisions, actions, results — goes wrong too. So this deserves real attention.</p>
+        <p>To keep things simple and easy to follow, we'll use one running example through this whole section: <strong>an AI that generates study notes from a topic</strong> — the same kind of task we're doing right now, in this very document.</p>
+      </section>
+
+      <section id="s9">
+        <h2>9. Prompt Building — How to Actually Write One</h2>
+        <p>A weak prompt is vague. A strong prompt is specific. Let's see both, using our notes-generation example.</p>
+        <div class="callout">
+          <h4>Weak prompt</h4>
+          <p>"Make notes on this topic."</p>
+        </div>
+        <p>This doesn't say what "notes" should look like. How long? What sections? With examples or without? The AI has to guess — and guesses are inconsistent.</p>
+        <div class="callout">
+          <h4>Strong prompt</h4>
+          <p>"You are a note-making assistant. Read the topic below and create notes with: a short definition, 3–5 key points, and one simple example. Topic: [topic text]"</p>
+        </div>
+        <p>Notice what changed:</p>
+        <ul>
+          <li>It tells the AI <strong>what role</strong> to play ("You are a note-making assistant").</li>
+          <li>It tells the AI <strong>exactly what the notes should contain</strong> — no guessing.</li>
+          <li>It gives the <strong>exact topic</strong> to work on.</li>
+        </ul>
+        <p>A good prompt removes guesswork. That's the whole goal.</p>
+      </section>
+
+      <section id="s10">
+        <h2>10. Types of Prompting</h2>
+        <p>There are a few well-known ways to write prompts that consistently get better results.</p>
+        <div class="accordion">
+          <div class="accordion-item">
+            <h3><button class="accordion-trigger" aria-expanded="false" aria-controls="acc-fewshot">Few-Shot Prompting <svg class="chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+            <div class="accordion-panel" id="acc-fewshot">
+              <p>Instead of just describing what you want, you <strong>show an example</strong> of the input and the correct output, right inside the prompt.</p>
+              <p>Example:</p>
+              <p>Topic: "Photosynthesis"<br>Notes: Definition — how plants turn sunlight into food. Key points — happens in leaves, needs sunlight/water/CO2, produces oxygen. Example — a plant near a window grows better than one in a dark room.</p>
+              <p>Now do the same for this topic: [new topic]</p>
+              <p>Showing even one solid example makes the AI's notes far more consistent, because it's copying a pattern instead of guessing a format.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3><button class="accordion-trigger" aria-expanded="false" aria-controls="acc-cot">Chain-of-Thought Prompting <svg class="chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+            <div class="accordion-panel" id="acc-cot">
+              <p>This means asking the AI to <strong>think through the problem step by step</strong>, out loud, before giving a final answer — instead of jumping straight to a conclusion.</p>
+              <p>Example: "First, list the main ideas in this topic. Then, decide which ones are essential and which are extra detail. Only after that, write the final notes."</p>
+              <p>This works especially well for anything that needs judgment, not just simple lookup — like deciding which points in a topic actually deserve a place in the notes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s11">
+        <h2>11. Prompt Categories</h2>
+        <p>Along with <em>types</em> of prompting, there are also <em>categories</em> of prompts — based on <strong>who</strong> the instruction is really coming from.</p>
+        <ul>
+          <li><strong>System Prompt</strong> — the background rules and role you set for the AI before the conversation even starts. Think of it as the AI's job description. Example: "You are a note-making assistant. Always write notes in simple language with a definition, key points, and one example."</li>
+          <li><strong>User Prompt</strong> — the actual request being made in the moment. Example: "Here's today's topic — generate notes for it."</li>
+        </ul>
+        <p>People often mix these up. The system prompt sets the <em>behavior</em>. The user prompt is the <em>actual task</em> for right now. Keeping them separate makes the AI's behavior far more predictable — especially when the same system prompt is reused for hundreds of different topics.</p>
+      </section>
+
+      <section id="core-ai-1">
+        <p class="eyebrow">Core AI Knowledge · 1 of 2</p>
+        <h2>LLM Fundamentals</h2>
+        <div class="definition">
+          <p>An LLM, or Large Language Model, is a program trained on huge amounts of text. It does not think like a person. It predicts the next word, one at a time, based on patterns it learned.</p>
+        </div>
+        <div class="knowledge-grid">
+          <article class="knowledge-card">
+            <span class="knowledge-label">Learning phase</span>
+            <h3>Training</h3>
+            <p>The process of showing the model huge amounts of text, so it learns language, facts, and patterns.</p>
+            <p class="knowledge-example"><strong>Examples:</strong> Books, websites, and code.</p>
+          </article>
+          <article class="knowledge-card">
+            <span class="knowledge-label">Word pieces</span>
+            <h3>Tokens</h3>
+            <p>Small pieces of text, like parts of a word. The model reads and writes text one token at a time.</p>
+            <p class="knowledge-example"><strong>Example:</strong> "un" plus "happy" makes unhappy.</p>
+          </article>
+          <article class="knowledge-card">
+            <span class="knowledge-label">Internal settings</span>
+            <h3>Parameters</h3>
+            <p>The internal settings the model learns during training. More parameters usually means it can understand more complex patterns.</p>
+            <p class="knowledge-example"><strong>Examples:</strong> Billions to trillions of parameters.</p>
+          </article>
+          <article class="knowledge-card">
+            <span class="knowledge-label">Memory size</span>
+            <h3>Context Window</h3>
+            <p>How much text the model can see and remember at once, in a single conversation.</p>
+            <p class="knowledge-example"><strong>Examples:</strong> From a few thousand to millions of tokens.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="core-ai-2">
+        <p class="eyebrow">Agentic AI on GCP · Week 1 · Core AI Knowledge · 2 of 2</p>
+        <h2>SLM: Small Language Models</h2>
+        <p>An SLM is a smaller version of an LLM. It has fewer parameters, so it needs less computing power, but it is still trained to understand and write language.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Feature</th><th>LLMs</th><th>SLMs</th></tr></thead>
+            <tbody>
+              <tr><td>Size</td><td>Very large, billions of parameters</td><td>Smaller, millions to a few billion parameters</td></tr>
+              <tr><td>Speed</td><td>Slower, needs more computing power</td><td>Faster, needs less computing power</td></tr>
+              <tr><td>Where it runs</td><td>Mostly in the cloud, on big servers</td><td>Can run on a phone or laptop</td></tr>
+              <tr><td>Best for</td><td>Complex reasoning, broad knowledge</td><td>Simple, fast, focused tasks</td></tr>
+              <tr><td>Cost</td><td>More expensive to run</td><td>Cheaper to run</td></tr>
+              <tr><td>Examples</td><td>Gemini, Claude Sonnet 5, GPT</td><td>Gemma, Phi, Claude Haiku</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <h4>The practical takeaway</h4>
+          <p>LLMs are a strong choice when an agent needs broad knowledge and complex reasoning. SLMs are useful when speed, lower cost, or running locally matters more.</p>
+        </div>
+      </section>
+
+      <section id="s12">
+        <h2>12. Metrics — The Settings That Shape the Output</h2>
+        <p>Beyond <em>what</em> we ask for, we can also control <em>how</em> the AI generates its answer, using a few key settings. These matter a lot for something like notes generation, where you might want factual, focused notes one time and more creative, exploratory notes another time.</p>
+        <ul>
+          <li><strong>Temperature</strong> — controls how "safe" or how "creative" the AI's wording is. A low temperature (like 0.2) gives focused, predictable notes — good for factual topics. A high temperature (like 0.8) gives more varied, creative wording — good for brainstorming, but riskier for accuracy.</li>
+          <li><strong>Top-p (nucleus sampling)</strong> — controls how many different word choices the AI is allowed to consider at each step. A lower value keeps it narrow and safe; a higher value lets it explore more options.</li>
+          <li><strong>Max tokens</strong> — sets a limit on how long the output can be. Useful so your "notes" don't accidentally turn into a five-page essay.</li>
+          <li><strong>Frequency penalty</strong> — discourages the AI from repeating the same words or phrases too often, which keeps notes from feeling repetitive.</li>
+        </ul>
+        <p>For notes generation, a common practical choice is a <strong>low-to-medium temperature</strong> — enough to sound natural, but focused enough to stay accurate and consistent.</p>
+      </section>
+
+      <section id="s13">
+        <h2>13. When the Output Isn't What We Intended — Schema Validation</h2>
+        <p>Even with a great prompt and well-tuned settings, the AI won't always return exactly what we asked for. Sometimes the "key points" section is missing. Sometimes it forgets to include an example. Sometimes it returns one giant paragraph instead of clean, separated sections.</p>
+        <p>This is where <strong>schema validation</strong> comes in.</p>
+        <p>A <strong>schema</strong> is simply a strict definition of what the output should look like — which fields are required, and what type each one should be. For our notes example, that might mean: a title (text), a definition (text), key points (a list, not a paragraph), and an example (text) — all required, every time.</p>
+        <p><strong>Schema validation</strong> means checking the AI's output against that form <em>before</em> we trust it. If something is missing or in the wrong shape, we reject it and either ask the AI to try again or flag it for a human — we never let broken data quietly move forward.</p>
+        <p>This is exactly why schema validation helps:</p>
+        <ul>
+          <li>It <strong>catches bad or missing data early</strong>, before it causes problems further down the line — like notes with no example, or no key points.</li>
+          <li>It <strong>forces consistency</strong>, so every set of notes follows the same reliable structure.</li>
+          <li>It <strong>builds trust</strong> in the system, since we're not just hoping the AI got it right — we're checking.</li>
+        </ul>
+        <p>This connects straight back to prompting — the better your prompt (especially with a good few-shot example) and the better-tuned your settings, the more often the output passes validation on the very first try.</p>
+      </section>
+
+      <section id="s14">
+        <h2>14. Coded AI Agents vs Non-Coded (No-Code) Agents</h2>
+        <p>There are two broad ways to build agents like this:</p>
+        <ul>
+          <li><strong>No-Code Agents</strong> — built using drag-and-drop tools and visual builders. Quick to set up, no programming needed, good for simple, well-defined tasks.</li>
+          <li><strong>Coded Agents</strong> — built by actually writing code (like what we're doing in this course). Takes more effort upfront, but gives full control over logic, memory, tool use, and how the agent behaves in tricky situations.</li>
+        </ul>
+        <p>Both have a place. No-code tools are great for quick, simple automations. But once a system needs to handle messy real-world situations — multiple tools, custom logic, precise control over decisions, integration with a company's actual systems — a no-code tool starts to hit a wall.</p>
+        <p><strong>This is exactly why learning to build coded agents is the skill worth investing in.</strong> It's the version that doesn't box you in. You're not limited to what a drag-and-drop tool allows — you can build exactly what the situation needs, connect it to any system, and fix it precisely when something goes wrong. Every advanced capability in this course — memory, multi-agent coordination, tool use, safety checks — is only fully possible when you're working at the code level.</p>
+      </section>
+
+      <section id="s15">
+        <h2>15. Future Career Aspects</h2>
+        <p>This isn't just a course skill — it's becoming a real, in-demand capability.</p>
+        <ul>
+          <li>Companies across every industry are looking for people who can build systems that don't just answer questions, but actually get work done.</li>
+          <li>Knowing how to build coded agents — not just use ready-made AI tools — puts you in a smaller, more valuable group of people.</li>
+          <li>This skillset sits at the intersection of AI, software engineering, and real business problem-solving — which is exactly why it opens doors across multiple kinds of roles, not just one narrow job title.</li>
+        </ul>
+        <p>Everything we build from here through Week 6 is a direct, hands-on demonstration of this exact skill.</p>
+      </section>
+
+      <section id="quiz1">
+        <h2>Quick Knowledge Check</h2>
+        <div class="quiz" id="week1-quiz">
+          <div class="quiz-header">
+            <h4 style="margin:0;">Week 1 Quiz</h4>
+            <span class="quiz-score" data-score>Score: 0/6</span>
+          </div>
+          <div data-quiz-body>
+            <div class="quiz-progress"><div class="quiz-progress-bar" data-progress-bar></div></div>
+            <div data-question-body></div>
+            <div class="quiz-nav" data-quiz-nav></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="week-footer">
+        <span></span>
+        <a href="week2.html">Next: Week 2 — RAG →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  const glossaryTerms = [
+    { term: "LLM (Large Language Model)", explain: "The \"thinking\" part of the agent. It reads text, understands intent, and decides what should happen next." },
+    { term: "Tooling", explain: "The actual abilities the agent is given — like a search tool, a database lookup, or an email sender — so it can do things, not just talk about them." },
+    { term: "RAG (Retrieval-Augmented Generation)", explain: "Before answering, the agent first looks up real, relevant information (documents, past data), instead of relying only on what it already \"remembers.\" Like an open-book exam instead of a closed-book one." },
+    { term: "Multi-Agent Architecture", explain: "Instead of one agent trying to do everything, the work is split across several smaller agents, each handling one part, working together like a team." },
+    { term: "MCP (Model Context Protocol)", explain: "A standard, common way for an agent to connect to outside tools and data — like a universal plug (think USB-C) instead of a different custom cable for every device." },
+    { term: "Feedback", explain: "Information about how well the agent did — used to correct or improve its next decision, instead of repeating the same mistake." }
+  ];
+
+  const glossaryGrid = document.getElementById('glossary1');
+  glossaryTerms.forEach((g,i)=>{
+    const card = document.createElement('div');
+    card.className = 'flip-card';
+    card.innerHTML = `
+      <button class="flip-card-btn" type="button" aria-pressed="false" aria-label="${g.term}, tap to reveal explanation">
+        <div class="flip-card-inner">
+          <div class="flip-face front">
+            <span class="term">${g.term}</span>
+            <span class="hint">Tap to flip</span>
+          </div>
+          <div class="flip-face back"><p>${g.explain}</p></div>
+        </div>
+      </button>
+    `;
+    glossaryGrid.appendChild(card);
+  });
+  // Click handling for these cards is delegated from app.js (initFlipCards),
+  // so no per-button binding is needed here.
+
+  const week1Quiz = [
+    {
+      q: "What is the core difference between Gen AI and Agentic AI?",
+      options: [
+        { text: "Agentic AI can decide and act toward a goal with less step-by-step instruction", correct: true },
+        { text: "Gen AI is newer technology than Agentic AI", correct: false },
+        { text: "Agentic AI can only answer one prompt at a time", correct: false },
+        { text: "There is no real difference between them", correct: false }
+      ],
+      explain: "Agentic AI is Gen AI with more responsibility handed to it — it can decide, act, and work toward a goal rather than just responding to single prompts."
+    },
+    {
+      q: "In the Trip Planning Agent example, what role does RAG play?",
+      options: [
+        { text: "It splits work across multiple smaller agents", correct: false },
+        { text: "It retrieves your past trip notes so suggestions use real information instead of guessing", correct: true },
+        { text: "It connects tools through one standard method", correct: false },
+        { text: "It corrects the agent's next suggestion after you give feedback", correct: false }
+      ],
+      explain: "RAG is described as \"the memory lookup\" — it retrieves real, relevant past information (like your past trip notes) before the agent suggests anything."
+    },
+    {
+      q: "True or False: A weak prompt like \"Make notes on this topic\" removes guesswork for the AI.",
+      options: [
+        { text: "True", correct: false },
+        { text: "False", correct: true }
+      ],
+      explain: "A weak prompt is vague — it doesn't say what the notes should contain, so the AI has to guess, and guesses are inconsistent. A strong prompt removes that guesswork."
+    },
+    {
+      q: "Which setting controls how long the AI's output can be?",
+      options: [
+        { text: "Temperature", correct: false },
+        { text: "Top-p", correct: false },
+        { text: "Max tokens", correct: true },
+        { text: "Frequency penalty", correct: false }
+      ],
+      explain: "Max tokens sets a limit on how long the output can be, so notes don't accidentally turn into a five-page essay."
+    },
+    {
+      q: "What does schema validation actually do?",
+      options: [
+        { text: "It makes the AI generate answers faster", correct: false },
+        { text: "It checks the AI's output against a required structure before it's trusted", correct: true },
+        { text: "It increases the model's temperature automatically", correct: false },
+        { text: "It replaces the need for a good prompt", correct: false }
+      ],
+      explain: "Schema validation means checking the AI's output against a strict definition of required fields and types before we trust it — rejecting or flagging anything that's missing or malformed."
+    },
+    {
+      q: "Why does the notes mention that coded agents are worth investing in, compared to no-code agents?",
+      options: [
+        { text: "No-code agents are always faster to run", correct: false },
+        { text: "Coded agents give full control over logic, memory, tool use, and tricky situations", correct: true },
+        { text: "Coded agents require no programming knowledge", correct: false },
+        { text: "No-code agents can't be used for simple tasks", correct: false }
+      ],
+      explain: "Coded agents take more effort upfront but give full control over logic, memory, tool use, and behavior — capabilities that no-code tools hit a wall on once things get complex."
+    }
+  ];
+
+  initQuiz('week1-quiz', week1Quiz);
+</script>
+</body>
+</html>
