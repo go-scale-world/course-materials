@@ -3,332 +3,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 2 — Retrieval-Augmented Generation</title>
+<title>Week 2 — RAG | Agentic AI on GCP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-<a href="#main" class="skip-link">Skip to content</a>
-<div class="shell">
 
-  <div class="overlay" data-overlay></div>
-  <aside class="sidebar" aria-label="Course weeks">
-    <div class="sidebar-brand"><span class="dot" aria-hidden="true"></span><span>Agentic AI Course</span></div>
-    <nav aria-label="Weeks">
-      <p class="sidebar-group-label">Home</p>
-      <ul><li><a class="nav-link" href="index.html"><span class="num">•</span> Overview</a></li></ul>
-      <p class="sidebar-group-label">Weeks</p>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="progress-track" aria-hidden="true"><div class="progress-fill" id="readProgress"></div></div>
+
+<button class="sidebar-toggle" id="sidebarToggle" aria-expanded="false" aria-controls="sidebar">☰ Menu</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <div class="sidebar-brand"><span class="dot">●</span> Course Notes<span class="sub">Agentic AI on GCP</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul><li><a class="sidebar-link" href="index.html"><span class="num" aria-hidden="true">⌂</span> Home</a></li></ul>
+      <div class="sidebar-group-label">Weeks</div>
       <ul>
-        <li><a class="nav-link" href="week1.html"><span class="num">1</span> Agentic AI Foundations</a></li>
-        <li><a class="nav-link active" href="week2.html"><span class="num">2</span> Retrieval-Augmented Generation</a></li>
-        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">3</span> Week 3</a></li>
-        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">4</span> Week 4</a></li>
-        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">5</span> Week 5</a></li>
-        <li><a class="nav-link" href="#" aria-disabled="true"><span class="num">6</span> Week 6</a></li>
+        <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
+        <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
+        <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6<span class="badge">Soon</span></a></li>
       </ul>
+      <div class="sidebar-group-label">Further</div>
+      <ul><li><a class="sidebar-link" href="resources.html"><span class="num" aria-hidden="true">★</span> Further Resources</a></li></ul>
     </nav>
+    <div class="sidebar-foot">Built from your course notes.</div>
   </aside>
 
-  <div class="main">
-    <div class="topbar">
-      <button type="button" data-sidebar-toggle aria-expanded="false" aria-controls="sidebar" aria-label="Open week navigation">☰</button>
-      <span>Week 2</span>
-    </div>
+  <div class="content-col">
+    <main class="page" id="main-content">
 
-    <main id="main" class="content">
-      <p class="eyebrow">Week 2 · Detailed Notes</p>
-      <h1>Retrieval-Augmented Generation (RAG)</h1>
-
-      <nav class="section-nav" aria-label="Jump to section">
-        <a href="#s-example">Example</a>
-        <a href="#s-def">Definition</a>
-        <a href="#s-problem">Why We Need It</a>
-        <a href="#s-stages">Ingestion &amp; Retrieval</a>
-        <a href="#s-check">Does It Need RAG?</a>
-        <a href="#s-glossary">Glossary</a>
-        <a href="#quiz2">Quiz</a>
-      </nav>
-
-      <section id="s-example">
-        <h2>Let's Start With an Example</h2>
-        <p>Say you message Netflix support: <strong>"My payment failed."</strong></p>
-        <ul>
-          <li><strong>Without RAG:</strong> the support bot just answers from what it already "remembers" from training. So you get something generic, like "please try again later" — it doesn't actually know what worked for anyone else in this exact situation.</li>
-          <li><strong>With RAG:</strong> the system quickly searches through thousands of old support tickets, finds the ones closest to your problem, checks what actually solved them, and then answers you using that real info.</li>
-        </ul>
-        <p>Same question, two very different answers. The difference is simple — in the second case, the system <strong>looked something up first</strong>, instead of just guessing from memory. That's basically the whole idea of RAG.</p>
+      <section class="page-hero">
+        <div class="page-eyebrow">Week 2</div>
+        <h1>Retrieval-Augmented Generation (RAG)</h1>
+        <p>Look up the facts first, then answer the question. Read through the notes, expand what you need, and test yourself along the way — the source notes stay exactly as written.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">4</span><span class="lbl">Quick checks</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+          <div class="hero-stat"><span class="num">11</span><span class="lbl">Glossary terms</span></div>
+        </div>
       </section>
 
-      <section id="s-def">
-        <h2>So, What Is RAG? (Simple Definition)</h2>
-        <div class="definition">
-          <p>RAG means: look up the facts first, then answer the question.</p>
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#intro">Example</a>
+        <a href="#definition">Definition</a>
+        <a href="#need-rag">Do I Need RAG?</a>
+        <a href="#problem">The Problem</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#where-used">Where Used</a>
+        <a href="#big-picture">Big Picture</a>
+        <a href="#quick-memory">Quick Memory</a>
+        <a href="#full-picture">Full Picture</a>
+        <a href="#lab-2">Lab 2</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ INTRO / EXAMPLE ============ -->
+      <section id="intro">
+        <div class="section-kicker">Let's start with an example</div>
+        <h2>My payment failed.</h2>
+        <p>Say you message Netflix support: <strong>"My payment failed."</strong></p>
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">Without RAG</span>
+            <p>the support bot just answers from what it already "remembers" from training. So you get something generic, like "please try again later" — it doesn't actually know what worked for anyone else in this exact situation.</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">With RAG</span>
+            <p>the system quickly searches through thousands of old support tickets, finds the ones closest to your problem, checks what actually solved them, and then answers you using that real info.</p>
+          </div>
+        </div>
+        <p style="margin-top:var(--sp-4)">Same question, two very different answers. The difference is simple — in the second case, the system <strong>looked something up first</strong>, instead of just guessing from memory. That's basically the whole idea of RAG.</p>
+      </section>
+
+<section id="definition">
+        <div class="section-kicker">So, what is RAG?</div>
+        <h2>Simple definition</h2>
+        <div class="callout">
+          <div class="callout-label">🧠 RAG means</div>
+          <p>Look up the facts first, then answer the question.</p>
         </div>
         <p>That's really it at the core. Instead of the AI just answering from memory, it goes and checks real documents first, and then uses what it found to write the answer.</p>
       </section>
 
-      <section id="s-problem">
-        <h2>The Problem: Why Do We Even Need This?</h2>
-        <p>Think of a normal LLM as a student sitting a <strong>closed-book exam</strong>. Whatever they memorized while studying is all they've got in the room with them. This creates a few real problems:</p>
-        <ul>
-          <li><strong>Old information.</strong> The model was trained once, on data up to some date. Anything that happened after that date just doesn't exist for it.</li>
-          <li><strong>Making things up.</strong> When it doesn't know something, it usually won't say "I'm not sure." It tends to guess anyway, in a way that sounds confident — even when it's wrong. This is what's called <strong>hallucination</strong>.</li>
-          <li><strong>No access to private stuff.</strong> The model was never shown your company's internal documents, last week's meeting notes, or one specific customer's ticket history. It genuinely has no way to know things it was never trained on.</li>
-        </ul>
-        <p>You can see this problem in a lot of places — a legal assistant that has no idea about a law passed last month, a support bot that can't see your company's real tickets, a doctor's assistant that can't check the newest research. In each case, the model is stuck with only what it happened to memorize a while ago.</p>
-        <div class="callout">
-          <h4>🧠 Remember This</h4>
-          <p>A normal LLM sits a <strong>closed-book exam</strong> — memory only, nothing to check. RAG turns it into an <strong>open-book exam</strong> — it can flip to the right page before it answers.</p>
-        </div>
-      </section>
-
-      <section id="s-parts">
-        <h2>RAG's Full Picture: Retrieval + Augmentation + Generation</h2>
-        <p>Once we go a little deeper, RAG is really made up of three steps, and the name spells them out:</p>
-        <ul>
-          <li><strong>Retrieval</strong> — go find the relevant facts.</li>
-          <li><strong>Augmentation</strong> — add those facts onto the user's question.</li>
-          <li><strong>Generation</strong> — the model writes the answer using the question <em>plus</em> those facts.</li>
-        </ul>
-        <p>Back to Netflix: retrieval is searching old tickets, augmentation is attaching the best-matching past solutions to your question, generation is the bot writing an answer using both your question and those real solutions.</p>
-        <div class="table-wrap">
-        <table>
-          <thead><tr><th>Aspect</th><th>Without RAG</th><th>With RAG</th></tr></thead>
-          <tbody>
-            <tr><td>Knowledge used</td><td>Only what it was trained on</td><td>Training data + real documents it looks up</td></tr>
-            <tr><td>Freshness</td><td>Can get outdated</td><td>Can use the latest information</td></tr>
-            <tr><td>Accuracy</td><td>Can hallucinate</td><td>Backed by real, retrieved facts</td></tr>
-            <tr><td>Can it show sources?</td><td>No</td><td>Yes — it can point to where the answer came from</td></tr>
-            <tr><td>Access to private data</td><td>None</td><td>Can search your own company data</td></tr>
-            <tr><td>Cost &amp; speed</td><td>Cheaper, faster</td><td>A little more expensive, a little slower (extra search step)</td></tr>
-          </tbody>
-        </table>
-        </div>
-      </section>
-
-      <section id="s-stages">
-        <h2>How RAG Works (The Journey)</h2>
-        <p>RAG happens in two stages, and they don't happen at the same time — this is the part people usually mix up:</p>
-        <ol class="steps">
-          <li><strong>Ingestion</strong> — happens first, one time (or updated every now and then), <em>before</em> anyone even asks a question. It's about preparing the documents so they're ready to be searched.</li>
-          <li><strong>Retrieval</strong> — happens every single time someone asks a question. This is the actual "finding the answer" step.</li>
-        </ol>
-        <div class="callout">
-          <h4>🧠 Remember This</h4>
-          <p>Ingestion <strong>builds the book</strong>. Retrieval <strong>reads from the book</strong>. You can't read a page that was never organized into the book to begin with.</p>
-        </div>
-
-        <div class="accordion">
-          <div class="accordion-item">
-            <h3><button class="accordion-trigger" aria-expanded="false" aria-controls="acc-ingest">Stage 1 — Ingestion (Getting the Data Ready) <svg class="chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
-            <div class="accordion-panel" id="acc-ingest">
-              <p>Say a company has 1,000 employee policy documents. The AI can't just "search a folder" the way you search files on your laptop — the content needs to be turned into something it can compare by <em>meaning</em>. Here's roughly how that happens:</p>
-              <ol class="steps">
-                <li><strong>Chunks</strong> — the big documents get split into small pieces, called chunks. Feeding an entire 200-page manual to the model in one go would be messy, so smaller pieces work better.</li>
-                <li><strong>Embedding</strong> — each chunk goes through an <strong>Embedding API</strong>, which converts the text into a list of numbers. This is what lets the system realize "remote work" and "work from home" are basically saying the same thing, even with different words.</li>
-                <li><strong>Semantic Index</strong> — all these number-versions get organized into a semantic index, which is basically a smart index built to search by meaning, not exact wording.</li>
-                <li>Everything gets stored together as the <strong>Knowledge Base</strong> — the final, ready-to-search set of chunks plus their number-versions.</li>
-              </ol>
-              <div class="flow">Raw Data → Chunk → Embedding → Semantic Index → Knowledge Base (ready to search)</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h3><button class="accordion-trigger" aria-expanded="false" aria-controls="acc-retrieve">Stage 2 — Retrieval (Answering the Question) <svg class="chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
-            <div class="accordion-panel" id="acc-retrieve">
-              <p>Now that the "book" is ready, retrieval kicks in live, every time someone asks something:</p>
-              <ol class="steps">
-                <li>The user's question also gets converted into numbers — this is the <strong>query embedding</strong> — using the same method as before, so it can actually be compared fairly.</li>
-                <li>A <strong>similarity search</strong> compares the question's numbers against every chunk's numbers in the Knowledge Base, to see which stored chunks are closest in meaning. This is also called <strong>semantic search</strong>.</li>
-                <li>The closest matches get picked — you choose how many with <strong>Top K</strong> (K = 3 means "give me the top 3 matches"). These are the <strong>ranked results</strong>.</li>
-                <li>Those chunks get <strong>augmented</strong> onto the original question — basically attached as extra context — and the whole thing is sent to the LLM.</li>
-                <li>The LLM <strong>generates</strong> the final answer, using the question and the real facts it was just handed.</li>
-              </ol>
-              <div class="flow">User's Question → Query Embedding → Semantic Search → Top-K Chunks (Ranked Results) → Augmentation → LLM → Answer</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="callout">
-          <h4>🧠 Remember This</h4>
-          <p>Retrieval works a bit like a librarian, not a genius with perfect memory. The AI already "knows books exist" thanks to training, it just doesn't know which shelf holds the answer. RAG is what tells it exactly where to look.</p>
-        </div>
-      </section>
-
-      <section id="s-check">
-        <h2>Does This Question Even Need RAG?</h2>
+<section id="need-rag">
+        <div class="section-kicker">Does this question even need RAG?</div>
+        <h2>General knowledge, or something only your documents know?</h2>
         <p>Not every question needs a lookup — RAG is only really useful when the answer depends on something the model doesn't (and can't) already know. A decent way to check: <em>is this general knowledge, or is it something specific, private, recent, or already given to me?</em></p>
-        <div class="table-wrap">
-        <table>
-          <thead><tr><th>Question</th><th>RAG needed?</th><th>Why</th></tr></thead>
-          <tbody>
-            <tr><td>Translate "Hello" to Spanish</td><td>No</td><td>Basic language knowledge, already learned in training</td></tr>
-            <tr><td>Explain photosynthesis</td><td>No</td><td>General science, in every textbook</td></tr>
-            <tr><td>Calculate 25 × 48</td><td>No</td><td>Just math, nothing to look up</td></tr>
-            <tr><td>Write a poem about rain</td><td>No</td><td>Pure creativity, no facts needed</td></tr>
-            <tr><td>Summarize this article I'm showing you</td><td>No</td><td>It's already right there in front of the model</td></tr>
-            <tr><td>Find what John said in last week's meeting</td><td>Yes</td><td>This was never shown to the model</td></tr>
-            <tr><td>What did the CEO announce in yesterday's email</td><td>Yes</td><td>New and private — the model can't read your inbox</td></tr>
-            <tr><td>What issues did customer #12345 report</td><td>Yes</td><td>Lives only in your company's system</td></tr>
-            <tr><td>What are our remote work security rules</td><td>Yes</td><td>Every company's rules are different — not public</td></tr>
-            <tr><td>Has anyone reported this bug before</td><td>Yes</td><td>Lives in your bug-tracking records</td></tr>
-          </tbody>
-        </table>
+        <p>Guess Yes or No for each question below, then reveal the answer.</p>
+
+        <div class="reveal-list">
+          <div class="reveal-card" data-answer="no">
+            <div class="reveal-q"><span class="qtext">Translate "Hello" to Spanish</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Basic language knowledge, already learned in training.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="no">
+            <div class="reveal-q"><span class="qtext">Explain photosynthesis</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>General science, in every textbook.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="no">
+            <div class="reveal-q"><span class="qtext">Calculate 25 × 48</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Just math, nothing to look up.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="no">
+            <div class="reveal-q"><span class="qtext">Write a poem about rain</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Pure creativity, no facts needed.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="no">
+            <div class="reveal-q"><span class="qtext">Summarize this article I'm showing you</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>It's already right there in front of the model.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="yes">
+            <div class="reveal-q"><span class="qtext">Find what John said in last week's meeting</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>This was never shown to the model.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="yes">
+            <div class="reveal-q"><span class="qtext">What did the CEO announce in yesterday's email</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>New and private — the model can't read your inbox.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="yes">
+            <div class="reveal-q"><span class="qtext">What issues did customer #12345 report</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Lives only in your company's system.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="yes">
+            <div class="reveal-q"><span class="qtext">What are our remote work security rules</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Every company's rules are different — not public.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
+          <div class="reveal-card" data-answer="yes">
+            <div class="reveal-q"><span class="qtext">Has anyone reported this bug before</span><span class="reveal-actions"><button class="guess-btn" data-choice="yes">Yes</button><button class="guess-btn" data-choice="no">No</button></span></div>
+            <div class="reveal-answer" data-answer-panel><span class="reveal-badge">RAG needed</span><p>Lives in your bug-tracking records.</p><p class="reveal-correct" data-verdict></p></div>
+          </div>
         </div>
-        <div class="callout">
-          <h4>Worth keeping in mind</h4>
+
+        <div class="callout" style="margin-top:var(--sp-5)">
+          <div class="callout-label">Worth keeping in mind</div>
           <p>RAG doesn't make the model "smarter" or better at reasoning or math. It just gives it access to information it didn't have. If a question can already be answered with general knowledge, plain logic, or something already pasted into the chat, adding RAG just adds cost and delay for no real benefit.</p>
         </div>
       </section>
 
-      <section id="s-where">
-        <h2>Where RAG Is Used</h2>
-        <p>Customer support (searching old tickets), documentation search (developers asking "how do I set this up"), legal research (searching case law), medical support (checking past literature and clinical cases), code help (searching docs and examples), HR policy Q&amp;A (checking company policy documents), and research assistance (finding and summarizing academic papers). The pattern is the same across all of these — <strong>the real answer lives in a specific set of documents, not in the model's general memory.</strong></p>
-      </section>
+<section id="problem">
+        <div class="section-kicker">The problem</div>
+        <h2>Why do we even need this?</h2>
+        <p>Think of a normal LLM as a student sitting a <strong>closed-book exam</strong>. Whatever they memorized while studying is all they've got in the room with them. This creates a few real problems:</p>
 
-      <section id="s-bigpicture">
-        <h2>Big Picture</h2>
-        <p>RAG exists because AI models are stuck in time, sometimes make things up, and can't see your private information. Instead of retraining the whole model every time something changes — which is slow and expensive — RAG keeps the model as it is, and just gives it a way to search your own documents right when it needs to answer. Ingestion prepares that search once. Retrieval uses it every single time a question comes in. The retrieved facts get attached to the question so the model answers from real evidence instead of a guess — basically turning a closed-book exam into an open-book one.</p>
+        <div class="card-grid">
+          <details class="acc-card">
+            <summary><span>Old information</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">The model was trained once, on data up to some date. Anything that happened after that date just doesn't exist for it.</div>
+          </details>
+          <details class="acc-card">
+            <summary><span>Making things up</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">When it doesn't know something, it usually won't say "I'm not sure." It tends to guess anyway, in a way that sounds confident — even when it's wrong. This is what's called <strong>hallucination</strong>.</div>
+          </details>
+          <details class="acc-card">
+            <summary><span>No access to private stuff</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">The model was never shown your company's internal documents, last week's meeting notes, or one specific customer's ticket history. It genuinely has no way to know things it was never trained on.</div>
+          </details>
+        </div>
 
-        <h3>Quick Memory</h3>
-        <ul>
-          <li>RAG, simply: <strong>look up the facts first, then answer.</strong></li>
-          <li>Full version: <strong>Retrieve</strong> facts + <strong>Augment</strong> the question with them + <strong>Generate</strong> the answer.</li>
-          <li>Fixes three LLM problems: old information, hallucination (made-up facts), and no access to private data.</li>
-          <li>Two stages: <strong>Ingestion</strong> (prepare documents, once) → <strong>Retrieval</strong> (search + answer, every time).</li>
-          <li>Quick check: "Is this general knowledge, or something only my own documents would know?" — that tells you whether RAG is worth it.</li>
-          <li>Trade-off: better accuracy and fresher answers, but a bit slower and a bit costlier.</li>
-        </ul>
-      </section>
+        <p style="margin-top:var(--sp-5)">You can see this problem in a lot of places — a legal assistant that has no idea about a law passed last month, a support bot that can't see your company's real tickets, a doctor's assistant that can't check the newest research. In each case, the model is stuck with only what it happened to memorize a while ago.</p>
 
-      <section id="s-glossary">
-        <h2>Technical Vocabulary</h2>
-        <p class="lede" style="font-size:14px;">Tap a card to flip it and see the simple meaning.</p>
-        <div class="glossary-grid" id="glossary2"></div>
-      </section>
+        <div class="callout">
+          <div class="callout-label">🧠 Remember this</div>
+          <p>A normal LLM sits a <strong>closed-book exam</strong> — memory only, nothing to check. RAG turns it into an <strong>open-book exam</strong> — it can flip to the right page before it answers.</p>
+        </div>
 
-      <section id="quiz2">
-        <h2>Quick Knowledge Check</h2>
-        <div class="quiz" id="week2-quiz">
+        <div class="quiz inline" data-quiz='[
+          {"prompt":"What is it called when the AI confidently makes up false information instead of saying it doesn\u2019t know?","options":["Augmentation","Hallucination","Chunking","Embedding"],"correct":1,"explain":"Hallucination is when the model guesses confidently instead of admitting it isn\u2019t sure."},
+          {"prompt":"True or false: a normal LLM can read documents written after its training cutoff date.","options":["True","False"],"correct":1,"explain":"A model was trained once, on data up to some date \u2014 anything after that just doesn\u2019t exist for it, unless something retrieves it."}
+        ]'>
           <div class="quiz-header">
-            <h4 style="margin:0;">Week 2 Quiz</h4>
-            <span class="quiz-score" data-score>Score: 0/6</span>
+            <h3 class="quiz-title">Quick check</h3>
+            <span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span>
           </div>
-          <div data-quiz-body>
-            <div class="quiz-progress"><div class="quiz-progress-bar" data-progress-bar></div></div>
-            <div data-question-body></div>
-            <div class="quiz-nav" data-quiz-nav></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result>
+            <div class="score-num"><span data-final-score></span>/<span data-final-total></span></div>
+            <p data-final-msg></p>
+            <button class="btn btn-primary" data-retry>Try again</button>
+          </div>
+          <div class="quiz-nav" data-nav-controls>
+            <button class="btn btn-ghost" data-prev disabled>Back</button>
+            <button class="btn btn-primary" data-next disabled>Check answer</button>
           </div>
         </div>
       </section>
 
-      <div class="week-footer">
-        <a href="week1.html">← Back: Week 1</a>
-        <span></span>
-      </div>
+<section id="how-it-works">
+        <div class="section-kicker">How RAG works</div>
+        <h2>The journey</h2>
+        <p>RAG happens in two stages, and they don't happen at the same time — this is the part people usually mix up:</p>
+        <ol>
+          <li><strong>Ingestion</strong> — happens first, one time (or updated every now and then), before anyone even asks a question. It's about preparing the documents so they're ready to be searched.</li>
+          <li><strong>Retrieval</strong> — happens every single time someone asks a question. This is the actual "finding the answer" step.</li>
+        </ol>
+        <div class="callout">
+          <div class="callout-label">🧠 Remember this</div>
+          <p>Ingestion <strong>builds the book</strong>. Retrieval <strong>reads from the book</strong>. You can't read a page that was never organized into the book to begin with.</p>
+        </div>
+
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="RAG stages">
+            <button class="tab-btn" role="tab" id="tab-ingestion" aria-selected="true" aria-controls="panel-ingestion" data-tab="ingestion">Stage 1 — Ingestion</button>
+            <button class="tab-btn" role="tab" id="tab-retrieval" aria-selected="false" aria-controls="panel-retrieval" tabindex="-1" data-tab="retrieval">Stage 2 — Retrieval</button>
+          </div>
+
+          <div class="tab-panel" id="panel-ingestion" role="tabpanel" aria-labelledby="tab-ingestion" tabindex="0">
+            <p>Say a company has 1,000 employee policy documents. The AI can't just "search a folder" the way you search files on your laptop — the content needs to be turned into something it can compare by <em>meaning</em>. Here's roughly how that happens:</p>
+
+            <div class="flow" role="list" aria-label="Ingestion pipeline">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Raw Data</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Chunk</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Embedding</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Semantic Index</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">5</div><div class="flow-label">Knowledge Base</div></div>
+            </div>
+
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Chunks</strong> — the big documents get split into small pieces, called chunks. Feeding an entire 200-page manual to the model in one go would be messy, so smaller pieces work better.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Embedding</strong> — each chunk goes through an Embedding API, which converts the text into a list of numbers. This is what lets the system realize "remote work" and "work from home" are basically saying the same thing, even with different words.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Semantic Index</strong> — all these number-versions get organized into a semantic index, which is basically a smart index built to search by meaning, not exact wording.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Everything gets stored together as the <strong>Knowledge Base</strong> — the final, ready-to-search set of chunks plus their number-versions.</span></li>
+            </ol>
+          </div>
+
+          <div class="tab-panel" id="panel-retrieval" role="tabpanel" aria-labelledby="tab-retrieval" tabindex="0" hidden>
+            <p>Now that the "book" is ready, retrieval kicks in live, every time someone asks something:</p>
+
+            <div class="flow" role="list" aria-label="Retrieval pipeline">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Question</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Query Embedding</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Semantic Search</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Top-K Chunks</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">5</div><div class="flow-label">Augmentation</div></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">6</div><div class="flow-label">LLM → Answer</div></div>
+            </div>
+
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The user's question also gets converted into numbers — this is the <strong>query embedding</strong> — using the same method as before, so it can actually be compared fairly.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">A <strong>similarity search</strong> compares the question's numbers against every chunk's numbers in the Knowledge Base, to see which stored chunks are closest in meaning. This is also called <strong>semantic search</strong>.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The closest matches get picked — you choose how many with <strong>Top K</strong> (K = 3 means "give me the top 3 matches"). These are the <strong>ranked results</strong>.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Those chunks get <strong>augmented</strong> onto the original question — basically attached as extra context — and the whole thing is sent to the LLM.</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The LLM <strong>generates</strong> the final answer, using the question and the real facts it was just handed.</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="callout deep">
+          <div class="callout-label">🧠 Remember this</div>
+          <p>Retrieval works a bit like a librarian, not a genius with perfect memory. The AI already "knows books exist" thanks to training, it just doesn't know which shelf holds the answer. RAG is what tells it exactly where to look.</p>
+        </div>
+
+        <div class="quiz inline" data-quiz='[
+          {"prompt":"Which stage happens first \u2014 one time, before anyone even asks a question?","options":["Retrieval","Ingestion","Generation","Augmentation"],"correct":1,"explain":"Ingestion prepares the documents ahead of time. Retrieval happens later, every time a question comes in."},
+          {"prompt":"What is the number-version of the user\u2019s question called?","options":["Semantic Index","Chunk","Query Embedding","Knowledge Base"],"correct":2,"explain":"The question gets converted into numbers using the same method as the documents \u2014 that\u2019s the query embedding."},
+          {"prompt":"If Top K is set to K = 3, how many matching chunks get retrieved?","options":["1","3","10","All of them"],"correct":1,"explain":"K = 3 means \u201cgive me the top 3 matches.\u201d"}
+        ]'>
+          <div class="quiz-header">
+            <h3 class="quiz-title">Quick check</h3>
+            <span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span>
+          </div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result>
+            <div class="score-num"><span data-final-score></span>/<span data-final-total></span></div>
+            <p data-final-msg></p>
+            <button class="btn btn-primary" data-retry>Try again</button>
+          </div>
+          <div class="quiz-nav" data-nav-controls>
+            <button class="btn btn-ghost" data-prev disabled>Back</button>
+            <button class="btn btn-primary" data-next disabled>Check answer</button>
+          </div>
+        </div>
+      </section>
+
+<section id="where-used">
+        <div class="section-kicker">Where RAG is used</div>
+        <h2>The pattern repeats everywhere</h2>
+        <div class="usecase-grid">
+          <div class="usecase-card"><div class="icon">CS</div><h4>Customer support</h4><p>Searching old tickets.</p></div>
+          <div class="usecase-card"><div class="icon">DS</div><h4>Documentation search</h4><p>Developers asking "how do I set this up."</p></div>
+          <div class="usecase-card"><div class="icon">LR</div><h4>Legal research</h4><p>Searching case law.</p></div>
+          <div class="usecase-card"><div class="icon">MS</div><h4>Medical support</h4><p>Checking past literature and clinical cases.</p></div>
+          <div class="usecase-card"><div class="icon">CH</div><h4>Code help</h4><p>Searching docs and examples.</p></div>
+          <div class="usecase-card"><div class="icon">HR</div><h4>HR policy Q&amp;A</h4><p>Checking company policy documents.</p></div>
+          <div class="usecase-card"><div class="icon">RA</div><h4>Research assistance</h4><p>Finding and summarizing academic papers.</p></div>
+        </div>
+        <p style="margin-top:var(--sp-5)">The pattern is the same across all of these — <strong>the real answer lives in a specific set of documents, not in the model's general memory.</strong></p>
+      </section>
+
+<section id="big-picture">
+        <div class="section-kicker">Big picture</div>
+        <h2>Putting it all together</h2>
+        <p>RAG exists because AI models are stuck in time, sometimes make things up, and can't see your private information. Instead of retraining the whole model every time something changes — which is slow and expensive — RAG keeps the model as it is, and just gives it a way to search your own documents right when it needs to answer. Ingestion prepares that search once. Retrieval uses it every single time a question comes in. The retrieved facts get attached to the question so the model answers from real evidence instead of a guess — basically turning a closed-book exam into an open-book one.</p>
+      </section>
+
+<section id="quick-memory">
+        <div class="section-kicker">Quick memory</div>
+        <h2>Six things to keep</h2>
+        <ul class="memory-list">
+          <li><span class="check" aria-hidden="true">✓</span><span>RAG, simply: <strong>look up the facts first, then answer.</strong></span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Full version: <strong>Retrieve</strong> facts + <strong>Augment</strong> the question with them + <strong>Generate</strong> the answer.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Fixes three LLM problems: old information, hallucination (made-up facts), and no access to private data.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Two stages: <strong>Ingestion</strong> (prepare documents, once) → <strong>Retrieval</strong> (search + answer, every time).</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Quick check: "Is this general knowledge, or something only my own documents would know?" — that tells you whether RAG is worth it.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Trade-off: better accuracy and fresher answers, but a bit slower and a bit costlier.</span></li>
+        </ul>
+      </section>
+
+<section id="full-picture">
+        <div class="section-kicker">RAG's full picture</div>
+        <h2>Retrieval + Augmentation + Generation</h2>
+        <p>Once we go a little deeper, RAG is really made up of three steps, and the name spells them out:</p>
+
+        <div class="flow" role="list" aria-label="RAG's three steps">
+          <div class="flow-step" role="listitem"><div class="flow-num">R</div><div class="flow-label">Retrieval</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Go find the relevant facts.</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">A</div><div class="flow-label">Augmentation</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Add those facts onto the user's question.</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">G</div><div class="flow-label">Generation</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">The model writes the answer using the question plus those facts.</p></div>
+        </div>
+
+        <p>Back to Netflix: retrieval is searching old tickets, augmentation is attaching the best-matching past solutions to your question, generation is the bot writing an answer using both your question and those real solutions.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Comparison of answering without RAG versus with RAG</caption>
+            <thead><tr><th scope="col">Aspect</th><th scope="col">Without RAG</th><th scope="col">With RAG</th></tr></thead>
+            <tbody>
+              <tr><td>Knowledge used</td><td>Only what it was trained on</td><td>Training data + real documents it looks up</td></tr>
+              <tr><td>Freshness</td><td>Can get outdated</td><td>Can use the latest information</td></tr>
+              <tr><td>Accuracy</td><td>Can hallucinate</td><td>Backed by real, retrieved facts</td></tr>
+              <tr><td>Can it show sources?</td><td>No</td><td>Yes — it can point to where the answer came from</td></tr>
+              <tr><td>Access to private data</td><td>None</td><td>Can search your own company data</td></tr>
+              <tr><td>Cost &amp; speed</td><td>Cheaper, faster</td><td>A little more expensive, a little slower (extra search step)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ LAB 2 ============ -->
+      <section id="lab-2">
+        <div class="section-kicker">Lab 2 — Agentic AI · EPC Pipeline</div>
+        <h2>RAG Retrieval &amp; Ticket Clustering</h2>
+        <p>Turning scattered tickets into connected insight. This week builds two pieces that share one foundation: embeddings.</p>
+
+        <div class="card-grid cols-2">
+          <div class="def-card">
+            <div class="def-label">RAG Retrieval Pipeline</div>
+            <p style="margin-bottom:0">Given a ticket, find the most similar past, resolved incidents from history — powered by Vertex AI Vector Search.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">Ticket Clustering Agent</div>
+            <p style="margin-bottom:0">Group today's live tickets that describe the same problem together — by embedding each ticket, then running agglomerative clustering on those embeddings.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">By the end of this week</div>
+          <p>20 sample tickets → 4–6 clusters, and any query surfaces relevant history.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">How the Pipeline Fits Together</h3>
+        <p>Two workflows, one shared embeddings foundation.</p>
+
+        <p style="font-family:var(--font-display);font-weight:700;font-size:var(--h5);color:var(--obsidian);margin-bottom:var(--sp-2)">RAG Retrieval</p>
+        <div class="flow" role="list" aria-label="RAG retrieval pipeline">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Historical Incidents</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Generate Embeddings</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Build &amp; Deploy Index</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Query Similar Incidents</div></div>
+        </div>
+
+        <p style="font-family:var(--font-display);font-weight:700;font-size:var(--h5);color:var(--obsidian);margin-bottom:var(--sp-2)">Ticket Clustering</p>
+        <div class="flow" role="list" aria-label="Ticket clustering pipeline">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Live Tickets</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Generate Embeddings</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Agglomerative Clustering</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Grouped Clusters</div></div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Files We'll Create This Week</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Folder</th><th scope="col">File</th><th scope="col">What It Holds</th></tr></thead>
+            <tbody>
+              <tr><td><code>data/</code></td><td><code>historical_incidents.json</code></td><td>15 resolved past incidents for RAG</td></tr>
+              <tr><td><code>data/</code></td><td><code>sample_tickets.json</code></td><td>Updated to 20 live tickets (T001–T020)</td></tr>
+              <tr><td><code>data/</code></td><td><code>clusters_output.json</code></td><td>Saved clustering results</td></tr>
+              <tr><td><code>rag/</code></td><td><code>generate_embeddings.py</code></td><td>Embeds incidents, uploads to Cloud Storage</td></tr>
+              <tr><td><code>rag/</code></td><td><code>create_index.py</code></td><td>Builds the Vector Search index</td></tr>
+              <tr><td><code>rag/</code></td><td><code>deploy_index.py</code></td><td>Deploys the index to a live endpoint</td></tr>
+              <tr><td><code>rag/</code></td><td><code>query_similar_incidents.py</code></td><td>Finds similar past incidents for a ticket</td></tr>
+              <tr><td><code>rag/</code></td><td><code>undeploy_index.py</code></td><td>Shuts down the endpoint to stop billing</td></tr>
+              <tr><td><code>agents/</code></td><td><code>ticket_clustering_agent.py</code></td><td>Embeds tickets, clusters with agglomerative clustering</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Week 2 Completion Checklist</h3>
+        <p>Confirm each step before moving on.</p>
+        <div class="card-grid cols-2">
+          <details class="acc-card" open>
+            <summary><span>Part 1 of 2</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <ol style="margin-bottom:0">
+                <li>Confirmed Vector Search is accessible under the Vertex AI API</li>
+                <li>Created a Cloud Storage bucket for embeddings, in the same region as the index</li>
+                <li>Granted the service account the Storage Object Admin role</li>
+                <li>Installed the required Python libraries, including scikit-learn for clustering</li>
+                <li><code>sample_tickets.json</code> now contains exactly 20 tickets — T001 through T020</li>
+                <li><code>historical_incidents.json</code> exists with exactly 15 incidents — H001 through H015</li>
+                <li><code>generate_embeddings.py</code> ran successfully and uploaded to the bucket's <code>embeddings/</code> folder</li>
+                <li>Created a Vector Search index and copied its resource name</li>
+              </ol>
+            </div>
+          </details>
+          <details class="acc-card" open>
+            <summary><span>Part 2 of 2</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <ol style="margin-bottom:0">
+                <li>Deployed the index to an endpoint — confirmed "Deployed" status in the console</li>
+                <li><code>query_similar_incidents.py</code> returns topically relevant historical incidents</li>
+                <li><code>ticket_clustering_agent.py</code> embeds tickets and runs agglomerative clustering successfully</li>
+                <li>Clustering produced between 4 and 6 groups from the 20 tickets</li>
+                <li>Tickets describing similar problems land in the same cluster, across the dataset</li>
+                <li><code>clusters_output.json</code> was created and contains the cluster results</li>
+                <li>Ran <code>undeploy_index.py</code> — endpoint shows no deployed indexes</li>
+                <li>Pushed code to GitHub and confirmed the new files are visible there</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+      </section>
+
+<section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary — tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Hallucination. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Hallucination</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>When the AI confidently makes up false information instead of saying it doesn't know.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Chunk. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Chunk</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A small piece a big document gets cut into, so it's easier to search.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Embedding. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Embedding</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Turning text into numbers that represent its meaning, so it can be compared mathematically.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Semantic Index. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Semantic Index</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A smart index built to search by meaning, not just exact wording.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Vector DB. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Vector DB</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Where all the embeddings and chunks actually get stored.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Knowledge Base. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Knowledge Base</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The final, ready-to-search set of chunks plus their embeddings.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Query Embedding. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Query Embedding</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The number-version of the user's question, used to compare against the Knowledge Base.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Semantic Search. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Semantic Search</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Searching by meaning, so "work from home" can match "remote work policy" even with different words.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Similarity Search. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Similarity Search</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The math step that checks which stored chunk is closest in meaning to the query.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Top K. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Top K</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>How many best-matching chunks get picked (e.g. K = 3 means top 3 matches).</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Ranked Results. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Ranked Results</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The retrieved chunks, sorted by how closely they match the question.</p></div></div></button></div>
+        </div>
+      </section>
+
+<section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole page. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What do the three letters in RAG stand for, in order?","options":["Retrieval, Augmentation, Generation","Reading, Analysis, Generation","Retrieval, Analysis, Grading","Ranking, Augmentation, Generation"],"correct":0,"explain":"Retrieval finds the facts, Augmentation attaches them to the question, Generation writes the answer."},
+          {"prompt":"What converts text into a list of numbers representing its meaning?","options":["Chunking","Embedding","Top K","Ranked Results"],"correct":1,"explain":"Each chunk goes through an Embedding API, turning text into numbers that can be compared by meaning."},
+          {"prompt":"What is a smart index built to search by meaning, not exact wording?","options":["Vector DB","Knowledge Base","Semantic Index","Query Embedding"],"correct":2,"explain":"The Semantic Index organizes all the number-versions of chunks so they can be searched by meaning."},
+          {"prompt":"Where do chunks and their embeddings finally get stored together, ready to search?","options":["Knowledge Base","Semantic Search","Augmentation","Ranked Results"],"correct":0,"explain":"The Knowledge Base is the final, ready-to-search set of chunks plus their number-versions."},
+          {"prompt":"Does translating \"Hello\" to Spanish need RAG?","options":["Yes","No"],"correct":1,"explain":"That\u2019s basic language knowledge, already learned in training \u2014 no lookup needed."},
+          {"prompt":"Does finding what John said in last week\u2019s meeting need RAG?","options":["Yes","No"],"correct":0,"explain":"That was never shown to the model, so it has to be looked up."},
+          {"prompt":"True or false: RAG makes the model better at math and reasoning.","options":["True","False"],"correct":1,"explain":"RAG doesn\u2019t make the model \u201csmarter\u201d \u2014 it just gives it access to information it didn\u2019t have."},
+          {"prompt":"The notes compare retrieval to a librarian rather than a genius with perfect memory. Why?","options":["Because it already \u201cknows books exist\u201d but needs to be told which shelf holds the answer","Because it reads every document out loud","Because it forgets the question halfway through","Because it only works in physical libraries"],"correct":0,"explain":"The AI already \u201cknows books exist\u201d thanks to training, it just doesn\u2019t know which shelf holds the answer \u2014 RAG tells it where to look."}
+        ]'>
+          <div class="quiz-header">
+            <h3 class="quiz-title">Final knowledge check</h3>
+            <span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span>
+          </div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result>
+            <div class="score-num"><span data-final-score></span>/<span data-final-total></span></div>
+            <p data-final-msg></p>
+            <button class="btn btn-primary" data-retry>Try again</button>
+          </div>
+          <div class="quiz-nav" data-nav-controls>
+            <button class="btn btn-ghost" data-prev disabled>Back</button>
+            <button class="btn btn-primary" data-next disabled>Check answer</button>
+          </div>
+        </div>
+      </section>
+
     </main>
+
+    <footer class="site-footer">
+      <div class="page" style="padding:0 24px;"><p><strong>Retrieval-Augmented Generation</strong> — interactive notes. Look up the facts first, then answer the question.</p></div>
+    </footer>
   </div>
 </div>
 
 <script src="assets/app.js"></script>
-<script>
-  const glossaryTerms2 = [
-    { term: "Hallucination", explain: "When the AI confidently makes up false information instead of saying it doesn't know." },
-    { term: "Chunk", explain: "A small piece a big document gets cut into, so it's easier to search." },
-    { term: "Embedding", explain: "Turning text into numbers that represent its meaning, so it can be compared mathematically." },
-    { term: "Semantic Index", explain: "A smart index built to search by meaning, not just exact wording." },
-    { term: "Vector DB", explain: "Where all the embeddings and chunks actually get stored." },
-    { term: "Knowledge Base", explain: "The final, ready-to-search set of chunks plus their embeddings." },
-    { term: "Query Embedding", explain: "The number-version of the user's question, used to compare against the Knowledge Base." },
-    { term: "Semantic Search", explain: "Searching by meaning, so \"work from home\" can match \"remote work policy\" even with different words." },
-    { term: "Similarity Search", explain: "The math step that checks which stored chunk is closest in meaning to the query." },
-    { term: "Top K", explain: "How many best-matching chunks get picked (e.g. K = 3 means top 3 matches)." },
-    { term: "Ranked Results", explain: "The retrieved chunks, sorted by how closely they match the question." },
-    { term: "Augmentation", explain: "Adding the retrieved chunks onto the user's question before sending it to the LLM (the \"A\" in RAG)." }
-  ];
-
-  const glossaryGrid2 = document.getElementById('glossary2');
-  glossaryTerms2.forEach(g=>{
-    const card = document.createElement('div');
-    card.className = 'flip-card';
-    card.innerHTML = `
-      <button class="flip-card-btn" type="button" aria-pressed="false" aria-label="${g.term}, tap to reveal explanation">
-        <div class="flip-card-inner">
-          <div class="flip-face front">
-            <span class="term">${g.term}</span>
-            <span class="hint">Tap to flip</span>
-          </div>
-          <div class="flip-face back"><p>${g.explain}</p></div>
-        </div>
-      </button>
-    `;
-    glossaryGrid2.appendChild(card);
-  });
-  // Click handling for these cards is delegated from app.js (initFlipCards),
-  // so no per-button binding is needed here.
-
-  const week2Quiz = [
-    {
-      q: "What is RAG, in the simplest terms?",
-      options: [
-        { text: "Look up the facts first, then answer the question", correct: true },
-        { text: "Retrain the model every time new data appears", correct: false },
-        { text: "A way to make the model more creative", correct: false },
-        { text: "A method for compressing documents", correct: false }
-      ],
-      explain: "RAG means: look up the facts first, then answer the question — the AI checks real documents before writing its answer."
-    },
-    {
-      q: "Which of these is NOT one of the three problems RAG helps fix?",
-      options: [
-        { text: "Old information", correct: false },
-        { text: "Hallucination", correct: false },
-        { text: "No access to private data", correct: false },
-        { text: "Slow typing speed", correct: true }
-      ],
-      explain: "RAG fixes three LLM problems: old information, hallucination (made-up facts), and no access to private data."
-    },
-    {
-      q: "True or False: Ingestion happens every time a user asks a question.",
-      options: [
-        { text: "True", correct: false },
-        { text: "False", correct: true }
-      ],
-      explain: "Ingestion happens first, one time (or updated occasionally), before anyone asks a question. Retrieval is what happens every single time a question comes in."
-    },
-    {
-      q: "In the ingestion pipeline, what comes right after documents are split into chunks?",
-      options: [
-        { text: "Semantic Index", correct: false },
-        { text: "Embedding", correct: true },
-        { text: "Query Embedding", correct: false },
-        { text: "Augmentation", correct: false }
-      ],
-      explain: "The flow is: Raw Data → Chunk → Embedding → Semantic Index → Knowledge Base. Embedding is the step right after chunking."
-    },
-    {
-      q: "Does \"Explain photosynthesis\" need RAG?",
-      options: [
-        { text: "Yes, because it's private information", correct: false },
-        { text: "No, because it's general science already in every textbook", correct: true },
-        { text: "Yes, because it changes daily", correct: false },
-        { text: "No, because RAG can't handle science topics", correct: false }
-      ],
-      explain: "Explaining photosynthesis is general science knowledge the model already learned in training, so no lookup is needed."
-    },
-    {
-      q: "What does \"Top K\" control in the retrieval stage?",
-      options: [
-        { text: "How many chunks a document gets split into", correct: false },
-        { text: "How many best-matching chunks get picked as ranked results", correct: true },
-        { text: "How fast the embedding API responds", correct: false },
-        { text: "How the query gets converted into numbers", correct: false }
-      ],
-      explain: "Top K decides how many of the closest-matching chunks get picked — e.g. K = 3 means the top 3 matches are returned as ranked results."
-    }
-  ];
-
-  initQuiz('week2-quiz', week2Quiz);
-</script>
 </body>
 </html>
