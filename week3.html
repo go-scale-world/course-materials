@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 3 — Coming Soon | Agentic AI on GCP</title>
+<title>Week 3 — AI Memory &amp; Governance | Agentic AI on GCP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
       <ul>
         <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
         <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
-        <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3</a></li>
         <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4<span class="badge">Soon</span></a></li>
         <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5<span class="badge">Soon</span></a></li>
         <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6<span class="badge">Soon</span></a></li>
@@ -40,21 +40,561 @@
 
   <div class="content-col">
     <main class="page" id="main-content">
+
       <section class="page-hero">
         <div class="page-eyebrow">Week 3</div>
-        <h1>Coming soon</h1>
-        <p>These notes haven't been added yet. Send over the Week 3 notes and this page will get built out the same way as Weeks 1 and 2 — full interactive sections, quick checks, and a final quiz.</p>
+        <h1>AI Memory &amp; Human-in-the-Loop Governance</h1>
+        <p>Understanding how an AI processes information — Context Window, State, and Memory — and the three levels of human oversight that decide how much control a human keeps over what the AI actually does. Plus Lab 3: migrating the pipeline to managed cloud services and containerizing it with Docker.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">2</span><span class="lbl">Graded quizzes (20 Qs)</span></div>
+          <div class="hero-stat"><span class="num">14</span><span class="lbl">Glossary terms</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+        </div>
       </section>
-      <section>
-        <a class="week-card" href="index.html" style="max-width:320px;">
-          <span class="week-num">← Back</span>
-          <h3>Return to course home</h3>
-          <p>See what's ready so far.</p>
-        </a>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#part-a">Info Sources</a>
+        <a href="#part-b">Context · State · Memory</a>
+        <a href="#part-c">Context Window</a>
+        <a href="#part-d">State</a>
+        <a href="#quiz-memory">Memory Challenge</a>
+        <a href="#part-e">Agent Memory</a>
+        <a href="#part-f">External Memory</a>
+        <a href="#part-g">AI Governance</a>
+        <a href="#quiz-governance">Control Level Quiz</a>
+        <a href="#summary">Summary</a>
+        <a href="#lab-3">Lab 3</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ PART A ============ -->
+      <section id="part-a">
+        <div class="section-kicker">Part A</div>
+        <h2>AI Responses Depend on Connected Information Sources</h2>
+        <p>When we interact with an AI, we provide it with information to reason and generate a response. The quality of this response relies entirely on the connected data sources. This information does not always come from just the conversation text. It can originate from:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Source</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td>Prompt</td><td>A basic prompt instruction — simple text telling the AI what to do.</td></tr>
+              <tr><td>File</td><td>A dedicated file — documents directly attached to the conversation.</td></tr>
+              <tr><td>Database</td><td>An external database — structured data the AI can query dynamically.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Reasoning</div>
+          <p>The AI reasons and responds based strictly on whichever source is connected to it.</p>
+        </div>
       </section>
+
+      <!-- ============ PART B ============ -->
+      <section id="part-b">
+        <div class="section-kicker">Part B</div>
+        <h2>How AI Manages Information</h2>
+        <p>Three core categories sit behind how an AI operates: <strong>Context Window</strong>, <strong>State</strong>, and <strong>Memory</strong>.</p>
+
+        <h3>The Big Picture — A Video Game Analogy</h3>
+        <p>Imagine you are playing a complex video game.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">AI Concept</th><th scope="col">Video Game Analogy</th><th scope="col">Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>Context Window</td><td>Visible Screen</td><td>What is visible right now</td></tr>
+              <tr><td>State</td><td>Character Progress</td><td>Current progress of the active level</td></tr>
+              <tr><td>Memory</td><td>Other Levels / Past Experiences</td><td>Information that can be recalled later</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ PART C ============ -->
+      <section id="part-c">
+        <div class="section-kicker">Part C</div>
+        <h2>Context Window</h2>
+        <p><strong>The Context Window dictates active processing capacity.</strong> It is the amount of information — like text, instructions, and other input — that the model can actively process in one interaction.</p>
+
+        <div class="card-grid cols-2">
+          <div class="def-card"><div class="def-label">Fixed Size</div><p style="margin-bottom:0">It has a defined limit; the AI cannot hold unlimited information at once.</p></div>
+          <div class="def-card"><div class="def-label">Information Loss</div><p style="margin-bottom:0">When the Context Window limit is reached, older information may be dropped, truncated, summarized, or compressed depending on the system.</p></div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Real-World Example — Amazon Customer Support AI</h3>
+        <p>Handling a refund request; at each step, the Context Window contains only the information needed for the current reasoning.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Step</th><th scope="col">Action</th><th scope="col">Context</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Identify the Issue</td><td><code>message: "My Amazon order was damaged."</code></td></tr>
+              <tr><td>2</td><td>Select Category</td><td><code>issue: "Damaged Product"</code></td></tr>
+              <tr><td>3</td><td>Initiate Refund</td><td><code>issue + request: "Refund"</code></td></tr>
+              <tr><td>4</td><td>Confirm Payment</td><td><code>refund_status: "Initiated"</code></td></tr>
+              <tr><td>5</td><td>Notify Customer</td><td><code>refund_status: "Confirmed"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ PART D ============ -->
+      <section id="part-d">
+        <div class="section-kicker">Part D</div>
+        <h2>State</h2>
+        <p><strong>State tracks progress within a workflow.</strong> It is the current progress level of an agent's task — it tracks exactly how far the AI has progressed.</p>
+
+        <div class="usecase-grid">
+          <div class="usecase-card"><div class="icon">✓</div><h4>Step Tracking</h4><p>Completed vs pending.</p></div>
+          <div class="usecase-card"><div class="icon">↻</div><h4>Continuous Updates</h4><p>Changes as the agent moves.</p></div>
+          <div class="usecase-card"><div class="icon">→</div><h4>Progress Control</h4><p>Knows what's next.</p></div>
+          <div class="usecase-card"><div class="icon">🛈</div><h4>Workflow Safety</h4><p>No repeats or skips.</p></div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Example — A 7-Step Workflow</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Step</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><td>Step 01</td><td>✓ Done</td></tr>
+              <tr><td>Step 02</td><td>✓ Done</td></tr>
+              <tr><td>Step 03</td><td>✓ Done</td></tr>
+              <tr><td>Step 04</td><td>● Active</td></tr>
+              <tr><td>Step 05</td><td>○ Pending</td></tr>
+              <tr><td>Step 06</td><td>○ Pending</td></tr>
+              <tr><td>Step 07</td><td>○ Pending</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:var(--small);color:var(--dust)">Legend: ✓ Completed · ● Active · ○ Pending</p>
+        <div class="callout">
+          <div class="callout-label">🧠 Remember this</div>
+          <p>Without state tracking, an agent may not know where it left off — it could repeat completed steps or skip pending ones.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Real-World Example — State in a Customer Support Refund Workflow</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Step</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Issue identified</td><td>DONE</td></tr>
+              <tr><td>2</td><td>Category selected</td><td>DONE</td></tr>
+              <tr><td>3</td><td>Refund initiated</td><td>DONE</td></tr>
+              <tr><td>4</td><td>Payment confirmation</td><td>ACTIVE</td></tr>
+              <tr><td>5</td><td>Customer notified</td><td>PENDING</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>State object progression:</strong></p>
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="State object progression">
+            <button class="tab-btn" role="tab" id="tab-s1" aria-selected="true" aria-controls="panel-s1" data-tab="s1">After Step 1</button>
+            <button class="tab-btn" role="tab" id="tab-s2" aria-selected="false" aria-controls="panel-s2" tabindex="-1" data-tab="s2">After Step 2</button>
+            <button class="tab-btn" role="tab" id="tab-s3" aria-selected="false" aria-controls="panel-s3" tabindex="-1" data-tab="s3">After Step 3</button>
+            <button class="tab-btn" role="tab" id="tab-s4" aria-selected="false" aria-controls="panel-s4" tabindex="-1" data-tab="s4">At Step 4</button>
+          </div>
+          <div class="tab-panel" id="panel-s1" role="tabpanel" aria-labelledby="tab-s1" tabindex="0">
+<pre><code>current_step: 1
+issue: "Damaged Product"</code></pre>
+          </div>
+          <div class="tab-panel" id="panel-s2" role="tabpanel" aria-labelledby="tab-s2" tabindex="0" hidden>
+<pre><code>current_step: 2
+issue: "Damaged Product"
+category: "Product Damage"</code></pre>
+          </div>
+          <div class="tab-panel" id="panel-s3" role="tabpanel" aria-labelledby="tab-s3" tabindex="0" hidden>
+<pre><code>current_step: 3
+issue: "Damaged Product"
+category: "Product Damage"
+refund.status: "initiated"
+refund.amount: 2499</code></pre>
+          </div>
+          <div class="tab-panel" id="panel-s4" role="tabpanel" aria-labelledby="tab-s4" tabindex="0" hidden>
+<pre><code>current_step: 4
+issue: "Damaged Product"
+category: "Product Damage"
+refund.status: "initiated"
+refund.amount: 2499
+payment.status: "pending"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: AI MEMORY CHALLENGE ============ -->
+      <section id="quiz-memory">
+        <div class="section-kicker">Activity time</div>
+        <h2>AI Memory Challenge — Context, State, or External Memory?</h2>
+        <p>Ten scenarios. For each one, decide which component is primarily responsible: the Context Window, State, or External Memory.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"A travel agent AI has collected the departure city, destination, and dates, and is now waiting for the user to select a flight. Which component keeps track of these collected variables across multiple API calls?","options":["Context Window","State","External Memory"],"correct":1,"explain":"State tracking maintains progress through structured multi-step workflows, holding variables like origin, destination, and dates in a structured schema."},
+          {"prompt":"An enterprise AI assistant searches a database of 10,000 PDFs using embeddings to answer a technical question. Where are these 10,000 PDFs permanently stored?","options":["Context Window","State","External Memory"],"correct":2,"explain":"External Memory, such as Vector Databases or RAG systems, permanently stores vast amounts of data that would far exceed the context window\u2019s token limits."},
+          {"prompt":"A user gave their customer ID at the start of a 30-minute chat. The chatbot then asks for it again. Why did it forget?","options":["Context Window limit reached","State was reset","External Memory failed to load"],"correct":0,"explain":"The Context Window is a temporary buffer. Once its token limit is exceeded, older messages \u2014 like the customer ID \u2014 are truncated and forgotten unless saved elsewhere."},
+          {"prompt":"A coding assistant remembers your preferred programming language and IDE theme across weeks of different sessions. Where is this long-term preference stored?","options":["Context Window","State","External Memory"],"correct":2,"explain":"Long-term user preferences are saved to External Memory, typically a standard database, and reloaded into context at the start of a new session."},
+          {"prompt":"A user leaves for lunch mid-report. When they return, the AI asks, \u201cReady to continue with Step 3 (Drafting the Conclusion)?\u201d What kept track of the current step?","options":["Context Window","State","External Memory"],"correct":1,"explain":"State saves the active position in a multi-step workflow, so the system knows exactly where the user left off even after a long pause."},
+          {"prompt":"You paste a 50-page legal contract directly into an LLM and ask it to find conflicting clauses in a single query. Which component directly processes this entire contract in one run?","options":["Context Window","State","External Memory"],"correct":0,"explain":"The Context Window handles the active input processed in a single prompt-response cycle \u2014 large context windows can hold an entire document at once, though the information is temporary."},
+          {"prompt":"A smart kitchen assistant can suggest recipes from a digital library of 50,000 vegetarian recipes. Where are these 50,000 recipes stored?","options":["Context Window","State","External Memory"],"correct":2,"explain":"A library of 50,000 recipes is too much data for the context window or state \u2014 External Memory lets the AI search and fetch only what\u2019s relevant."},
+          {"prompt":"A retail bot is in the \u201cAwaiting Supervisor Approval\u201d phase of a refund and will not allow the user to change their shipping address until this step resolves. What is enforcing this constraint?","options":["Context Window","State","External Memory"],"correct":1,"explain":"State acts like a finite state machine, locking execution pathways and behavioral rules based on the current transactional step."},
+          {"prompt":"A real-time translation app keeps the last 5 sentences spoken in view. According to the source material, what holds this recent information for later reasoning across sessions?","options":["Context Window","State","External Memory"],"correct":2,"explain":"Persistent information like this is treated as stored in External Memory \u2014 the AI queries it to pull relevant facts into its context window for reasoning, bypassing strict context limits."},
+          {"prompt":"A virtual banking assistant remembers your preferred transfer limits, nickname, and recent card inquiries across multiple days and sessions. Which component persistently stores this?","options":["Context Window","State","External Memory"],"correct":2,"explain":"Only an external database or long-term memory store keeps this personal information alive once the immediate session is closed."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">AI Memory Challenge</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART E ============ -->
+      <section id="part-e">
+        <div class="section-kicker">Part E</div>
+        <h2>Agent Memory</h2>
+        <p>The AI's ability to retain and recall information beyond the immediate interaction.</p>
+
+        <h3>Short-Term Memory Works Like RAM</h3>
+        <div class="callout deep">
+          <div class="callout-label">Analogy — Computer RAM</div>
+          <p>RAM holds what your computer is actively working on right now. It is extremely fast to read and write — perfect for the current task. It is volatile: turn off the power (end the session) and everything in RAM is gone. Nothing in RAM is meant to survive — it exists only for the current run.</p>
+        </div>
+        <p><strong>Short-term memory (STM) holds:</strong> active conversation, immediate tasks, recent observations, and current workflow progress.</p>
+
+        <h3 style="margin-top:var(--sp-7)">Long-Term Memory: Semantic, Episodic &amp; Procedural</h3>
+        <p>Long-term memory (LTM) stores information that can survive beyond a single conversation. Simple analogy: a student preparing for an exam.</p>
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📚 Semantic Memory — "What I Know"</h4>
+            <p style="font-size:var(--small)">The student remembers facts and concepts.</p>
+            <blockquote><p>"Python is a programming language."</p></blockquote>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Facts • Knowledge • Concepts</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📝 Episodic Memory — "What Happened"</h4>
+            <p style="font-size:var(--small)">The student remembers personal past experiences and events.</p>
+            <blockquote><p>"Last time, I made a mistake in my Python code. Programming is tough and time taking."</p></blockquote>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Past Events • Experiences • History</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>⚙️ Procedural Memory — "How I Do It"</h4>
+            <p style="font-size:var(--small)">The student remembers steps or methods to perform a task.</p>
+            <blockquote><p>"To run Python: open terminal → activate env → run the file."</p></blockquote>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Skills • Steps • Procedures</p>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:var(--sp-5)">
+          <div class="callout-label">🧠 One Claude conversation → three different memories</div>
+          <p>The same conversation can hold semantic facts, episodic events, and procedural steps all at once — the type of memory is about what's being remembered, not which conversation it came from.</p>
+        </div>
+
+        <h4 style="margin-top:var(--sp-6)">Types of Agent Memory — Definitions &amp; Examples</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Type</th><th scope="col">Definition</th><th scope="col">Examples</th></tr></thead>
+            <tbody>
+              <tr><td>Semantic Memory</td><td>General knowledge, facts, concepts, and meaning (independent of personal experience).</td><td>"The capital of France is Paris." · "A cat is a mammal."</td></tr>
+              <tr><td>Episodic Memory</td><td>Personal experiences and specific events with time &amp; place (biographical memories).</td><td>An entire conversation log.</td></tr>
+              <tr><td>Procedural Memory</td><td>How to perform tasks, motor skills, and action-based learning (often automatic and hard to verbalize).</td><td>Note-making framework · Recipe-making procedure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ PART F ============ -->
+      <section id="part-f">
+        <div class="section-kicker">Part F</div>
+        <h2>External Memory</h2>
+        <p><strong>External memory functions like a reference library.</strong> It consists of information stored outside the AI model in separate systems that the AI can query when needed.</p>
+        <div class="callout">
+          <div class="callout-label">Library analogy</div>
+          <p>We don't carry every book from the library — just use the one we need.</p>
+        </div>
+
+        <div class="flow" role="list" aria-label="External memory flow">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">User Question</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">AI Decides What's Needed</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">External Memory Query</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Info Retrieved</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">5</div><div class="flow-label">Loaded Into Context</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">6</div><div class="flow-label">AI Reasons &amp; Responds</div></div>
+        </div>
+        <p>Without external memory, the AI is limited by the information available in its immediate context.</p>
+
+        <h3 style="margin-top:var(--sp-7)">External Memory Uses Different Storage Structures</h3>
+        <p>Different types of information require different storage systems.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Storage Type</th><th scope="col">Use Case</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td>Vector Database</td><td>Semantic retrieval using embeddings</td><td>Stores information as embeddings and retrieves data based on semantic meaning and conceptual similarity.</td></tr>
+              <tr><td>Structured Database</td><td>Orders, customers, transactions, relational data</td><td>Stores structured information such as customer profiles, orders, financial transactions, and product records.</td></tr>
+              <tr><td>File / Document Storage</td><td>PDFs, documents, logs</td><td>Stores raw information such as PDFs, long documents, and system logs.</td></tr>
+              <tr><td>Knowledge Graph</td><td>Entities and relationships</td><td>Stores entities and maps relationships between them.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ PART G ============ -->
+      <section id="part-g">
+        <div class="section-kicker">Part G</div>
+        <h2>AI Governance — Defining Human Control</h2>
+        <p>We have established how AI processes data and remembers information. The next question is: <strong>how much control should a human have over what the AI actually executes?</strong></p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Level</th><th scope="col">Acronym</th><th scope="col">Name</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td>Level 01</td><td>HITL</td><td>Human-in-the-Loop</td><td>Human actively approves critical actions.</td></tr>
+              <tr><td>Level 02</td><td>HOTL</td><td>Human-on-the-Loop</td><td>AI operates autonomously while a human supervises and can intervene.</td></tr>
+              <tr><td>Level 03</td><td>HOOTL</td><td>Human-out-of-the-Loop</td><td>AI operates fully autonomously during execution, with oversight primarily before or after.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="Governance levels">
+            <button class="tab-btn" role="tab" id="tab-hitl" aria-selected="true" aria-controls="panel-hitl" data-tab="hitl">👤 HITL</button>
+            <button class="tab-btn" role="tab" id="tab-hotl" aria-selected="false" aria-controls="panel-hotl" tabindex="-1" data-tab="hotl">👀 HOTL</button>
+            <button class="tab-btn" role="tab" id="tab-hootl" aria-selected="false" aria-controls="panel-hootl" tabindex="-1" data-tab="hootl">🤖 HOOTL</button>
+          </div>
+
+          <div class="tab-panel" id="panel-hitl" role="tabpanel" aria-labelledby="tab-hitl" tabindex="0">
+            <div class="callout deep"><div class="callout-label">Analogy — Teacher Checking Homework</div><p>A student writes the answer, but the teacher checks it before it is finally accepted. <em>AI does the work → Human checks → Final decision.</em></p></div>
+            <p><strong>Definition:</strong> AI works on a task, but a human reviews or approves the result before the process continues.</p>
+            <p><strong>Real example — Customer Support AI:</strong> AI detects that a customer deserves a ₹50,000 refund → Human checks the case → Approves / Rejects the refund.</p>
+            <p style="font-size:var(--small);color:var(--dust)"><strong>Key terms:</strong> Human Review · Approval · Correction · Decision</p>
+          </div>
+          <div class="tab-panel" id="panel-hotl" role="tabpanel" aria-labelledby="tab-hotl" tabindex="0" hidden>
+            <div class="callout deep"><div class="callout-label">Analogy — Exam Hall Supervision</div><p>A student takes an exam while a discipline incharge supervises. The supervisor monitors the room and only intervenes if something suspicious happens. <em>Student writes exam autonomously → Discipline incharge monitors room → Intervenes explicitly if cheating is suspected.</em></p></div>
+            <p><strong>Definition:</strong> AI performs tasks autonomously, while a human monitors the system and steps in when necessary.</p>
+            <p><strong>Real example — Driving with Cruise Control:</strong> AI car drives automatically on the highway → Driver actively monitors the road → Driver intervenes and takes manual control if something goes wrong.</p>
+            <p style="font-size:var(--small);color:var(--dust)"><strong>Key terms:</strong> Monitoring · Supervision · Oversight · Intervention</p>
+          </div>
+          <div class="tab-panel" id="panel-hootl" role="tabpanel" aria-labelledby="tab-hootl" tabindex="0" hidden>
+            <div class="callout deep"><div class="callout-label">Analogy — Automatic Street Light</div><p>The lights turn ON/OFF automatically based on time or sensor. Nobody needs to approve each action. <em>AI works → AI decides → AI acts.</em></p></div>
+            <p><strong>Definition:</strong> AI makes and executes decisions fully on its own, without human involvement during normal operation.</p>
+            <p><strong>Real example — YouTube / Netflix Recommendations:</strong> AI studies your activity → selects content → shows recommendations automatically, without a human checking each one.</p>
+            <p style="font-size:var(--small);color:var(--dust)"><strong>Key terms:</strong> Full Autonomy · Automation · Self-Execution · No Human Approval</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: CONTROL LEVEL ============ -->
+      <section id="quiz-governance">
+        <div class="section-kicker">Interactive quiz</div>
+        <h2>Identify the Control Level</h2>
+        <p>Ten real-world scenarios. For each one, decide whether it's Human-in-the-Loop, Human-on-the-Loop, Human-out-of-the-Loop — or a mix of both.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"A hiring platform shortlists resumes, but an HR manager makes the final call on every single candidate.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":0,"explain":"The human makes the final hiring decision; the AI only shortlists resumes."},
+          {"prompt":"A warehouse robot navigates and picks items on its own, while a floor supervisor watches a control screen and can pause it anytime.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":1,"explain":"The robot acts autonomously on the floor, while a supervisor watches and can step in anytime."},
+          {"prompt":"A spam filter deletes junk emails automatically with no human ever reviewing individual emails.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":2,"explain":"Deletion happens automatically at a scale and speed no human could review."},
+          {"prompt":"A loan approval AI recommends approve or reject, but a bank officer must sign off before the loan is issued.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":0,"explain":"The financial loan cannot be legally issued without direct human sign-off."},
+          {"prompt":"A military surveillance drone patrols a border area on its own, with an operator monitoring the feed and able to override it.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":1,"explain":"Autonomous patrol, with a human operator monitoring and able to override it."},
+          {"prompt":"A programmatic ad system runs millions of ad auctions per second with no human reviewing any single auction.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":2,"explain":"Auctions happen far too fast for real-time human review."},
+          {"prompt":"A content moderation AI removes clearly violating posts instantly, while borderline cases get sent to a human reviewer.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":3,"explain":"Clear violations are removed automatically (HOOTL), while borderline cases go to a human reviewer (HITL) \u2014 this scenario mixes both."},
+          {"prompt":"A power grid AI automatically balances electricity load across the network, while an engineer watches dashboards and can intervene during unusual spikes.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":1,"explain":"The AI runs the grid automatically; an engineer watches dashboards and intervenes during unusual spikes."},
+          {"prompt":"An AI radiology tool flags a possible fracture on an X-ray, but a radiologist must confirm the diagnosis.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":0,"explain":"The AI flags a possible issue, but a radiologist must confirm the diagnosis before it\u2019s final."},
+          {"prompt":"A recommendation engine on a shopping site decides what products to show each visitor automatically.","options":["Human-in-the-Loop (HITL)","Human-on-the-Loop (HOTL)","Human-out-of-the-Loop (HOOTL)","Mixed"],"correct":2,"explain":"The AI acts on every visitor with no human reviewing individual recommendations."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Identify the Control Level</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ SUMMARY ============ -->
+      <section id="summary">
+        <div class="section-kicker">Week 3 summary</div>
+        <h2>The journey so far</h2>
+        <ul class="memory-list">
+          <li><span class="check" aria-hidden="true">✓</span><span>Context Window, State, and Memory are three different jobs — what's visible now, how far a task has progressed, and what can be recalled later.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>The Context Window is a fixed-size, temporary buffer — once it's full, older information can be dropped or compressed.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>State tracks exactly where a multi-step workflow is, so nothing repeats or gets skipped.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Short-term memory works like RAM — fast, active, and gone at the end of the session. Long-term memory splits into semantic, episodic, and procedural.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>External memory is the reference library — vector databases, structured databases, file storage, and knowledge graphs, each suited to a different kind of information.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>AI governance has three levels — HITL (human approves), HOTL (human supervises), HOOTL (AI acts alone) — and real systems sometimes mix more than one.</span></li>
+        </ul>
+      </section>
+
+      <!-- ============ LAB 3 ============ -->
+      <section id="lab-3">
+        <div class="section-kicker">Lab 3 — Agentic AI · EPC Pipeline</div>
+        <h2>Migrating to the Cloud &amp; Containerizing With Docker</h2>
+        <p>Taking our agentic system global. This week moves local JSON files into managed cloud services, adds an admin approval panel, and packages everything with Docker.</p>
+
+        <div class="card-grid cols-2">
+          <div class="def-card">
+            <div class="def-label">Migration to Cloud</div>
+            <p style="margin-bottom:0">Moving our local JSON files into managed cloud services — Firestore for tickets &amp; clusters, BigQuery for historical incidents.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">Ticket Cluster Approval Panel</div>
+            <p style="margin-bottom:0">Give admins a panel to review each ticket cluster and approve or reject it before any downstream action is taken.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">By the end of this week</div>
+          <p>Clusters, tickets, and incidents live in Firestore/BigQuery, and admins can approve clusters from a live panel.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">How the Migration Fits Together</h3>
+        <p>Three local data sources move into two managed cloud services.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Source</th><th scope="col">File</th><th scope="col">Destination</th><th scope="col">Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Clusters</td><td><code>clusters_output.json</code></td><td>Firestore</td><td>Admin approval panel reads from here</td></tr>
+              <tr><td>Tickets</td><td><code>sample_tickets.json</code></td><td>Firestore</td><td>—</td></tr>
+              <tr><td>Incidents</td><td><code>historical_incidents.json</code></td><td>BigQuery</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Files We'll Create This Week</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Folder</th><th scope="col">File</th><th scope="col">What It Holds</th></tr></thead>
+            <tbody>
+              <tr><td><code>memory/</code></td><td><code>migrate_clusters_to_firestore.py</code></td><td>Pushes clustering results into Firestore</td></tr>
+              <tr><td><code>memory/</code></td><td><code>migrate_tickets_to_firestore.py</code></td><td>Pushes the 20 live tickets into Firestore</td></tr>
+              <tr><td><code>memory/</code></td><td><code>migrate_incidents_to_bigquery.py</code></td><td>Loads 15 historical incidents into BigQuery</td></tr>
+              <tr><td><code>deployment/</code></td><td><code>admin_panel.py</code></td><td>Web panel: view clusters, approve or reject each</td></tr>
+              <tr><td><code>/</code> (root)</td><td><code>Dockerfile</code></td><td>Packages the app and its dependencies</td></tr>
+              <tr><td><code>/</code> (root)</td><td><code>.dockerignore</code></td><td>Tells Docker which files to leave out of the image</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Containerizing With Docker</h3>
+        <p>Packaging the pipeline so it runs the same everywhere.</p>
+        <div class="callout deep">
+          <div class="callout-label">What is Docker?</div>
+          <p>Think of packing a whole kitchen into one box — the stove, the ingredients, the recipe, everything. Wherever you open that box, you can cook the exact same dish, no matter whose house you're in. Docker does that for our app. It packs our code plus everything it needs to run into one "box" (container), so it works the same on any computer — no setup surprises.</p>
+        </div>
+        <ul>
+          <li>Runs the same everywhere, every time</li>
+          <li>No "it worked on my laptop" surprises</li>
+          <li>Makes it simple to move to the cloud</li>
+        </ul>
+        <p><strong>How we'll be using it:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">File</th><th scope="col">Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>Dockerfile</code></td><td>Defines the image: base Python, dependencies, and our app code</td></tr>
+              <tr><td><code>.dockerignore</code></td><td>Keeps junk files (like local data, <code>.git</code>) out of the image</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Creating the Firestore Database — Step by Step</h3>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Click on the search box and type <strong>Firestore</strong>.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Choose the first option in the list.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Now click on the <strong>Create a Firestore Database</strong> button.</span></li>
+        </ol>
+        <img src="assets/images/lab-3-firestore.png" alt="Firestore database creation in GCP" style="width:100%; max-width:900px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); margin: 0 0 var(--sp-5); box-shadow: 0 10px 28px rgba(0,0,0,0.18);">
+
+        <h3>Creating the BigQuery Dataset — Step by Step</h3>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Similarly, now type <strong>BigQuery</strong> in the search box.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Then, in the left side panel, select <strong>Datasets</strong>.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Then click on the <strong>Create Dataset</strong> option.</span></li>
+        </ol>
+        <img src="assets/images/lab-3-bigquery.png" alt="BigQuery dataset creation in GCP" style="width:100%; max-width:900px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); margin: 0 0 var(--sp-5); box-shadow: 0 10px 28px rgba(0,0,0,0.18);">
+
+        <h3 style="margin-top:var(--sp-7)">Week 3 Completion Checklist</h3>
+        <p>Confirm each step before moving on.</p>
+        <div class="card-grid cols-2">
+          <details class="acc-card" open>
+            <summary><span>Part 1 of 2</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <ol style="margin-bottom:0">
+                <li>Created a Firestore database in the same GCP project as the rest of the pipeline</li>
+                <li>Created a BigQuery dataset for historical incidents</li>
+                <li>Granted the service account access to Firestore and BigQuery</li>
+                <li><code>migrate_clusters_to_firestore.py</code> ran successfully — clusters visible in Firestore console</li>
+                <li><code>migrate_tickets_to_firestore.py</code> ran successfully — all 20 tickets visible in Firestore</li>
+                <li><code>migrate_incidents_to_bigquery.py</code> ran successfully — all 15 incidents visible in BigQuery</li>
+                <li>Confirmed data in Firestore/BigQuery matches the original local JSON files</li>
+              </ol>
+            </div>
+          </details>
+          <details class="acc-card" open>
+            <summary><span>Part 2 of 2</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <ol style="margin-bottom:0">
+                <li>Dockerfile builds successfully into a local image</li>
+                <li><code>.dockerignore</code> excludes local data files and other junk from the image</li>
+                <li>Container runs the migration scripts and approval panel without errors</li>
+                <li>Admin approval panel loads and lists ticket clusters from Firestore</li>
+                <li>Admin can approve or reject a cluster, and the decision is saved back to Firestore</li>
+                <li>Confirmed the containerized approval panel is reachable and functioning</li>
+                <li>Pushed code to GitHub and confirmed the new files are visible there</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSARY ============ -->
+      <section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary — tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Context Window. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Context Window</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The amount of information the model can actively process in one interaction — fixed in size, with older content dropped or compressed once it's full.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: State. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">State</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The current progress level of an agent's task — tracks exactly how far it has gotten in a workflow.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Information that can be recalled later, beyond the immediate interaction — like other levels in a video game you've already played.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Short-Term Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Short-Term Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Temporary working memory, like RAM — fast and active, but cleared once the session ends.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Long-Term Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Long-Term Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Information that survives beyond a single conversation, split into semantic, episodic, and procedural memory.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Semantic Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Semantic Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>"What I know" — general knowledge, facts, and concepts, independent of personal experience.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Episodic Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Episodic Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>"What happened" — personal experiences and specific events with time and place, like a full conversation log.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Procedural Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Procedural Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>"How I do it" — steps or methods for performing a task, often automatic and hard to put into words.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: External Memory. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">External Memory</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Information stored outside the AI model, in a separate system the AI can query when needed — like a reference library.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Vector Database. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Vector Database</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Stores information as embeddings and retrieves data based on semantic meaning and conceptual similarity.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Knowledge Graph. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Knowledge Graph</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Stores entities and maps the relationships between them.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: HITL. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">HITL</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Human-in-the-Loop — a human actively approves critical actions before the AI's work is accepted.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: HOTL. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">HOTL</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Human-on-the-Loop — the AI operates autonomously while a human supervises and can intervene.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: HOOTL. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">HOOTL</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Human-out-of-the-Loop — the AI operates fully autonomously, with oversight primarily before or after execution.</p></div></div></button></div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL QUIZ ============ -->
+      <section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole week — memory, governance, and the lab. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What are the three core categories behind how an AI manages information?","options":["Context Window, State, and Memory","Training, Tokens, and Parameters","Retrieval, Augmentation, and Generation","HITL, HOTL, and HOOTL"],"correct":0,"explain":"The three core categories are Context Window, State, and Memory \u2014 what\u2019s visible now, how far a task has progressed, and what can be recalled later."},
+          {"prompt":"In the video game analogy, what does State correspond to?","options":["Visible Screen","Character Progress","Other Levels / Past Experiences","The Save File Menu"],"correct":1,"explain":"State maps to Character Progress \u2014 the current progress of the active level."},
+          {"prompt":"What happens when the Context Window\u2019s limit is reached?","options":["The AI shuts down","Older information may be dropped, truncated, summarized, or compressed","The AI automatically saves everything to External Memory","Nothing \u2014 the window expands automatically"],"correct":1,"explain":"The Context Window has a fixed size; once the limit is reached, older information may be dropped, truncated, summarized, or compressed depending on the system."},
+          {"prompt":"Which type of long-term memory would store \u201cPython is a programming language\u201d?","options":["Episodic Memory","Procedural Memory","Semantic Memory","Short-Term Memory"],"correct":2,"explain":"Semantic Memory holds general facts and concepts, independent of personal experience."},
+          {"prompt":"Which External Memory storage type is best suited for semantic retrieval using embeddings?","options":["Structured Database","Vector Database","File / Document Storage","Knowledge Graph"],"correct":1,"explain":"A Vector Database stores information as embeddings and retrieves data based on semantic meaning and conceptual similarity."},
+          {"prompt":"A loan approval AI recommends approve or reject, but a bank officer must sign off before the loan is issued. Which governance level is this?","options":["HITL","HOTL","HOOTL","None of these"],"correct":0,"explain":"The financial loan cannot be legally issued without direct human sign-off \u2014 this is Human-in-the-Loop."},
+          {"prompt":"In Lab 3, which two managed cloud services do the local JSON files migrate into?","options":["Firestore and BigQuery","Vertex AI and Cloud Storage","Docker Hub and GitHub","Cloud Run and Pub/Sub"],"correct":0,"explain":"Clusters and tickets migrate into Firestore; historical incidents migrate into BigQuery."},
+          {"prompt":"What does the .dockerignore file do?","options":["Builds the container image from scratch","Defines the base Python version","Tells Docker which files to leave out of the image, like local data and .git","Deploys the container to the cloud"],"correct":2,"explain":"The .dockerignore file keeps junk files \u2014 like local data and .git \u2014 out of the image."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Final knowledge check</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
     </main>
+
     <footer class="site-footer">
-      <div class="page" style="padding:0 24px;"><p><strong>Agentic AI on GCP</strong> — interactive course notes.</p></div>
+      <div class="page" style="padding:0 24px;"><p><strong>AI Memory &amp; Human-in-the-Loop Governance</strong> — Week 3 interactive notes.</p></div>
     </footer>
   </div>
 </div>
