@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 4 — Coming Soon | Agentic AI on GCP</title>
+<title>Week 4 — Multi-Agent Systems &amp; Architecture | Agentic AI on GCP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
         <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
         <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
         <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3</a></li>
-        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4</a></li>
         <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5<span class="badge">Soon</span></a></li>
         <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6<span class="badge">Soon</span></a></li>
       </ul>
@@ -40,21 +40,432 @@
 
   <div class="content-col">
     <main class="page" id="main-content">
+
       <section class="page-hero">
         <div class="page-eyebrow">Week 4</div>
-        <h1>Coming soon</h1>
-        <p>These notes haven't been added yet.</p>
+        <h1>Multi-Agent Systems &amp; Architecture</h1>
+        <p>Transitioning from monolithic single-agent designs to orchestrated multi-agent systems — the five core components every multi-agent system needs, and the five orchestration patterns that shape how agents interact. Plus Lab 4: scoring, escalation prep, and wiring the full pipeline into one Cloud Workflow.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">2</span><span class="lbl">Graded quizzes (18 Qs)</span></div>
+          <div class="hero-stat"><span class="num">13</span><span class="lbl">Glossary terms</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+        </div>
       </section>
-      <section>
-        <a class="week-card" href="index.html" style="max-width:320px;">
-          <span class="week-num">← Back</span>
-          <h3>Return to course home</h3>
-          <p>See what's ready so far.</p>
-        </a>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#part-a">Single Agent</a>
+        <a href="#part-b">Limitations</a>
+        <a href="#part-c">What Is MAS?</a>
+        <a href="#part-d">Comparison</a>
+        <a href="#part-e">Core Components</a>
+        <a href="#quiz-components">Components Quiz</a>
+        <a href="#part-f">Orchestration Patterns</a>
+        <a href="#quiz-patterns">Patterns Quiz</a>
+        <a href="#part-g">Pattern Summary</a>
+        <a href="#lab-4">Lab 4</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ PART A ============ -->
+      <section id="part-a">
+        <div class="section-kicker">Part A</div>
+        <h2>What Is a Single Agent?</h2>
+        <div class="def-card">
+          <div class="def-label">Monolithic Boundary</div>
+          <p style="margin-bottom:0">A single agent is an AI system that handles a task from start to finish within a monolithic boundary. All reasoning, planning, and decision-making occur internally without external coordination.</p>
+        </div>
+        <div class="callout deep">
+          <div class="callout-label">Workflow Analogy</div>
+          <p>Think of it as a single employee managing a complete workflow end-to-end without handing off any part of it.</p>
+        </div>
+        <p><strong>Example:</strong> A basic FAQ chatbot receives a query, searches its internal database, and generates a response — narrow and self-contained.</p>
       </section>
+
+      <!-- ============ PART B ============ -->
+      <section id="part-b">
+        <div class="section-kicker">Part B</div>
+        <h2>Single Agent Limitations</h2>
+        <p>Single-agent architectures excel at small, isolated, and highly predictable tasks. However, as task complexity, volume, and scope scale, monolithic designs experience severe engineering strain.</p>
+        <div class="card-grid">
+          <details class="acc-card" open>
+            <summary><span>Tool Overload <span class="tagline">Decision Space Limits</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">The agent's decision space becomes too broad as too many tools are registered, causing selection errors and API invocation failures.</div>
+          </details>
+          <details class="acc-card">
+            <summary><span>Context Exhaustion <span class="tagline">Memory Degradation</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">As interaction volume and scope scale, the model reaches its context window limit, leading to dropped details, memory truncation, and lost state.</div>
+          </details>
+          <details class="acc-card">
+            <summary><span>Reasoning Collapse <span class="tagline">Error Propagation</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">A critical lack of independent external verification allows minor errors to multiply unchecked, resulting in complete task derailment.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ============ PART C ============ -->
+      <section id="part-c">
+        <div class="section-kicker">Part C</div>
+        <h2>What Is a Multi-Agent System (MAS)?</h2>
+        <div class="card-grid cols-2">
+          <div class="def-card">
+            <div class="def-label">Decentralized Task Division</div>
+            <p style="margin-bottom:0">Divides complex workflows into smaller, specialized sub-tasks distributed across a team of distinct, independent agents.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">The Central Orchestrator</div>
+            <p style="margin-bottom:0">Coordinates actions, schedules tasks, and routes data across the ecosystem, ensuring no single agent holds the entire task context.</p>
+          </div>
+        </div>
+        <div class="callout deep">
+          <div class="callout-label">Analogy</div>
+          <p>Like a corporate office with specialized roles, parallel agents (pricing, reviews, news) collaborate to synthesize one master report.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART D ============ -->
+      <section id="part-d">
+        <div class="section-kicker">Part D</div>
+        <h2>Single Agent vs. Multi-Agent Systems</h2>
+        <p>A side-by-side comparison across the dimensions that matter most.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Feature</th><th scope="col">Single Agent System</th><th scope="col">Multi-Agent System</th></tr></thead>
+            <tbody>
+              <tr><td>Structure</td><td>Monolithic</td><td>Decoupled and specialized</td></tr>
+              <tr><td>Tools</td><td>Holds all tools</td><td>Distributed, minimal toolsets</td></tr>
+              <tr><td>Information Load</td><td>Single context window</td><td>Segmented context preventing exhaustion</td></tr>
+              <tr><td>Checking Work</td><td>High failure rate without review</td><td>Independent validation agents</td></tr>
+              <tr><td>Coordination</td><td>Zero coordination</td><td>Orchestrator manages hand-offs</td></tr>
+              <tr><td>Best For</td><td>Small, narrow tasks</td><td>Complex, multi-step processes</td></tr>
+              <tr><td>Failure Modes</td><td>Cognitive overload</td><td>Communication overhead</td></tr>
+              <tr><td>Example</td><td>Basic FAQ chatbot</td><td>Invoice processing team (Reader, Validator, Approver)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ PART E ============ -->
+      <section id="part-e">
+        <div class="section-kicker">Part E</div>
+        <h2>Core Components of a Multi-Agent System</h2>
+        <p>A working multi-agent system generally has five parts.</p>
+
+        <div class="card-grid">
+          <details class="acc-card" open>
+            <summary><span>1. Specialized Agents</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Definition:</strong> An agent built to do one job well, with its own instructions and tools focused on that job, rather than trying to do everything.</p>
+              <p><strong>Analogy:</strong> In a hospital, a cardiologist treats hearts and a dentist treats teeth. Both are doctors, but neither is expected to do the other's job.</p>
+              <p style="margin-bottom:0"><strong>Example — a finance team:</strong> Reader Agent extracts vendor, amount, and date. Validation Agent checks completeness and consistency. PO Agent matches the invoice to an existing purchase order. Approval Agent decides whether it can be approved under company policy. Each agent stays within its own job.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>2. Orchestration and Coordination</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Definition:</strong> The layer that decides the order of work, passes information between agents, and handles failures. Without it, a group of agents has no shared workflow.</p>
+              <p><strong>Analogy:</strong> A project manager who does not do the work personally, but decides who does what, in what order, and what happens once each part is done.</p>
+              <p style="margin-bottom:0"><strong>Example — the same finance team:</strong> An Orchestrator sits above the invoice team, sending a new invoice to the Reader, then Validation, then PO, then Approval Agent, in that order. Once approval is decided, it stores the final result. The Orchestrator itself does not read invoices or approve payments.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>3. Communication Protocols</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Definition:</strong> The standard ways agents talk to tools and to each other. Two common types:</p>
+              <ul>
+                <li><strong>MCP</strong> (vertical communication): connects an agent downward to outside tools and data, such as a database or an API.</li>
+                <li><strong>A2A</strong> (horizontal communication): lets one agent talk sideways, directly to another agent at the same level.</li>
+              </ul>
+              <p style="margin-bottom:0"><strong>Analogy:</strong> MCP is like an employee calling down to a filing room to pull a record. A2A is like that same employee turning to a colleague at the next desk and handing off part of the work directly.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>4. Memory and Shared State</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Definition:</strong> A shared, common record that all agents read from and write to, so agents are not each relying on their own separate, possibly outdated view of the same information.</p>
+              <p style="margin-bottom:0"><strong>Example — an e-commerce company:</strong> A Warehouse Agent tracks stock levels and a separate Order Agent processes purchases. If each kept its own private copy of the stock count, the Order Agent could accept an order for a sold-out item because its copy hasn't caught up. A single shared stock record, checked by both before they act, prevents this mismatch.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>5. Tools</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Definition:</strong> The outside systems an agent uses to take action, such as databases, APIs, or internal software, rather than only reasoning about a task.</p>
+              <p><strong>Analogy:</strong> An accountant still needs accounting software, and a mechanic still needs a wrench. Knowing what to do is not the same as being able to do it.</p>
+              <p style="margin-bottom:0"><strong>Example — a finance team:</strong> An Approval Agent uses an internal Approval Rules API to check whether an invoice amount falls within a manager's spending limit. Without that tool, the agent would know the rule exists but could not check it against real numbers.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: CORE COMPONENTS ============ -->
+      <section id="quiz-components">
+        <div class="section-kicker">Interactive quiz</div>
+        <h2>Core Components Quiz</h2>
+        <p>Test and reinforce your understanding of Specialized Agents, Orchestration, Communication, Shared State, and Tools.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What is a specialized agent?","options":["An agent built to do one job well","An agent that controls the complete workflow","An agent that stores information for all agents","An agent that connects all agents to outside systems"],"correct":0,"explain":"A specialized agent is designed with a narrow focus and specific instructions to execute one particular task with high efficiency, rather than attempting to handle the entire workflow."},
+          {"prompt":"In an automated finance team workflow, which agent matches an incoming invoice with an existing purchase order?","options":["Reader Agent","Validation Agent","PO Agent","Approval Agent"],"correct":2,"explain":"The PO (Purchase Order) Agent is the specialized agent dedicated to matching incoming invoice details against existing PO records to verify agreement."},
+          {"prompt":"What does the Orchestrator do in the invoice processing system?","options":["Reads the invoice and extracts its details","Decides the order of work and passes information between agents","Matches the invoice with a purchase order","Decides whether the invoice should be approved"],"correct":1,"explain":"The Orchestrator dictates the sequence of execution and manages the routing of data, passing context from one specialized agent to another."},
+          {"prompt":"Why is orchestration needed in a multi-agent system?","options":["It allows every agent to perform every task","It gives all agents their own separate workflow","It provides a shared workflow and coordinates the agents","It replaces the need for specialized agents"],"correct":2,"explain":"Orchestration prevents chaotic, independent agent behavior by enforcing a structured, shared workflow so agents collaborate in an orderly fashion."},
+          {"prompt":"Which statement correctly describes the difference between MCP and A2A?","options":["MCP is communication between agents, while A2A connects agents to databases","MCP connects an agent to outside tools and data, while A2A connects one agent to another","MCP stores shared state, while A2A manages the workflow","MCP approves tasks, while A2A validates data"],"correct":1,"explain":"MCP is an open standard that lets models and agents read from and write to external tools and data sources. A2A defines the internal messaging that lets agents transfer context and delegate sub-tasks directly to each other."},
+          {"prompt":"A Support Agent gets customer service history from an internal ticketing database. Which type of communication protocol is this using?","options":["A2A","MCP","Shared State","Orchestration"],"correct":1,"explain":"Fetching data from an external resource like a ticketing database is the primary role of the Model Context Protocol (MCP)."},
+          {"prompt":"In an e-commerce order fulfillment system, why is shared state important?","options":["It allows each agent to keep a private copy of the stock","It makes all agents perform the same task","It gives agents a common record of important information","It removes the need for tools"],"correct":2,"explain":"Shared state acts as a centralized source of truth that multiple agents can read and write to, keeping the inventory, billing, and shipping agents in sync."},
+          {"prompt":"Which of the following is an example of a tool an AI agent can use?","options":["A database","A specialized responsibility","A workflow order","A shared document"],"correct":0,"explain":"A tool is an interface or API that lets an agent interact with external systems. A database is a prime example \u2014 an agent can query it to read, write, or update records."},
+          {"prompt":"What is the main difference between an agent having knowledge and having a tool?","options":["Knowledge tells the agent what to do, while a tool allows it to interact with an external system","Knowledge is shared between agents, while tools are always private","Knowledge controls the workflow, while tools create specialized agents","Knowledge is only used by the orchestrator, while tools are only used by humans"],"correct":0,"explain":"Knowledge is internal understanding \u2014 static context or system prompts. A tool is an actionable capability that lets the agent query, write to, or interact with external services."},
+          {"prompt":"Which of the following correctly represents the five core components of a working multi-agent system?","options":["Specialized Agents, Orchestration and Coordination, Communication Protocols, Memory and Shared State, Tools","Specialized Agents, Prompts, Databases, APIs, Dashboards","Orchestration, Memory, Users, Models, Databases","Tools, Prompts, Models, APIs, Users"],"correct":0,"explain":"These five components \u2014 Specialized Agents, Orchestration and Coordination, Communication Protocols, Memory and Shared State, and Tools \u2014 form the foundation required to design and manage complex multi-agent workflows."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Core Components Quiz</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART F ============ -->
+      <section id="part-f">
+        <div class="section-kicker">Part F</div>
+        <h2>Architectural Orchestration Patterns</h2>
+        <p>Orchestration patterns define the systemic topology and control flows that govern how agents pass state, wait for subprocesses, and select next actions.</p>
+
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="Orchestration patterns">
+            <button class="tab-btn" role="tab" id="tab-seq" aria-selected="true" aria-controls="panel-seq" data-tab="seq">Sequential</button>
+            <button class="tab-btn" role="tab" id="tab-par" aria-selected="false" aria-controls="panel-par" tabindex="-1" data-tab="par">Parallel</button>
+            <button class="tab-btn" role="tab" id="tab-rou" aria-selected="false" aria-controls="panel-rou" tabindex="-1" data-tab="rou">Router</button>
+            <button class="tab-btn" role="tab" id="tab-hie" aria-selected="false" aria-controls="panel-hie" tabindex="-1" data-tab="hie">Hierarchical</button>
+            <button class="tab-btn" role="tab" id="tab-cri" aria-selected="false" aria-controls="panel-cri" tabindex="-1" data-tab="cri">Critic-Refiner</button>
+          </div>
+
+          <div class="tab-panel" id="panel-seq" role="tabpanel" aria-labelledby="tab-seq" tabindex="0">
+            <h4>Linear &amp; Ordered Pipeline</h4>
+            <p><strong>Rigid Execution Pipeline:</strong> enforces strict, linear execution where each agent waits for upstream outputs. Strong data dependencies prevent subsequent steps from being bypassed, ensuring high-fidelity outputs through a structured chain of custody.</p>
+            <p><strong>Key architectural benefit:</strong> guarantees systematic validation. No downstream service executes until all predecessor dependencies pass complete schema and business logic checks.</p>
+            <div class="flow" role="list" aria-label="Sequential pattern">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Reader Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Ingests raw data</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Validation Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Verifies schema</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Approval Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Finalizes output</p></div>
+            </div>
+            <p style="font-size:var(--small);color:var(--dust)">Data flow depends entirely on immediate upstream completion.</p>
+          </div>
+
+          <div class="tab-panel" id="panel-par" role="tabpanel" aria-labelledby="tab-par" tabindex="0" hidden>
+            <h4>Concurrent Execution</h4>
+            <p>Multiple agents work on different, independent parts of a task at the same time. Their results are combined once all agents finish.</p>
+            <p><strong>Example:</strong> enables a company like Groq to study multiple competitors' strategies in parallel before launching a new model. Dedicated agents analyze Google, Anthropic, and OpenAI concurrently to optimize time-to-market.</p>
+            <div class="flow" role="list" aria-label="Parallel pattern">
+              <div class="flow-step" role="listitem"><div class="flow-num">A</div><div class="flow-label">OpenAI Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">GPT-5 strategy</p></div>
+              <div class="flow-arrow" aria-hidden="true">+</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">B</div><div class="flow-label">Anthropic Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Fable-5 strategy</p></div>
+              <div class="flow-arrow" aria-hidden="true">+</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">C</div><div class="flow-label">Google Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Gemini strategy</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">✓</div><div class="flow-label">Aggregator</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Market playbook</p></div>
+            </div>
+            <p style="font-size:var(--small);color:var(--dust)">Competitor research runs in parallel to fast-track strategic model positioning.</p>
+          </div>
+
+          <div class="tab-panel" id="panel-rou" role="tabpanel" aria-labelledby="tab-rou" tabindex="0" hidden>
+            <h4>Classification &amp; Routing</h4>
+            <p>The Router Pattern utilizes a specialized classifier agent to evaluate incoming requests and dynamically route them directly to the most qualified expert agents. Unlike hierarchies, the router focuses strictly on categorization and delegation without supervising or co-authoring the response pipeline.</p>
+            <p><strong>Application:</strong> ideal for customer support triage — analyzing user intent to instantly dispatch billing issues to Finance and bug reports to Tech Support.</p>
+            <div class="flow" role="list" aria-label="Router pattern">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">User Query</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Input request</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Router Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Classifies intent</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">A</div><div class="flow-label">Billing Expert</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Finance domain</p></div>
+              <div class="flow-arrow" aria-hidden="true">/</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">B</div><div class="flow-label">Technical Support</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Infrastructure domain</p></div>
+            </div>
+            <p style="font-size:var(--small);color:var(--dust)">Classifier dynamically analyzes input schema and dispatches to the optimal worker node.</p>
+          </div>
+
+          <div class="tab-panel" id="panel-hie" role="tabpanel" aria-labelledby="tab-hie" tabindex="0" hidden>
+            <h4>Supervisor-Worker Delegation</h4>
+            <p>Utilizes a parent Supervisor Agent that receives a high-level goal, decomposes it into discrete sub-tasks, and assigns them to specialized worker agents. The supervisor coordinates execution and synthesizes the final outputs into a cohesive response.</p>
+            <p><strong>Application:</strong> ideal for generating research by delegating market sizing, forecasting, and analysis to dedicated agents.</p>
+            <div class="flow" role="list" aria-label="Hierarchical pattern">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Supervisor Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Decomposes goal</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">A</div><div class="flow-label">Worker Agent A</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Market sizing</p></div>
+              <div class="flow-arrow" aria-hidden="true">+</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">B</div><div class="flow-label">Worker Agent B</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Trend forecasting</p></div>
+            </div>
+            <p style="font-size:var(--small);color:var(--dust)">Supervisor delegates sub-tasks dynamically and aggregates the returning payloads.</p>
+          </div>
+
+          <div class="tab-panel" id="panel-cri" role="tabpanel" aria-labelledby="tab-cri" tabindex="0" hidden>
+            <h4>Iterative Closed-Loop System</h4>
+            <p>An actor (Creator Agent) and a validator (Critic Agent) collaborate. The Creator drafts content, and the Critic reviews it against concrete heuristics to list errors for refinement.</p>
+            <p><strong>Ideal scenario:</strong> prioritizes accuracy over latency. For example, drafting a product listing where the Critic Agent verifies the text against strict regulatory compliance checklists before final approval.</p>
+            <div class="flow" role="list" aria-label="Critic-Refiner pattern">
+              <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Creator Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Drafts content</p></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Critic Agent</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Reviews against heuristics</p></div>
+              <div class="flow-arrow" aria-hidden="true">↻</div>
+              <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Refine or Approve</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Loops back until criteria are met</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: ORCHESTRATION PATTERNS ============ -->
+      <section id="quiz-patterns">
+        <div class="section-kicker">Interactive quiz</div>
+        <h2>Identify the Orchestration Pattern</h2>
+        <p>Eight scenarios. For each one, decide which orchestration pattern fits.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"A company processes invoices using four agents: Reader, Validation, PO, then Approval. Each step needs the output from the previous step to function. Which pattern should be used?","options":["Parallel","Sequential","Router","Hierarchical"],"correct":1,"explain":"Each step directly depends on the output of the preceding step, so a sequential pattern enforces the required linear, step-by-step execution."},
+          {"prompt":"A company prepares a competitor report before launching a product. Four agents work simultaneously on pricing, product research, review analysis, and news checks \u2014 none depends on another. Which pattern should be used?","options":["Sequential","Critic-Refiner","Parallel","Router"],"correct":2,"explain":"Because none of the tasks depend on each other, they can run at the exact same time \u2014 that\u2019s the Parallel pattern."},
+          {"prompt":"A central Supervisor Agent breaks a market research request into market size, competitors, and pricing trends, then collects results into a final report. Which pattern should be used?","options":["Hierarchical","Sequential","Router","Critic-Refiner"],"correct":0,"explain":"A supervisor agent decomposing a goal and delegating sub-tasks to worker agents, then synthesizing the results, is the Hierarchical pattern."},
+          {"prompt":"A Router Agent reads each incoming customer message and sends it to either the Billing Agent or the Technical Support Agent, without solving the problem itself. Which pattern should be used?","options":["Parallel","Hierarchical","Router","Sequential"],"correct":2,"explain":"The router acts purely as a classifier and dispatcher, directing requests to the right specialist \u2014 that\u2019s the Router pattern."},
+          {"prompt":"An agent drafts a compliance report; a second agent reviews it for problems and sends it back for correction in a continuous loop. Which pattern should be used?","options":["Router","Critic-Refiner","Parallel","Sequential"],"correct":1,"explain":"A generator agent produces work and a critic agent reviews and sends it back for refinement \u2014 a continuous feedback loop, which is the Critic-Refiner pattern."},
+          {"prompt":"An application form is processed by extracting information, then validating it, then checking eligibility, then deciding \u2014 each step strictly depends on the one before it. Which pattern should be used?","options":["Router","Parallel","Sequential","Critic-Refiner"],"correct":2,"explain":"Because each phase directly consumes the output of the prior phase, a strict Sequential workflow is required."},
+          {"prompt":"A product launch team gathers information from four independent sources \u2014 social media, competitor websites, sales data, and customer reviews \u2014 and builds the final report only after all four finish. Which pattern should be used?","options":["Hierarchical","Parallel","Critic-Refiner","Router"],"correct":1,"explain":"The four independent, non-blocking tasks can be executed simultaneously before merging the final results \u2014 that\u2019s the Parallel pattern."},
+          {"prompt":"A single gatekeeper agent identifies whether a support request is about payments, technical problems, or account access, and forwards it to the matching specialist. Which pattern should be used?","options":["Sequential","Router","Parallel","Critic-Refiner"],"correct":1,"explain":"The gatekeeper agent acts purely as a dispatcher, identifying the category and routing to the dedicated specialist \u2014 the Router pattern."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Identify the Orchestration Pattern</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART G ============ -->
+      <section id="part-g">
+        <div class="section-kicker">Part G</div>
+        <h2>Orchestration Pattern Summary</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">#</th><th scope="col">Pattern</th><th scope="col">When to Use It</th></tr></thead>
+            <tbody>
+              <tr><td>01</td><td>Sequential</td><td>Each step depends directly on the previous step.</td></tr>
+              <tr><td>02</td><td>Parallel</td><td>Independent tasks can run at the same time.</td></tr>
+              <tr><td>03</td><td>Hierarchical</td><td>A supervisor breaks a large goal into smaller jobs.</td></tr>
+              <tr><td>04</td><td>Router</td><td>An incoming request needs to be sent to the right specialist.</td></tr>
+              <tr><td>05</td><td>Critic-Refiner</td><td>Work needs to be checked and corrected repeatedly.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ LAB 4 ============ -->
+      <section id="lab-4">
+        <div class="section-kicker">Lab 4 — Agentic AI · EPC Pipeline</div>
+        <h2>Scoring, Escalation Prep &amp; the End-to-End Pipeline</h2>
+        <p>Today's goal: turn the pieces built so far into one connected, event-triggered pipeline.</p>
+
+        <div class="card-grid">
+          <div class="def-card">
+            <div class="def-label">1 · Add Business Judgment</div>
+            <p style="margin-bottom:0">Score each ticket cluster 0–100 for severity, with a self-check pass.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">2 · Auto-Draft a Human-Reviewable Report</div>
+            <p style="margin-bottom:0">Generate a short escalation report for any cluster that crosses the threshold.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">3 · Connect Everything Into One Pipeline</div>
+            <p style="margin-bottom:0">Wire all four agents into a single event-triggered Cloud Workflow.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Files We'll Create This Week</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Folder</th><th scope="col">File</th><th scope="col">What It Holds</th></tr></thead>
+            <tbody>
+              <tr><td><code>agents/</code></td><td><code>impact_scoring_agent.py</code></td><td>Scores clusters 0–100 with a self-review pass</td></tr>
+              <tr><td><code>agents/</code></td><td><code>escalation_preparation_agent.py</code></td><td>Drafts the markdown escalation report</td></tr>
+              <tr><td><code>agents/</code></td><td><code>cluster_assignment.py</code></td><td>Assigns one new ticket to a cluster</td></tr>
+              <tr><td><code>deployment/</code></td><td><code>pipeline_service.py</code></td><td>Flask service exposing all 4 agent endpoints</td></tr>
+              <tr><td><code>deployment/</code></td><td><code>epc_pipeline_workflow.yaml</code></td><td>Cloud Workflows definition chaining the endpoints</td></tr>
+              <tr><td>project root</td><td><code>Dockerfile</code></td><td>Updated CMD to point at <code>pipeline_service.py</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Build Order</h3>
+        <p>Confirm each step before moving to the next.</p>
+        <div class="card-grid cols-2">
+          <div>
+            <h4>Part 1</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build the Impact Scoring Agent</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build the Escalation Preparation Agent</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Install Flask</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build the Ticket Clustering Function</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build the Pipeline HTTP Service</span></li>
+            </ol>
+          </div>
+          <div>
+            <h4>Part 2</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Deploy the Pipeline Service to Cloud Run</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Enable Cloud Workflows</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Write the Workflow Definition</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Deploy the Workflow</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Execute the Workflow End-to-End</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSARY ============ -->
+      <section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary — tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Single Agent. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Single Agent</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>An AI system that handles a task start to finish within a monolithic boundary, with all reasoning done internally.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Multi-Agent System. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Multi-Agent System</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Divides a complex workflow into smaller, specialized sub-tasks distributed across a team of distinct, independent agents.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Orchestrator. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Orchestrator</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The layer that decides the order of work, passes information between agents, and handles failures.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Specialized Agent. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Specialized Agent</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>An agent built to do one job well, with its own instructions and tools focused on that job.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: MCP. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">MCP</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Model Context Protocol \u2014 vertical communication that connects an agent downward to outside tools and data.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: A2A. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">A2A</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Agent-to-Agent \u2014 horizontal communication that lets one agent talk sideways, directly to another agent at the same level.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Shared State. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Shared State</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A shared, common record that all agents read from and write to, instead of each holding their own outdated view.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Tool (Agent). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Tool (Agent)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>An outside system an agent uses to take action, such as a database, API, or internal software.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Sequential Pattern. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Sequential Pattern</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Strict, linear execution where each agent waits for upstream outputs before starting.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Parallel Pattern. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Parallel Pattern</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Multiple agents work on independent parts of a task at the same time, combined once all finish.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Router Pattern. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Router Pattern</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A classifier agent evaluates incoming requests and routes them directly to the most qualified expert agent.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Hierarchical Pattern. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Hierarchical Pattern</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A Supervisor Agent decomposes a high-level goal into sub-tasks and assigns them to specialized worker agents.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Critic-Refiner Pattern. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Critic-Refiner Pattern</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A Creator Agent drafts content and a Critic Agent reviews it against heuristics, looping until criteria are met.</p></div></div></button></div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL QUIZ ============ -->
+      <section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole week — architecture, components, patterns, and the lab. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What is the core weakness of a single-agent (monolithic) design as task complexity scales?","options":["It becomes too cheap to run","Tool overload, context exhaustion, and reasoning collapse start to occur","It automatically splits itself into multiple agents","It stops needing a context window entirely"],"correct":1,"explain":"As volume and scope scale, monolithic designs face Tool Overload, Context Exhaustion, and Reasoning Collapse \u2014 severe engineering strain with no external verification."},
+          {"prompt":"In a Multi-Agent System, what does the Central Orchestrator do?","options":["Coordinates actions, schedules tasks, and routes data so no single agent holds the entire task context","Extracts data from invoices","Stores the shared stock count","Replaces the need for specialized agents"],"correct":0,"explain":"The orchestrator coordinates actions, schedules tasks, and routes data across the ecosystem, ensuring no single agent holds the entire task context."},
+          {"prompt":"How many core components does a working multi-agent system generally have?","options":["Three","Four","Five","Seven"],"correct":2,"explain":"Five: Specialized Agents, Orchestration and Coordination, Communication Protocols, Memory and Shared State, and Tools."},
+          {"prompt":"Which communication protocol lets one agent talk sideways, directly to another agent at the same level?","options":["MCP","A2A","HTTP","REST"],"correct":1,"explain":"A2A (Agent-to-Agent) is horizontal communication \u2014 one agent talking directly to another agent at the same level."},
+          {"prompt":"A company needs to process an invoice through Reader \u2192 Validation \u2192 PO \u2192 Approval, where each step strictly depends on the last. Which orchestration pattern fits?","options":["Parallel","Router","Sequential","Critic-Refiner"],"correct":2,"explain":"Strong data dependencies where each agent waits for upstream output is the Sequential pattern."},
+          {"prompt":"Which orchestration pattern uses a classifier agent to dispatch requests to the most qualified expert agent, without solving the problem itself?","options":["Hierarchical","Router","Parallel","Sequential"],"correct":1,"explain":"The Router pattern focuses strictly on categorization and delegation, dispatching to the right specialist without co-authoring the response."},
+          {"prompt":"In Lab 4, what does the Impact Scoring Agent do?","options":["Drafts the markdown escalation report","Scores each ticket cluster 0\u2013100 for severity, with a self-check pass","Assigns a new ticket to a cluster","Deploys the pipeline to Cloud Run"],"correct":1,"explain":"The Impact Scoring Agent scores clusters 0\u2013100 for severity, with a self-review pass, adding business judgment to the pipeline."},
+          {"prompt":"What is the final step in Lab 4\u2019s Build Order?","options":["Install Flask","Enable Cloud Workflows","Execute the Workflow End-to-End","Build the Pipeline HTTP Service"],"correct":2,"explain":"After deploying the pipeline service, enabling Cloud Workflows, writing and deploying the workflow definition, the last step is executing the workflow end-to-end."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Final knowledge check</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
     </main>
+
     <footer class="site-footer">
-      <div class="page" style="padding:0 24px;"><p><strong>Agentic AI on GCP</strong> — interactive course notes.</p></div>
+      <div class="page" style="padding:0 24px;"><p><strong>Multi-Agent Systems &amp; Architecture</strong> — Week 4 interactive notes.</p></div>
     </footer>
   </div>
 </div>
