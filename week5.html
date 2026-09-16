@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 5 — Coming Soon | Agentic AI on GCP</title>
+<title>Week 5: Model Context Protocol | Agentic AI on GCP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -28,8 +28,8 @@
         <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
         <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
         <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3</a></li>
-        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4<span class="badge">Soon</span></a></li>
-        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4</a></li>
+        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5</a></li>
         <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6<span class="badge">Soon</span></a></li>
       </ul>
       <div class="sidebar-group-label">Further</div>
@@ -40,21 +40,542 @@
 
   <div class="content-col">
     <main class="page" id="main-content">
+
       <section class="page-hero">
         <div class="page-eyebrow">Week 5</div>
-        <h1>Coming soon</h1>
-        <p>These notes haven't been added yet.</p>
+        <h1>Model Context Protocol</h1>
+        <p>Why an LLM needs outside help, what an API actually is, and why every AI application connecting to many services the old way runs into a scaling wall. Then MCP: one shared protocol, its three architecture parts, and what a server can actually offer. Plus Lab 5: connecting Drive, Gmail and Discord through a real MCP server, and upgrading retrieval to hybrid search with re-ranking.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">2</span><span class="lbl">Graded quizzes (16 Qs)</span></div>
+          <div class="hero-stat"><span class="num">14</span><span class="lbl">Glossary terms</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+        </div>
       </section>
-      <section>
-        <a class="week-card" href="index.html" style="max-width:320px;">
-          <span class="week-num">← Back</span>
-          <h3>Return to course home</h3>
-          <p>See what's ready so far.</p>
-        </a>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#part-a">Why LLMs Need Help</a>
+        <a href="#part-b">What Is an API?</a>
+        <a href="#part-c">The Real Problem</a>
+        <a href="#part-d">Enter MCP</a>
+        <a href="#part-e">MCP Architecture</a>
+        <a href="#quiz-mcp">MCP Quiz</a>
+        <a href="#part-f">What a Server Offers</a>
+        <a href="#part-g">How MCP Works</a>
+        <a href="#part-h">RAG Architectures</a>
+        <a href="#lab-5">Lab 5</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ PART A ============ -->
+      <section id="part-a">
+        <div class="section-kicker">Part A</div>
+        <h2>Why Does an LLM Need More Information?</h2>
+        <p>An LLM (Large Language Model) is a computer program trained to understand and generate human language.</p>
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">Fixed Knowledge</span>
+            <p style="margin-bottom:0">Generic answers, like what photosynthesis is. Works well on its own.</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">Changing Info</span>
+            <p style="margin-bottom:0">Not fixed, like today's weather, which is different every few hours. Needs outside help.</p>
+          </div>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Key idea</div>
+          <p>An LLM's knowledge is fixed at the point it was trained. Fast-changing information needs a way in from outside.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Where Does This Information Come From?</h3>
+        <p>An LLM cannot always rely only on what it already knows. It needs a way to bring in information from outside itself: documents, databases, websites, or other services.</p>
+        <div class="flow" role="list" aria-label="Weather query example">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">AI Application</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Sends the request</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Weather Service</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Holds live data</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Live Data Returned</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">AI answers using it</p></div>
+        </div>
+        <p><strong>Example:</strong> "What is the weather in Kanpur right now?" The AI cannot guess this on its own. It asks a weather service, which holds live, constantly updated data. The service processes the request and sends the current data back. The AI uses this data to answer, working with an outside system, not alone. This communication between two software systems happens through an API.</p>
       </section>
+
+      <!-- ============ PART B ============ -->
+      <section id="part-b">
+        <div class="section-kicker">Part B</div>
+        <h2>What Is an API?</h2>
+        <div class="def-card">
+          <div class="def-label">Definition</div>
+          <p style="margin-bottom:0">API stands for Application Programming Interface, a defined way for one software system to send a request to another and get a response back.</p>
+        </div>
+
+        <div class="flow" role="list" aria-label="API request flow">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Request Sent</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Service Processes It</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Result Comes Back</div></div>
+        </div>
+
+        <div class="callout deep">
+          <div class="callout-label">Analogy: a waiter in a restaurant</div>
+          <p>The customer never walks into the kitchen. The order goes to the waiter, who carries it to the kitchen and brings the food back. The customer never needs to know how the kitchen works.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Every Service Works Differently</h3>
+        <p>Not every API is built the same way. Each company sets its own rules for requests and responses.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Service</th><th scope="col">Format Style</th></tr></thead>
+            <tbody>
+              <tr><td>Google</td><td>Note-style format</td></tr>
+              <tr><td>GitHub</td><td>Phone-call style</td></tr>
+              <tr><td>Slack</td><td>App-style format</td></tr>
+              <tr><td>Weather</td><td>Form-style format</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Imagine every restaurant taking orders differently: one only accepts written notes, another needs a phone call, another needs an app. A person ordering from many restaurants must learn a new method each time. Developers face the same problem: one new method per service.</p>
+      </section>
+
+      <!-- ============ PART C ============ -->
+      <section id="part-c">
+        <div class="section-kicker">Part C</div>
+        <h2>The Real Problem</h2>
+        <p>APIs themselves are not badly designed. They are genuinely useful.</p>
+        <div class="callout">
+          <div class="callout-label">The real difficulty</div>
+          <p>Every service follows its own separate approach. Developers must build and maintain a different connection for every service, and it gets harder as more are added. This is the exact gap that MCP was created to solve.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART D ============ -->
+      <section id="part-d">
+        <div class="section-kicker">Part D</div>
+        <h2>Enter MCP: What Is It and Why Do We Need It?</h2>
+        <div class="def-card">
+          <div class="def-label">Definition</div>
+          <p style="margin-bottom:0">MCP stands for Model Context Protocol, a common, standard way for AI applications to connect with external tools and information.</p>
+        </div>
+        <p>One AI application. One clean connection to MCP. MCP branches out neatly to every service.</p>
+        <ul>
+          <li>MCP does not replace APIs. An MCP Server can still use APIs behind the scenes.</li>
+          <li>MCP changes the front-facing side: how the AI connects to these capabilities.</li>
+          <li>Instead of a different method per service, there is one shared approach.</li>
+        </ul>
+
+        <h3 style="margin-top:var(--sp-7)">API vs MCP</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Aspect</th><th scope="col">API</th><th scope="col">MCP</th></tr></thead>
+            <tbody>
+              <tr><td>What it is</td><td>A way for one system to request something from another</td><td>A standard way for AI apps to connect to many external systems</td></tr>
+              <tr><td>Design</td><td>Each service defines its own format</td><td>Follows one common, shared format</td></tr>
+              <tr><td>Who uses it</td><td>Any software system</td><td>Mainly AI applications</td></tr>
+              <tr><td>Learning effort</td><td>A new method for each new API</td><td>One method works across many services</td></tr>
+              <tr><td>Relationship</td><td>Works underneath MCP</td><td>Can use APIs internally</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:var(--small);color:var(--dust)">MCP is not a competitor to APIs. It works alongside them, not instead of them.</p>
+      </section>
+
+      <!-- ============ PART E ============ -->
+      <section id="part-e">
+        <div class="section-kicker">Part E</div>
+        <h2>The MCP Architecture</h2>
+        <p>MCP has three main parts that work together, each with a distinct role: the Host, the Client, and the Server.</p>
+        <div class="callout deep">
+          <div class="callout-label">Analogy: a food delivery app</div>
+          <p>The app is the Host, a delivery agent is the Client, and the restaurant kitchen is the Server.</p>
+        </div>
+
+        <div class="flow" role="list" aria-label="MCP architecture flow">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">AI Application (Host)</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">MCP Client</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">MCP Server</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">External Service</div></div>
+        </div>
+
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="MCP architecture parts">
+            <button class="tab-btn" role="tab" id="tab-host" aria-selected="true" aria-controls="panel-host" data-tab="host">MCP Host</button>
+            <button class="tab-btn" role="tab" id="tab-client" aria-selected="false" aria-controls="panel-client" tabindex="-1" data-tab="client">MCP Client</button>
+            <button class="tab-btn" role="tab" id="tab-server" aria-selected="false" aria-controls="panel-server" tabindex="-1" data-tab="server">MCP Server</button>
+          </div>
+
+          <div class="tab-panel" id="panel-host" role="tabpanel" aria-labelledby="tab-host" tabindex="0">
+            <p><strong>Definition:</strong> the Host is the main AI application the user directly interacts with, and which manages the overall use of MCP.</p>
+            <p>One Host can connect to more than one MCP Server at a time. It uses an MCP Client to manage each connection.</p>
+            <p style="margin-bottom:0"><strong>Example:</strong> a single app connecting out to a Weather Server, a GitHub Server, a Slack Server, and a Database Server, all at once. One app, many connections.</p>
+          </div>
+          <div class="tab-panel" id="panel-client" role="tabpanel" aria-labelledby="tab-client" tabindex="0" hidden>
+            <p><strong>Definition:</strong> the MCP Client connects the Host to a specific MCP Server and manages communication between them.</p>
+            <p>The Client sends requests to the MCP Server on behalf of the Host, and receives back the results. An AI application may use a separate Client for each server it connects to.</p>
+            <p style="margin-bottom:0">One Client per Server: a clean, dedicated connection each time.</p>
+          </div>
+          <div class="tab-panel" id="panel-server" role="tabpanel" aria-labelledby="tab-server" tabindex="0" hidden>
+            <p><strong>Definition:</strong> the MCP Server provides capabilities, such as tools or information, to the AI application, through the Client.</p>
+            <p style="margin-bottom:0">One server hub can connect to several systems at once, such as GitHub, Slack, a database, and files.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: MCP ============ -->
+      <section id="quiz-mcp">
+        <div class="section-kicker">Interactive quiz</div>
+        <h2>MCP Quiz</h2>
+        <p>Test your understanding of Model Context Protocol, APIs, and AI integrations.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"An LLM can correctly answer what the capital of France is without external help, but not what a stock price is right now. What single underlying property of LLMs explains both the success and the failure here?","options":["LLMs are only trained on geography, not finance","Knowledge learned during training is static, so it is reliable for stable facts but stale for fast-changing ones","Stock prices are considered private data","LLMs cannot process numerical information"],"correct":1,"explain":"Stable facts, like geography, remain correct over time and LLMs handle these reliably using their internal weights. Dynamic data changes instantly, so the weights become stale and external tools are needed to fetch updates."},
+          {"prompt":"In the weather example, why does the AI need to go through an external service instead of just reasoning its way to an answer?","options":["Because weather is too complicated a topic for AI","Because the AI has no built-in access to live, constantly updated data outside its training","Because the user asked a location-specific question","Because APIs are required by law for weather queries"],"correct":1,"explain":"Advanced reasoning alone cannot predict real-time weather for a specific location. The AI needs a live connection, and it accesses that data through an API, bridging static training weights and real-time reality."},
+          {"prompt":"The lesson stated that two systems do not need to know how each other work internally when describing APIs. What computer science concept does this describe?","options":["Redundancy","Abstraction, or encapsulation of internal implementation","Data compression","Load balancing"],"correct":1,"explain":"APIs expose a clean public interface while hiding the internal logic, database structures, and programming language of each service. That is abstraction."},
+          {"prompt":"Why does the fact that Google, GitHub, Slack, and weather services each work differently create a scaling problem for developers building AI applications?","options":["Because each new service requires a completely separate integration effort, and this cost multiplies as more services are added","Because these companies actively block AI applications","Because APIs from different companies use different programming languages entirely","Because only one API can be used per application"],"correct":0,"explain":"If an AI app uses N services, the developer must build and maintain N custom integrations. Building M different AI apps repeats this effort, resulting in M times N complexity, and every API update risks breaking the application."},
+          {"prompt":"Which statement most accurately captures the relationship between MCP and traditional APIs?","options":["MCP is a replacement technology that makes APIs obsolete","MCP is a standardized layer that can sit above APIs, so AI apps use one consistent method while MCP Servers still call underlying APIs internally","MCP and APIs solve completely unrelated problems","APIs are a type of MCP Server"],"correct":1,"explain":"MCP does not replace traditional APIs. The AI Host speaks the standardized MCP protocol to the Server, and the Server translates those instructions into the specific calls required by the underlying APIs."},
+          {"prompt":"In the food delivery analogy, why does the delivery agent assigned to one restaurant fit the MCP Client specifically, rather than the Host or Server?","options":["Because it prepares the food itself","Because it manages the dedicated communication link between the main app and one specific provider, without preparing anything itself","Because it is the interface the end user directly interacts with","Because it stores all the external data permanently"],"correct":1,"explain":"The Client acts purely as the middleman. It does not generate the request like the Host does, nor process the core data like the Server. It just carries messages back and forth over a dedicated connection."},
+          {"prompt":"The MCP Server handles the technical details of talking to external systems so the AI application does not have to. What benefit does this provide as more systems are added over time?","options":["It makes the AI application faster at generating text","It isolates integration complexity inside servers, so the AI application\u2019s core logic does not need to change for every new system","It removes the need for any external systems at all","It guarantees the external system\u2019s data is always accurate"],"correct":1,"explain":"By offloading service-specific mechanics to the MCP Server, the Host application stays clean. Adding a new tool only requires pointing the Host to a new Server, leaving the core AI logic untouched."},
+          {"prompt":"What is the single biggest gap that the Model Context Protocol was created to close?","options":["The gap between an LLM\u2019s fixed training knowledge and the need for live external data","The gap between having many useful APIs and the lack of one consistent, standard way for AI apps to connect to all of them","The gap between text and image understanding","The gap between free and paid AI services"],"correct":1,"explain":"APIs already exist to fetch data, but every API has a unique structure. Before MCP there was no industry-standard interface for AI applications to discover and use these tools in one uniform way."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">MCP Quiz</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART F ============ -->
+      <section id="part-f">
+        <div class="section-kicker">Part F</div>
+        <h2>What Can an MCP Server Provide?</h2>
+        <p>An MCP Server can offer more than one type of capability. The three main types are Tools, Resources, and Prompts.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🍲 Tools</h4>
+            <p style="font-size:var(--small)">A Tool is a capability that lets the AI perform an action. Asking the kitchen to actually cook a dish, a real action.</p>
+            <p style="font-size:var(--small);margin-bottom:0"><strong>Examples:</strong> checking the current weather, searching a GitHub repository, creating a new GitHub issue, sending a message through Slack.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📖 Resources</h4>
+            <p style="font-size:var(--small)">A Resource gives the AI access to information it can use while forming an answer. Checking what ingredients are in the pantry, without cooking anything yet.</p>
+            <p style="font-size:var(--small);margin-bottom:0"><strong>Example:</strong> a company's leave policy document. The AI reads from this resource for an accurate answer. No action is performed, only information is supplied.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📋 Prompts</h4>
+            <p style="font-size:var(--small)">A Prompt, in the MCP context, is a ready-made, reusable instruction or template that guides the AI on how to carry out a task. A written recipe card kept in the kitchen for a dish that is often made, so it comes out the same way every time.</p>
+            <p style="font-size:var(--small);margin-bottom:0"><strong>Examples:</strong> a code review prompt that reviews code consistently, or a document analysis prompt with fixed steps to follow.</p>
+          </div>
+        </div>
+        <p style="margin-top:var(--sp-5)">In short: Tools are things the AI can do. Resources are things the AI can read. Prompts are ways to guide the AI. Together, these let an AI application do more than generate text: it can act, read, and follow consistent instructions.</p>
+
+        <div class="callout" style="margin-top:var(--sp-5)">
+          <div class="callout-label">Discovery: how does the AI know what is available?</div>
+          <p>Discovery is the process through which an AI application learns what capabilities an MCP Server provides. The server describes itself to the AI, so capabilities do not need to be hard-coded ahead of time. As new tools are added, the AI learns automatically.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART G ============ -->
+      <section id="part-g">
+        <div class="section-kicker">Part G</div>
+        <h2>How Does MCP Actually Work?</h2>
+        <div class="flow" role="list" aria-label="MCP end to end flow">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">User</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">AI App (Host)</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">MCP Client</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">MCP Server</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">5</div><div class="flow-label">Tool / Resource</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">6</div><div class="flow-label">External Service</div></div>
+        </div>
+        <p>The result flows back to the same user. The request goes out and the answer comes back in a circular flow, not a straight line.</p>
+
+        <h3 style="margin-top:var(--sp-7)">Why MCP Matters</h3>
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">Before</span>
+            <p style="margin-bottom:0">A separate method for every service: Weather, GitHub, Slack, and the database each need their own connection built and maintained.</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">After</span>
+            <p style="margin-bottom:0">One shared standard for every service, through MCP. The AI app connects once, and MCP branches out to Weather, GitHub, Slack, and the database.</p>
+          </div>
+        </div>
+        <p>AI applications increasingly need to take actions, access live information, and connect with many services. MCP gives AI applications one common way to connect with tools, resources, and prompts. It works alongside existing APIs, and capabilities can be discovered automatically.</p>
+        <div class="callout deep">
+          <div class="callout-label">Big idea</div>
+          <p>MCP helps AI applications connect to the outside world in a more consistent way.</p>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">In-class activity: Password, Agentic AI edition</div>
+          <p>A quick group game to practice giving precise, single-word prompts. Students split into two teams; each round one Clue Giver from a team sees a secret word and can give only one word as a clue. The team gets one guess. If wrong, the Clue Giver gives one more single word, never repeating a clue and never saying the answer itself. Each word has a 30 to 45 second time limit. The first team to guess correctly scores a point, the Clue Giver role rotates every round, and only spoken words count, no hand signs, sounds, or spelling out letters. Most points when time is up wins.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART H ============ -->
+      <section id="part-h">
+        <div class="section-kicker">Part H</div>
+        <h2>Types of RAG Architectures</h2>
+        <p>Eight retrieval strategies, roughly in order of sophistication. This week's lab build uses architecture 4, Re-Ranking RAG.</p>
+
+        <div class="card-grid">
+          <details class="acc-card" open>
+            <summary><span>1. Naive RAG <span class="tagline">Semantic search only</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Retrieves relevant text purely by comparing meaning: the query and documents are embedded as vectors, and the closest matches are pulled in as context.</p>
+              <div class="flow" role="list" aria-label="Naive RAG flow" style="margin:var(--sp-3) 0">
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Query</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Embed Query &amp; Docs</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Vector Search (top-k)</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Answer</div></div>
+              </div>
+              <p style="margin-bottom:0"><strong>Example:</strong> a FAQ chatbot that finds the most relevant help center article for a customer's question, even if they do not use the exact wording.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>2. Keyword RAG <span class="tagline">Lexical / BM25 search</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Retrieves documents by matching the exact words and phrases in the query, using classic scoring methods like BM25 or TF-IDF, with no embeddings involved.</p>
+              <div class="flow" role="list" aria-label="Keyword RAG flow" style="margin:var(--sp-3) 0">
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Query</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">BM25 / TF-IDF Scoring</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Matched Documents</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Answer</div></div>
+              </div>
+              <p style="margin-bottom:0"><strong>Example:</strong> searching legal contracts for an exact clause number, or a support system searching for a specific error code like ERR_504.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>3. Hybrid RAG <span class="tagline">Semantic + keyword, combined</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Combines semantic and keyword search so results are relevant both in meaning and in exact wording, then merges the two rankings into one result set.</p>
+              <div class="flow" role="list" aria-label="Hybrid RAG flow" style="margin:var(--sp-3) 0">
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Query</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Semantic + Keyword Search</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Merge &amp; Score</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Answer</div></div>
+              </div>
+              <p style="margin-bottom:0"><strong>Example:</strong> the EPC platform matching a ticket's general topic (semantic) and its literal error code or product name (keyword) at the same time.</p>
+            </div>
+          </details>
+
+          <details class="acc-card" open>
+            <summary><span>4. Re-Ranking RAG <span class="tagline">This week's build</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Takes the candidates from a hybrid search and asks a second, stronger model to re-score them, keeping only the results that are genuinely most relevant.</p>
+              <div class="flow" role="list" aria-label="Re-Ranking RAG flow" style="margin:var(--sp-3) 0">
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Query</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Hybrid Retrieve (wide set)</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Gemini Reranker</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Top Results</div></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-step" role="listitem"><div class="flow-label" style="font-size:12px">Answer</div></div>
+              </div>
+              <p style="margin-bottom:0"><strong>Example:</strong> this week, Gemini re-ranks historical incidents so the escalation report cites the single most relevant past case, not just the closest keyword match.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>5. Agentic RAG <span class="tagline">An agent decides when to retrieve</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Lets an LLM agent decide, on its own, whether retrieval is even needed and how many times to search, rather than always retrieving once by default.</p>
+              <p style="margin-bottom:0"><strong>Example:</strong> a research assistant that decides on its own whether it needs internal documents, a web search, or both before it answers.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>6. Graph RAG <span class="tagline">Retrieval over a knowledge graph</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Stores knowledge as entities and relationships in a graph, then retrieves by traversing those connections, capturing context that plain text search would miss.</p>
+              <p style="margin-bottom:0"><strong>Example:</strong> a support system that traces how one incident connects to related tickets, root causes, and past fixes.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>7. Corrective RAG <span class="tagline">Self-checks retrieval quality</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Grades retrieved documents for relevance before using them, and automatically falls back to another source, such as a web search, when the match is weak.</p>
+              <p style="margin-bottom:0"><strong>Example:</strong> a fact-checking tool that falls back to a live web search when its internal document store returns weak matches.</p>
+            </div>
+          </details>
+
+          <details class="acc-card">
+            <summary><span>8. Multimodal RAG <span class="tagline">Retrieves text, images and tables</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p>Retrieves across different content types at once, such as text, images, and tables, so an answer can draw on whichever format actually holds the information.</p>
+              <p style="margin-bottom:0"><strong>Example:</strong> a product-support agent that retrieves both a manual's written steps and the matching diagram.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ============ LAB 5 ============ -->
+      <section id="lab-5">
+        <div class="section-kicker">Lab 5, Agentic AI EPC Pipeline</div>
+        <h2>Real Tools &amp; Real Retrieval</h2>
+        <p>MCP integrations for Drive, Gmail and Discord, plus hybrid RAG with re-ranking.</p>
+
+        <p>This week connects the platform to three external tools: Google Drive, Gmail, and Discord. The Escalation Preparation Agent reads a runbook stored in Drive, creates a draft email in Gmail, and posts an alert to a Discord channel. These tools are exposed through MCP, a standard protocol that lets any compatible AI client call them the same way. Retrieval is also upgraded this week: instead of relying on semantic search alone, the system combines semantic search with keyword search, then uses Gemini to re-rank the results before they are used in a report.</p>
+
+        <div class="card-grid">
+          <div class="def-card">
+            <div class="def-label">Three New Integrations</div>
+            <p style="margin-bottom:0">Drive and Gmail via OAuth, Discord via a webhook.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">One Standard Protocol</div>
+            <p style="margin-bottom:0">MCP tools, usable by any compatible AI client.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">Runs Locally This Week</div>
+            <p style="margin-bottom:0">OAuth needs personal authorization, so these tools run on a local machine, not Cloud Run.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">This Week's Goal</h3>
+        <p>Connect the platform to real enterprise tools, and sharpen retrieval accuracy with a re-ranking step.</p>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Google Drive integration:</strong> pull a relevant runbook excerpt into escalation reports.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Gmail integration:</strong> auto-draft, never auto-send, a stakeholder notification email.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Discord integration:</strong> post a real-time alert to a Discord channel via webhook.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>A real MCP server:</strong> expose these tools via the actual Model Context Protocol, usable by any MCP-compatible client.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Hybrid RAG with re-ranking:</strong> combine semantic and keyword search, then have Gemini re-rank the results.</span></li>
+        </ol>
+
+        <h3 style="margin-top:var(--sp-7)">Files We'll Create This Week</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Folder</th><th scope="col">File</th><th scope="col">What It Holds</th></tr></thead>
+            <tbody>
+              <tr><td>project root</td><td><code>oauth_client_secret.json</code></td><td>Stores Google OAuth credentials for the app</td></tr>
+              <tr><td>project root</td><td><code>token.json</code></td><td>Stores the user's Google access token after OAuth</td></tr>
+              <tr><td><code>integrations/</code></td><td><code>authorize_google.py</code></td><td>Handles Google login, creates <code>token.json</code></td></tr>
+              <tr><td><code>integrations/</code></td><td><code>drive_tool.py</code></td><td>Finds and reads docs from the EPC Drive folder</td></tr>
+              <tr><td><code>integrations/</code></td><td><code>gmail_tool.py</code></td><td>Creates Gmail drafts for escalation reports</td></tr>
+              <tr><td><code>integrations/</code></td><td><code>discord_notifier.py</code></td><td>Sends escalation alerts to Discord via webhook</td></tr>
+              <tr><td><code>integrations/</code></td><td><code>mcp_server.py</code></td><td>Exposes Drive, Gmail and Discord alerts as MCP tools</td></tr>
+              <tr><td><code>integrations/</code></td><td><code>test_mcp_client.py</code></td><td>Tests the MCP server and its tools</td></tr>
+              <tr><td><code>rag/</code></td><td><code>hybrid_retrieval.py</code></td><td>Semantic and keyword search with Gemini reranking</td></tr>
+              <tr><td><code>agents/</code> (updated)</td><td><code>escalation_preparation_agent.py</code></td><td>Now uses the Drive runbook and RAG, then creates the alert and draft</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Build Order</h3>
+        <p>Confirm each step before moving to the next.</p>
+        <div class="card-grid cols-2">
+          <div>
+            <h4>Part 1</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Enable the Google Drive API</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Enable the Gmail API</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Configure the OAuth consent screen</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Create an OAuth client ID</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Install the OAuth and Google API libraries</span></li>
+            </ol>
+          </div>
+          <div>
+            <h4>Part 2</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Create 3 reference docs in Google Drive</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Run the one-time Google authorization script</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build and test the Drive tool</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build and test the Gmail draft tool</span></li>
+            </ol>
+          </div>
+          <div>
+            <h4>Part 3</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Set up a Discord server and webhook</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build and test the Discord notifier</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Install the MCP SDK and build the MCP server</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Test the MCP server with a Python client</span></li>
+            </ol>
+          </div>
+          <div>
+            <h4>Part 4</h4>
+            <ol class="step-list">
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Build hybrid RAG with re-ranking</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Upgrade the Escalation Preparation Agent</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Run the upgraded agent end-to-end</span></li>
+              <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Push the completed work to GitHub</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSARY ============ -->
+      <section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary, tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: MCP. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">MCP</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Model Context Protocol, a common standard way for AI applications to connect with external tools and information.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: API. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">API</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Application Programming Interface, a defined way for one software system to send a request to another and get a response back.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: MCP Host. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">MCP Host</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The main AI application the user directly interacts with, which manages the overall use of MCP.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: MCP Client. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">MCP Client</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Connects the Host to one specific MCP Server and manages communication between them.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: MCP Server. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">MCP Server</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Provides capabilities, such as tools or information, to the AI application, through the Client.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Tool (MCP). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Tool (MCP)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A capability that lets the AI perform an action, like sending a message or creating an issue.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Resource (MCP). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Resource (MCP)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A capability that gives the AI access to information it can use while forming an answer. No action performed, only information supplied.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Prompt (MCP). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Prompt (MCP)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A ready-made, reusable instruction or template that guides the AI on how to carry out a task.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Discovery. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Discovery</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The process through which an AI application learns what capabilities an MCP Server provides.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Hybrid RAG. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Hybrid RAG</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Combines semantic and keyword search, merging both rankings into one result set.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Re-Ranking RAG. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Re-Ranking RAG</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Takes candidates from a hybrid search and asks a second, stronger model to re-score them before use.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: BM25. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">BM25</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A classic scoring method for keyword search, matching exact words and phrases with no embeddings involved.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: OAuth. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">OAuth</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A personal authorization flow used this week to grant the app access to Drive and Gmail on a user's behalf.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Webhook. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Webhook</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A simple way for one service to push a message to another, used here to post Discord alerts.</p></div></div></button></div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL QUIZ ============ -->
+      <section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole week, MCP, RAG architectures, and the lab. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What problem does MCP solve for developers connecting AI applications to many services?","options":["It removes the need for external services entirely","It replaces a separate connection method per service with one shared, standard approach","It makes every API faster","It stops services from changing their format"],"correct":1,"explain":"Before MCP, developers had to build and maintain a different connection for every service. MCP gives AI applications one common way to connect to many services instead."},
+          {"prompt":"What are the three parts of the MCP architecture?","options":["Host, Client, Server","Reader, Validator, Approver","Tool, Resource, Prompt","Request, Response, Result"],"correct":0,"explain":"The Host is the main AI application, the Client manages the connection to one specific Server, and the Server provides the actual capabilities."},
+          {"prompt":"Which MCP capability lets the AI perform an action, rather than just read information?","options":["Resource","Prompt","Tool","Discovery"],"correct":2,"explain":"A Tool is a capability that lets the AI perform an action, like sending a message or creating an issue. A Resource only supplies information."},
+          {"prompt":"What does Discovery let an AI application do?","options":["Hard-code every tool ahead of time","Learn what capabilities an MCP Server provides, without needing them hard-coded ahead of time","Guess which service to use","Skip using an MCP Client"],"correct":1,"explain":"The server describes itself to the AI, so as new tools are added, the AI learns automatically instead of needing every capability hard-coded in advance."},
+          {"prompt":"Which RAG architecture does this week\u2019s lab actually build?","options":["Naive RAG","Keyword RAG","Re-Ranking RAG","Graph RAG"],"correct":2,"explain":"This week\u2019s build uses architecture 4, Re-Ranking RAG: a hybrid search followed by a Gemini re-ranking pass."},
+          {"prompt":"In Hybrid RAG, which two search methods are combined?","options":["Semantic search and keyword search","Image search and table search","Graph traversal and web search","Agent reasoning and self-checking"],"correct":0,"explain":"Hybrid RAG runs semantic search and keyword search in parallel, then merges and scores both result sets together."},
+          {"prompt":"Which three external tools does the Escalation Preparation Agent connect to this week?","options":["Google Drive, Gmail, and Discord","Slack, GitHub, and BigQuery","Firestore, Cloud Run, and Docker","Vertex AI, Cloud Storage, and Pub/Sub"],"correct":0,"explain":"The agent reads a runbook from Drive, drafts an email in Gmail, and posts an alert to Discord."},
+          {"prompt":"Why does this week\u2019s setup run locally instead of on Cloud Run?","options":["Cloud Run does not support Python","OAuth needs personal authorization, so these tools run on a local machine this week","Discord blocks cloud servers","The MCP server only works offline"],"correct":1,"explain":"OAuth requires a personal authorization step, so Drive and Gmail integrations run on a local machine this week rather than being deployed to Cloud Run."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Final knowledge check</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
     </main>
+
     <footer class="site-footer">
-      <div class="page" style="padding:0 24px;"><p><strong>Agentic AI on GCP</strong> — interactive course notes.</p></div>
+      <div class="page" style="padding:0 24px;"><p><strong>Model Context Protocol</strong>, Week 5 interactive notes.</p></div>
     </footer>
   </div>
 </div>
