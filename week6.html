@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 6 — Coming Soon | Agentic AI on GCP</title>
+<title>Week 6: Agentic Guardrails | Agentic AI on GCP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -28,9 +28,9 @@
         <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
         <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
         <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3</a></li>
-        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4<span class="badge">Soon</span></a></li>
-        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5<span class="badge">Soon</span></a></li>
-        <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6<span class="badge">Soon</span></a></li>
+        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4</a></li>
+        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5</a></li>
+        <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6</a></li>
       </ul>
       <div class="sidebar-group-label">Further</div>
       <ul><li><a class="sidebar-link" href="resources.html"><span class="num" aria-hidden="true">★</span> Further Resources</a></li></ul>
@@ -40,21 +40,390 @@
 
   <div class="content-col">
     <main class="page" id="main-content">
+
       <section class="page-hero">
         <div class="page-eyebrow">Week 6</div>
-        <h1>Coming soon</h1>
-        <p>These notes haven't been added yet.</p>
+        <h1>Agentic Guardrails</h1>
+        <p>Why a sequential pipeline like EPC is vulnerable to cascading failures, the four common ways an agent goes wrong, and the two checkpoints, input and output, that keep bad data out and bad results in check. Plus Lab 6: wiring real input and output guardrails directly into the pipeline.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">1</span><span class="lbl">Graded quiz (8 Qs)</span></div>
+          <div class="hero-stat"><span class="num">14</span><span class="lbl">Glossary terms</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+        </div>
       </section>
-      <section>
-        <a class="week-card" href="index.html" style="max-width:320px;">
-          <span class="week-num">← Back</span>
-          <h3>Return to course home</h3>
-          <p>See what's ready so far.</p>
-        </a>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#part-a">Pipeline Vulnerability</a>
+        <a href="#part-b">Failure Patterns</a>
+        <a href="#part-c">Architectural Boundaries</a>
+        <a href="#part-d">Recovery Actions</a>
+        <a href="#part-e">Guardrail Types</a>
+        <a href="#part-f">Input Guardrails</a>
+        <a href="#part-g">Output Guardrails</a>
+        <a href="#quiz-guardrails">Input or Output Quiz</a>
+        <a href="#part-h">Comparison Matrix</a>
+        <a href="#lab-6">Lab 6</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ PART A ============ -->
+      <section id="part-a">
+        <div class="section-kicker">Part A</div>
+        <h2>EPC Pipeline Vulnerability Analysis</h2>
+        <p>The EPC workflow operates as a sequential pipeline. Because each phase strictly depends on the preceding step, the architecture is highly vulnerable to cascading failures.</p>
+
+        <div class="flow" role="list" aria-label="EPC pipeline stages">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Problem Input</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Raw tickets ingested</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Information Extraction</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Error origin</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Similarity Search</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Compounded</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Clustering</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Compounded</p></div>
+        </div>
+        <div class="flow" role="list" aria-label="EPC pipeline stages continued" style="margin-top:0">
+          <div class="flow-step" role="listitem"><div class="flow-num">5</div><div class="flow-label">Human Review</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Compounded</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">6</div><div class="flow-label">Decision Scoring</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Compounded</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">7</div><div class="flow-label">Final Reporting</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Flawed output</p></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">#</th><th scope="col">Stage</th><th scope="col">What It Does</th></tr></thead>
+            <tbody>
+              <tr><td>01</td><td>Problem Input</td><td>Raw issue logs, user tickets, and problem descriptions ingested.</td></tr>
+              <tr><td>02</td><td>Information Extraction</td><td>Extracts core entities, metadata, and problem attributes.</td></tr>
+              <tr><td>03</td><td>Similarity Search</td><td>Queries the vector index for historical issue matches.</td></tr>
+              <tr><td>04</td><td>Clustering</td><td>Groups issues into systemic problem categories.</td></tr>
+              <tr><td>05</td><td>Human Review</td><td>Analyst reviews the proposed clusters and groupings.</td></tr>
+              <tr><td>06</td><td>Decision Scoring</td><td>Calculates priority, risk metrics, and SLA impact.</td></tr>
+              <tr><td>07</td><td>Final Reporting</td><td>Publishes executive dashboards and automation triggers.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">Cascading vulnerability</div>
+          <p>If a single agent produces malformed or hallucinated data early in the process, downstream agents will compound these errors, leading to flawed final decisions and corrupted system reports.</p>
+        </div>
       </section>
+
+      <!-- ============ PART B ============ -->
+      <section id="part-b">
+        <div class="section-kicker">Part B</div>
+        <h2>Common Agent Failure Patterns</h2>
+        <p>AI agents in production face four primary failure modes that disrupt execution pipelines, corrupt data flow, and compromise enterprise security.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>⚠️ Format Errors</h4>
+            <p style="font-size:var(--small)">Returning mismatched data types when a specific schema is expected by downstream tools.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Example: schema expected float 0.92, but received string "very high".</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📉 Extraction Failures</h4>
+            <p style="font-size:var(--small)">Hallucinating ungrounded values or dropping critical variables directly from prompt inputs.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Example: logged 5 affected users when the explicit input stated 500.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🎯 Out-of-Domain</h4>
+            <p style="font-size:var(--small)">Attempting to process irrelevant, nonsensical, or off-topic requests as valid tasks.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Example: executing user jokes or casual conversation as enterprise IT support tickets.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🔓 Prompt Injections</h4>
+            <p style="font-size:var(--small)">Succumbing to adversarial inputs designed to override core system behavior.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Example: adversarial commands overriding agent rules to expose hidden system prompts.</p>
+          </div>
+        </div>
+        <p style="margin-top:var(--sp-5)">Production pipelines require deterministic validation, strict output schemas, and input filtering to neutralize these threat vectors.</p>
+      </section>
+
+      <!-- ============ PART C ============ -->
+      <section id="part-c">
+        <div class="section-kicker">Part C</div>
+        <h2>Architectural Boundaries</h2>
+        <p>To secure the agentic pipeline, strict architectural boundaries must be placed around the AI agent, isolating it between two distinct control points.</p>
+
+        <div class="flow" role="list" aria-label="Architectural boundary flow">
+          <div class="flow-step" role="listitem"><div class="flow-num">🔍</div><div class="flow-label">Input Checkpoints</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Validating data before it enters</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">🤖</div><div class="flow-label">AI Agent System</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Isolated core execution</p></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">🛡️</div><div class="flow-label">Output Checkpoints</div><p style="font-size:var(--small);margin:var(--sp-2) 0 0">Verifying the response before it moves on</p></div>
+        </div>
+
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">Input Checkpoint Asks</span>
+            <p style="margin-bottom:0">Is this information safe and appropriate to process?</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">Output Checkpoint Asks</span>
+            <p style="margin-bottom:0">Is this result formatted correctly and safe to use?</p>
+          </div>
+        </div>
+
+        <div class="callout deep">
+          <div class="callout-label">Key takeaway</div>
+          <p>This separation of concerns prevents malicious inputs from executing and stops malformed outputs from propagating.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART D ============ -->
+      <section id="part-d">
+        <div class="section-kicker">Part D</div>
+        <h2>How Can We Put These Checks in Place?</h2>
+        <p>Agentic guardrails continuously monitor for valid inputs, schema compliance, and output safety. When a violation occurs, predefined recovery actions execute rather than failing silently.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🚫 Reject</h4>
+            <p style="font-size:var(--small);margin-bottom:0">Rejecting the request entirely, halting execution on invalid requests.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🛠️ Correct</h4>
+            <p style="font-size:var(--small);margin-bottom:0">Automatically correcting formatting, fixing schema and structural errors.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>↻ Retry</h4>
+            <p style="font-size:var(--small);margin-bottom:0">Triggering a retry mechanism with the LLM, re-prompting with targeted feedback.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>👤 Review</h4>
+            <p style="font-size:var(--small);margin-bottom:0">Routing the flagged transaction to a human, escalating for manual inspection.</p>
+          </div>
+        </div>
+        <p style="margin-top:var(--sp-5)">Together, these predefined recovery actions keep AI agents strictly constrained within operational boundaries while ensuring system reliability.</p>
+      </section>
+
+      <!-- ============ PART E ============ -->
+      <section id="part-e">
+        <div class="section-kicker">Part E</div>
+        <h2>Guardrail Types and Categories</h2>
+        <p>Agentic guardrails are divided into two primary categories, based on their position in the data flow.</p>
+
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">🛡️ Input Guardrails</span>
+            <p>These mechanisms evaluate data before it reaches the LLM.</p>
+            <p style="font-size:var(--small)"><strong>Core question:</strong> should the agent process this input?</p>
+            <p style="font-size:var(--small);margin-bottom:0"><strong>Primary function:</strong> they act as a firewall against bad data and malicious prompts.</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">🔍 Output Guardrails</span>
+            <p>These mechanisms inspect the generated response before it is passed to the next pipeline stage.</p>
+            <p style="font-size:var(--small)"><strong>Core question:</strong> should the downstream system accept this result?</p>
+            <p style="font-size:var(--small);margin-bottom:0"><strong>Primary function:</strong> they ensure data integrity and format compliance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PART F ============ -->
+      <section id="part-f">
+        <div class="section-kicker">Part F</div>
+        <h2>Input Guardrails</h2>
+        <p>Input guardrails function as the first line of defense, safeguarding agent ingestion by rigorously checking information before processing begins.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>📐 Structural Validity</h4>
+            <p style="font-size:var(--small)">Verifies syntax, type definitions, payload formats, and structural schema constraints.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Format &amp; schema checks.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🎯 Domain Relevance</h4>
+            <p style="font-size:var(--small)">Ensures inbound requests align with current task scope, agent boundaries, and operational intent.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Context &amp; scope filtering.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🛡️ Operational Safety</h4>
+            <p style="font-size:var(--small)">Screens against harmful execution vectors, prompt injections, and risky operational requests.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Threat &amp; injection defense.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>⚙️ System Rules</h4>
+            <p style="font-size:var(--small)">Enforces strict governance constraints, allowed value mappings, and internal policy limits.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Policy alignment &amp; mapping.</p>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:var(--sp-5)">
+          <div class="callout-label">Example</div>
+          <p>Intercepts informal user text, such as "super duper big shig problem," evaluates the parameters, and safely maps it to an allowed system value like "High" criticality.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART G ============ -->
+      <section id="part-g">
+        <div class="section-kicker">Part G</div>
+        <h2>Output Guardrails</h2>
+        <p>Output guardrails serve as the final quality assurance layer, inspecting all agent-generated content before system acceptance. They evaluate output integrity to determine if results are safe and accurate to use.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🔢 Incorrect Values</h4>
+            <p style="font-size:var(--small)">Prevents the propagation of inaccurate calculations, hallucinatory data, and unverified numerical outputs.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Value validation.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🛠️ Formatting Errors</h4>
+            <p style="font-size:var(--small)">Eliminates structural syntax flaws, broken JSON schemas, and invalid formatting before API consumption.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Structural verification.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🔄 Logical Mismatches</h4>
+            <p style="font-size:var(--small)">Catches contradictions and ensures complete logical alignment between the original user prompt and the generated output.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Intent consistency.</p>
+          </div>
+          <div class="acc-card" style="padding:var(--sp-4)">
+            <h4>🔒 Sensitive Disclosure</h4>
+            <p style="font-size:var(--small)">Blocks unauthorized leakage of restricted enterprise data, confidential assets, and internal secrets.</p>
+            <p style="font-size:var(--small);color:var(--dust);margin-bottom:0">Data protection.</p>
+          </div>
+        </div>
+
+        <div class="callout deep" style="margin-top:var(--sp-5)">
+          <div class="callout-label">Core verification goal</div>
+          <p>Is this result okay to use? Active verification protects downstream systems from invalid execution.</p>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: INPUT OR OUTPUT ============ -->
+      <section id="quiz-guardrails">
+        <div class="section-kicker">Interactive quiz</div>
+        <h2>Input Guardrail or Output Guardrail?</h2>
+        <p>Eight scenarios. For each one, decide which specific guardrail category would catch it.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"A user submits a message that has nothing to do with IT support, like a casual joke, and it gets treated as a valid enterprise ticket. Which check should have caught this?","options":["Input, Structural Validity","Input, Domain Relevance","Output, Incorrect Values","Output, Sensitive Disclosure"],"correct":1,"explain":"Domain Relevance ensures inbound requests align with the current task scope and operational intent, exactly the out-of-domain failure pattern described in the notes."},
+          {"prompt":"An incoming ticket contains adversarial commands trying to override the agent\u2019s rules and expose its hidden system prompt. Which check should catch this?","options":["Input, Operational Safety","Input, System Rules","Output, Logical Mismatches","Output, Formatting Errors"],"correct":0,"explain":"Operational Safety screens against harmful execution vectors and prompt injections, which is exactly this scenario."},
+          {"prompt":"A ticket says \\u201csuper duper big shig problem\\u201d and needs to be safely mapped to an allowed system value like \\u201cHigh\\u201d criticality. Which check handles this?","options":["Input, Domain Relevance","Input, System Rules","Output, Incorrect Values","Output, Logical Mismatches"],"correct":1,"explain":"System Rules enforces governance constraints and allowed value mappings, matching the exact example given for this category."},
+          {"prompt":"A ticket payload is missing required fields, or a field that should be a number arrives as a string. Which check should catch this?","options":["Input, Structural Validity","Input, Operational Safety","Output, Formatting Errors","Output, Sensitive Disclosure"],"correct":0,"explain":"Structural Validity verifies syntax, type definitions, payload formats, and schema constraints on incoming data."},
+          {"prompt":"The agent\u2019s output includes a statistic that was never verified and does not actually appear anywhere in the source data. Which check should catch this?","options":["Input, Structural Validity","Input, Domain Relevance","Output, Incorrect Values","Output, Logical Mismatches"],"correct":2,"explain":"Incorrect Values prevents the propagation of inaccurate calculations, hallucinatory data, and unverified numerical outputs."},
+          {"prompt":"The agent returns a broken JSON object that the next system in the pipeline cannot parse. Which check should catch this?","options":["Input, Structural Validity","Output, Formatting Errors","Output, Incorrect Values","Input, System Rules"],"correct":1,"explain":"Formatting Errors eliminates structural syntax flaws and broken JSON schemas before the output reaches the next API."},
+          {"prompt":"The agent\u2019s final answer directly contradicts what the user originally asked for. Which check should catch this?","options":["Output, Logical Mismatches","Output, Sensitive Disclosure","Input, Domain Relevance","Input, Operational Safety"],"correct":0,"explain":"Logical Mismatches catches contradictions and checks that the output stays consistent with the original prompt\u2019s intent."},
+          {"prompt":"The agent\u2019s response accidentally includes an internal company secret that should never reach the end user. Which check should catch this?","options":["Input, Operational Safety","Output, Incorrect Values","Output, Sensitive Disclosure","Input, System Rules"],"correct":2,"explain":"Sensitive Disclosure blocks unauthorized leakage of restricted enterprise data, confidential assets, and internal secrets."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Input Guardrail or Output Guardrail?</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART H ============ -->
+      <section id="part-h">
+        <div class="section-kicker">Part H</div>
+        <h2>Guardrails Comparison Matrix</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Aspect</th><th scope="col">📥 Input Guardrails</th><th scope="col">📤 Output Guardrails</th></tr></thead>
+            <tbody>
+              <tr><td>Key Question</td><td>Should we allow this input to enter?</td><td>Should we allow this output to leave?</td></tr>
+              <tr><td>What They Check</td><td>Information coming into the agent</td><td>Response produced by the agent</td></tr>
+              <tr><td>When They Run</td><td>Before the agent processes the input</td><td>After the agent generates a response</td></tr>
+              <tr><td>Main Purpose</td><td>Prevent bad, unsafe, irrelevant, or manipulated input from entering the workflow</td><td>Prevent incorrect, unsafe, or unwanted info from reaching the user or system</td></tr>
+              <tr><td>Protects Against</td><td>Prompt injection, invalid data, irrelevant requests, malicious instructions</td><td>Hallucinations, policy violations, wrong format, unsupported claims</td></tr>
+              <tr><td>Typical Checks</td><td>Input format, allowed values, relevance, injection, required fields</td><td>Output schema, allowed values, factual consistency, sensitive content</td></tr>
+              <tr><td>If Check Fails</td><td>Stop, reject, sanitize, or ask for valid input</td><td>Reject, revise, regenerate, or send for human review</td></tr>
+              <tr><td>Simple Analogy</td><td>🛂 Security check at the entrance</td><td>🔍 Quality check before delivery</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ LAB 6 ============ -->
+      <section id="lab-6">
+        <div class="section-kicker">Lab 6, Agentic AI EPC Pipeline</div>
+        <h2>Input &amp; Output Guardrails</h2>
+        <p>Keeping bad input out, and bad output in check.</p>
+
+        <div class="card-grid cols-2">
+          <div class="def-card">
+            <div class="def-label">Input Guardrails</div>
+            <p style="margin-bottom:0">Check every incoming ticket before it reaches the pipeline, catching malformed, malicious, or out-of-scope input early.</p>
+          </div>
+          <div class="def-card">
+            <div class="def-label">Output Guardrails</div>
+            <p style="margin-bottom:0">Check everything the pipeline produces before it is returned, catching unsafe, incorrect, or policy-violating output.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">By the end of this week</div>
+          <p>Input and output guardrails are wired directly into the pipeline. Every ticket passes through both.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Files We'll Create &amp; Update</h3>
+        <p>New guardrail modules, wired into the existing pipeline.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Folder</th><th scope="col">File</th><th scope="col">What It Holds</th></tr></thead>
+            <tbody>
+              <tr><td><code>guardrails/</code> (new)</td><td><code>input_guardrails.py</code></td><td>Validates incoming tickets before they enter the pipeline</td></tr>
+              <tr><td><code>guardrails/</code> (new)</td><td><code>output_guardrails.py</code></td><td>Validates pipeline output before it is returned</td></tr>
+              <tr><td>existing pipeline files (updated)</td><td><code>pipeline_service.py</code></td><td>Calls input and output guardrails as part of request handling</td></tr>
+              <tr><td>existing pipeline files (updated)</td><td><code>epc_pipeline_workflow.yaml</code></td><td>Runs every ticket through both guardrail steps</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSARY ============ -->
+      <section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary, tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Agentic Guardrails. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Agentic Guardrails</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Rules and validation applied to control AI agent behavior within a system pipeline.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Input Guardrail. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Input Guardrail</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A mechanism that evaluates data before it reaches the LLM, asking whether the agent should process this input.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Output Guardrail. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Output Guardrail</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A mechanism that inspects the generated response before it moves downstream, asking whether the system should accept this result.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Cascading Vulnerability. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Cascading Vulnerability</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>When one agent's malformed or hallucinated data compounds through every downstream step, ending in a flawed final result.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Format Error. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Format Error</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Returning a mismatched data type when a specific schema is expected by downstream tools.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Extraction Failure. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Extraction Failure</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Hallucinating an ungrounded value or dropping a critical variable straight from the prompt input.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Prompt Injection. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Prompt Injection</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>An adversarial input designed to override an agent's core system behavior or instructions.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Structural Validity. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Structural Validity</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Verifying syntax, type definitions, payload formats, and schema constraints on incoming data.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Domain Relevance. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Domain Relevance</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Ensuring an inbound request aligns with the current task scope and the agent's intended boundaries.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Operational Safety. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Operational Safety</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Screening against harmful execution vectors, prompt injections, and risky operational requests.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Policy Alignment. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Policy Alignment</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Enforcing governance constraints and mapping informal input to allowed system values.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Incorrect Values (Output). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Incorrect Values (Output)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Inaccurate calculations, hallucinatory data, or unverified numerical outputs slipping into a result.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Logical Mismatch. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Logical Mismatch</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A contradiction between what the user actually asked for and what the agent generated.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Sensitive Disclosure. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Sensitive Disclosure</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Unauthorized leakage of restricted enterprise data, confidential assets, or internal secrets in an output.</p></div></div></button></div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL QUIZ ============ -->
+      <section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole week, guardrail theory and the lab. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"Why is the EPC pipeline highly vulnerable to cascading failures?","options":["It runs entirely on a single server","Each phase strictly depends on the preceding step, so errors compound as they move downstream","It has no human review step at all","It only processes one ticket at a time"],"correct":1,"explain":"Because each phase strictly depends on the preceding step, a single malformed or hallucinated result early on gets compounded by every stage that follows."},
+          {"prompt":"In the EPC pipeline vulnerability diagram, which stage is labeled as the error origin?","options":["Problem Input","Information Extraction","Human Review","Final Reporting"],"correct":1,"explain":"Information Extraction is marked as the error origin, with every stage after it labeled as compounding that original error."},
+          {"prompt":"Which common agent failure pattern is described by returning the string \\u201cvery high\\u201d when a schema expects a float like 0.92?","options":["Format Errors","Extraction Failures","Out-of-Domain","Prompt Injections"],"correct":0,"explain":"Format Errors means returning mismatched data types when a specific schema is expected by downstream tools."},
+          {"prompt":"What question do Input Guardrails ask?","options":["Should we allow this output to leave?","Should the agent process this input?","Is this the correct pipeline stage?","Should a human review this ticket?"],"correct":1,"explain":"Input Guardrails evaluate data before it reaches the LLM, asking whether the agent should process this input at all."},
+          {"prompt":"What question do Output Guardrails ask?","options":["Should the agent process this input?","Should the downstream system accept this result?","Is this ticket in the correct format?","Is this a prompt injection attempt?"],"correct":1,"explain":"Output Guardrails inspect the generated response before it moves downstream, asking whether the system should accept this result."},
+          {"prompt":"Which recovery action means automatically fixing formatting or structural errors, rather than stopping execution?","options":["Reject","Correct","Retry","Review"],"correct":1,"explain":"Correct means automatically correcting formatting, fixing schema and structural errors, without halting the whole pipeline."},
+          {"prompt":"Which recovery action means routing a flagged transaction to a person for manual inspection?","options":["Reject","Correct","Retry","Review"],"correct":3,"explain":"Review means routing the flagged transaction to a human, escalating it for manual inspection rather than deciding automatically."},
+          {"prompt":"In Lab 6, which two new files are created inside the new guardrails folder?","options":["pipeline_service.py and epc_pipeline_workflow.yaml","input_guardrails.py and output_guardrails.py","hybrid_retrieval.py and mcp_server.py","drive_tool.py and gmail_tool.py"],"correct":1,"explain":"The new guardrails folder holds input_guardrails.py, which validates incoming tickets, and output_guardrails.py, which validates pipeline output before it is returned."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Final knowledge check</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
     </main>
+
     <footer class="site-footer">
-      <div class="page" style="padding:0 24px;"><p><strong>Agentic AI on GCP</strong> — interactive course notes.</p></div>
+      <div class="page" style="padding:0 24px;"><p><strong>Agentic Guardrails</strong>, Week 6 interactive notes.</p></div>
     </footer>
   </div>
 </div>
