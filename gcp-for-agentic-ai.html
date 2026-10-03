@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started with GCP for Agentic AI | Agentic AI on GCP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="progress-track" aria-hidden="true"><div class="progress-fill" id="readProgress"></div></div>
+
+<button class="sidebar-toggle" id="sidebarToggle" aria-expanded="false" aria-controls="sidebar">☰ Menu</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <div class="sidebar-brand"><span class="dot">●</span> Course Notes<span class="sub">Agentic AI on GCP</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul><li><a class="sidebar-link" href="index.html"><span class="num" aria-hidden="true">⌂</span> Home</a></li></ul>
+      <div class="sidebar-group-label">Weeks</div>
+      <ul>
+        <li><a class="sidebar-link" href="week1.html"><span class="num" aria-hidden="true">1</span> Week 1</a></li>
+        <li><a class="sidebar-link" href="week2.html"><span class="num" aria-hidden="true">2</span> Week 2</a></li>
+        <li><a class="sidebar-link" href="week3.html"><span class="num" aria-hidden="true">3</span> Week 3</a></li>
+        <li><a class="sidebar-link" href="week4.html"><span class="num" aria-hidden="true">4</span> Week 4</a></li>
+        <li><a class="sidebar-link" href="week5.html"><span class="num" aria-hidden="true">5</span> Week 5</a></li>
+        <li><a class="sidebar-link" href="week6.html"><span class="num" aria-hidden="true">6</span> Week 6</a></li>
+      </ul>
+      <div class="sidebar-group-label">Guides</div>
+      <ul>
+        <li><a class="sidebar-link" href="gcp-for-agentic-ai.html"><span class="num" aria-hidden="true">G</span> GCP for Agentic AI</a></li>
+      </ul>
+      <div class="sidebar-group-label">Further</div>
+      <ul><li><a class="sidebar-link" href="resources.html"><span class="num" aria-hidden="true">★</span> Further Resources</a></li></ul>
+    </nav>
+    <div class="sidebar-foot">Built from your course notes.</div>
+  </aside>
+
+  <div class="content-col">
+    <main class="page" id="main-content">
+
+      <section class="page-hero">
+        <div class="page-eyebrow">Reference Guide</div>
+        <h1>Getting Started with Google Cloud Platform for Agentic AI</h1>
+        <p>Why a personal agent and an enterprise agent need completely different levels of support, what GCP actually offers, how the platform is organized, and a practical walkthrough from an empty account to a deployed, monitored agent.</p>
+        <div class="page-hero-meta">
+          <div class="hero-stat"><span class="num">2</span><span class="lbl">Quick checks</span></div>
+          <div class="hero-stat"><span class="num">16</span><span class="lbl">Glossary terms</span></div>
+          <div class="hero-stat"><span class="num">8</span><span class="lbl">Final quiz questions</span></div>
+        </div>
+      </section>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <a href="#part-1">Personal vs Enterprise</a>
+        <a href="#part-2">Why GCP</a>
+        <a href="#part-3">Intro to GCP</a>
+        <a href="#part-4">Parts of GCP</a>
+        <a href="#quiz-platform">Platform Quiz</a>
+        <a href="#part-5">When to Use What</a>
+        <a href="#part-6">IAM Basics</a>
+        <a href="#quiz-iam">IAM Quiz</a>
+        <a href="#part-7">Getting Started</a>
+        <a href="#part-8">Example Architecture</a>
+        <a href="#summary">Summary</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#final-quiz">Final Quiz</a>
+      </nav>
+
+      <!-- ============ PART 1 ============ -->
+      <section id="part-1">
+        <div class="section-kicker">Part 1</div>
+        <h2>The Problem: Personal Scale vs Enterprise Scale</h2>
+        <p>Most agentic AI projects begin as a small idea. The difficulty starts when that idea has to serve more people, handle more data, and run without anyone watching it.</p>
+
+        <div class="compare-grid">
+          <div class="compare-card light">
+            <span class="compare-tag">A Personal Problem</span>
+            <p>Take a person who spends too much time on email, travel plans, and monthly bills. To save time, this person builds a small AI agent on a laptop that reads mail, drafts replies, and tracks due dates.</p>
+            <p style="margin-bottom:0">It runs on one machine, uses one API key, and handles a handful of requests a day. Nothing is shared with anyone else, so there is very little to protect or manage. Small problems still show up: the agent stops when the laptop closes, the API key sits directly in the code, and conversation history disappears on restart. One person can live with that.</p>
+          </div>
+          <div class="compare-card dark">
+            <span class="compare-tag">An Enterprise Problem</span>
+            <p>Now take a company with 10,000 customers who write in every day. The agent has to be available around the clock, serve thousands of people at once, and stay quick during a festival sale. A laptop cannot do this.</p>
+            <p style="margin-bottom:0">The agent handles customer data and takes real actions, so the company needs to control who can access what, keep a record of every action, protect passwords and keys, follow data protection rules, and keep model costs under control. Once there are more than a few agents, nobody can say with confidence which ones exist, what tools they use, or what they are allowed to touch.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Personal vs Enterprise at a Glance</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Area</th><th scope="col">Personal Problem</th><th scope="col">Enterprise Problem</th></tr></thead>
+            <tbody>
+              <tr><td>Users</td><td>One person</td><td>Thousands of customers and employees</td></tr>
+              <tr><td>Availability</td><td>Works while the laptop is on</td><td>Must run 24/7</td></tr>
+              <tr><td>Data</td><td>A few emails and files</td><td>Large, sensitive data spread across many systems</td></tr>
+              <tr><td>Access</td><td>One key, one user</td><td>Many roles, teams, and agents with different permissions</td></tr>
+              <tr><td>Security</td><td>Basic care is enough</td><td>Strict rules, audits, and compliance</td></tr>
+              <tr><td>Memory</td><td>Lost when the program restarts</td><td>Stored safely and carried across sessions</td></tr>
+              <tr><td>Oversight</td><td>The person notices when it breaks</td><td>Needs a record of every agent, tool, and action</td></tr>
+              <tr><td>Cost</td><td>A few small calls</td><td>Must be tracked, limited, and optimized</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Key idea</div>
+          <p>The agent itself does not change much between the two cases. What changes is everything around it, and that surrounding work is where most of the effort goes at enterprise level.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">How GCP Helps</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Enterprise Problem</th><th scope="col">What GCP Offers</th></tr></thead>
+            <tbody>
+              <tr><td>The agent must run all day for many users</td><td>Agent Runtime and Cloud Run host the agent and scale it automatically</td></tr>
+              <tr><td>The agent needs a strong and flexible model</td><td>Gemini models through the Gemini Enterprise Agent Platform</td></tr>
+              <tr><td>The agent must find answers in company documents</td><td>Cloud Storage, BigQuery, RAG Engine, and Vector Search</td></tr>
+              <tr><td>The agent must remember people across conversations</td><td>Memory Bank and Firestore</td></tr>
+              <tr><td>Only the right people and agents should get access</td><td>IAM, Agent Identity, and service accounts</td></tr>
+              <tr><td>Nobody knows which agents and tools exist</td><td>Agent Registry keeps one approved list</td></tr>
+              <tr><td>Tool calls need checking and rules</td><td>Agent Gateway and Model Armor</td></tr>
+              <tr><td>The team needs to see what the agent did</td><td>Agent Observability, Logging, and Trace</td></tr>
+              <tr><td>Spending must stay under control</td><td>Billing budgets and alerts</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A personal builder needs an idea and a laptop. An enterprise needs a full platform behind the idea, and GCP is built to be that platform.</p>
+      </section>
+
+      <!-- ============ PART 2 ============ -->
+      <section id="part-2">
+        <div class="section-kicker">Part 2</div>
+        <h2>Why Use GCP?</h2>
+        <p>An agentic AI application is more than one call to a language model. It needs a model to reason, tools to act, memory to store information, and security rules to keep everything in check. Building all of that separately takes a long time and leaves many places for things to go wrong.</p>
+
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>One place for everything</h4><p style="font-size:var(--small);margin-bottom:0">Models, hosting, databases, security, and monitoring all sit on a single platform, so the team spends less time connecting vendors and fixing the gaps between them.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>A strong AI foundation</h4><p style="font-size:var(--small);margin-bottom:0">GCP provides the Gemini models, plus a catalogue of models from other providers. A team can pick the model that suits the task and change it later without rebuilding the application.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Built for agents</h4><p style="font-size:var(--small);margin-bottom:0">Since April 2026, Google's AI platform has been organized around agents, so building, running, securing, and improving them are all handled in one place.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Every agent is governed</h4><p style="font-size:var(--small);margin-bottom:0">Each agent can receive its own identity, be listed in a central registry, and have its tool calls checked by a gateway.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Scales with demand</h4><p style="font-size:var(--small);margin-bottom:0">The same application can serve a few test users or thousands of real ones. Capacity grows and shrinks automatically, and billing follows actual usage.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Works with existing data</h4><p style="font-size:var(--small);margin-bottom:0">Many organizations keep data in BigQuery or Cloud Storage, and agents on GCP can read from there directly without copying it elsewhere.</p></div>
+        </div>
+        <p style="margin-top:var(--sp-5)">Put simply, GCP gives a team the model, the hosting, the memory, and the safety rules for an agent in one place.</p>
+      </section>
+
+      <!-- ============ PART 3 ============ -->
+      <section id="part-3">
+        <div class="section-kicker">Part 3</div>
+        <h2>Introduction to GCP</h2>
+        <div class="def-card">
+          <div class="def-label">Definition</div>
+          <p style="margin-bottom:0">Google Cloud Platform (GCP) is a set of cloud services offered by Google. Instead of buying and maintaining its own servers, an organization rents computing power, storage, databases, and AI tools from Google over the internet.</p>
+        </div>
+        <ul>
+          <li>Billing is based on usage, such as compute time, storage size, or the number of model calls. There is no large upfront hardware cost.</li>
+          <li>Google runs data centers in many regions around the world. A team picks a region close to its users, or one that satisfies its data location rules.</li>
+          <li>For many services, Google manages the servers, updates, and scaling. The developer only supplies code or configuration.</li>
+          <li>There are three common ways to work with GCP: the Cloud Console (web interface), the gcloud CLI (command line), and APIs with client libraries (from code).</li>
+        </ul>
+
+        <h3 style="margin-top:var(--sp-7)">How GCP Is Organized</h3>
+        <div class="flow" role="list" aria-label="GCP organizational hierarchy">
+          <div class="flow-step" role="listitem"><div class="flow-num">1</div><div class="flow-label">Organization</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">2</div><div class="flow-label">Folder</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">3</div><div class="flow-label">Project</div></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-step" role="listitem"><div class="flow-num">4</div><div class="flow-label">Resource</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Concept</th><th scope="col">Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>Organization</td><td>The top level, representing the whole company</td></tr>
+              <tr><td>Folder</td><td>A group of projects, often one per team or department</td></tr>
+              <tr><td>Project</td><td>The main working unit. Every resource, bill, and permission belongs to a project</td></tr>
+              <tr><td>Resource</td><td>An actual service instance, such as a database, a storage bucket, or a deployed agent</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The project is the most important idea for a beginner. Teams usually create separate projects for development, testing, and production so that experiments never disturb real users.</p>
+
+        <div class="callout deep" style="margin-top:var(--sp-5)">
+          <div class="callout-label">A quick note on naming</div>
+          <p>In April 2026, at Google Cloud Next, Vertex AI was renamed the <strong>Gemini Enterprise Agent Platform</strong>. Existing Vertex AI workloads carry forward under the new name. A similar thing happened to Agent Engine, now called <strong>Agent Runtime</strong>. Do not mix this up with <strong>Gemini Enterprise</strong>, which sounds almost the same: Gemini Enterprise is the app employees use, licensed per user, while the Agent Platform is what developers use to build agents, billed by consumption. This guide uses the new names and mentions the old ones where it helps.</p>
+        </div>
+      </section>
+
+      <!-- ============ PART 4 ============ -->
+      <section id="part-4">
+        <div class="section-kicker">Part 4</div>
+        <h2>Parts of GCP That Matter for Agentic AI</h2>
+        <p>The services below are grouped by the job they do in an agentic application.</p>
+
+        <h3>4.1 The Agent Platform: the Brain and the Control Room</h3>
+        <p>The Gemini Enterprise Agent Platform is organized around four ideas.</p>
+
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="Agent platform ideas">
+            <button class="tab-btn" role="tab" id="tab-build" aria-selected="true" aria-controls="panel-build" data-tab="build">Build</button>
+            <button class="tab-btn" role="tab" id="tab-scale" aria-selected="false" aria-controls="panel-scale" tabindex="-1" data-tab="scale">Scale</button>
+            <button class="tab-btn" role="tab" id="tab-govern" aria-selected="false" aria-controls="panel-govern" tabindex="-1" data-tab="govern">Govern</button>
+            <button class="tab-btn" role="tab" id="tab-optimise" aria-selected="false" aria-controls="panel-optimise" tabindex="-1" data-tab="optimise">Optimize</button>
+          </div>
+
+          <div class="tab-panel" id="panel-build" role="tabpanel" aria-labelledby="tab-build" tabindex="0">
+            <ul>
+              <li><strong>Gemini models</strong> are the reasoning engine. The Gemini 3 family is current, with the older Gemini 2.5 models being retired.</li>
+              <li><strong>Model Garden</strong> is a catalogue of models, listing Gemini alongside models from other providers, so a team can compare and choose.</li>
+              <li><strong>Gemini API and Google AI Studio</strong> offer a light way to begin, testing prompts and building a prototype before moving to the full platform.</li>
+              <li><strong>Agent Development Kit (ADK)</strong> is an open source framework for writing agents in code. It is model-agnostic and available in Python, Go, Java, and TypeScript.</li>
+              <li><strong>Agent Studio</strong> is a low-code visual tool for building and trying out agents quickly.</li>
+              <li><strong>Agent Garden</strong> holds ready-made agent templates for common jobs such as customer service and data analysis.</li>
+              <li><strong>Agents CLI</strong> is a command line tool for working with the platform.</li>
+              <li><strong>Open protocols</strong> such as MCP (connecting agents to tools) and A2A (agents talking to other agents) let agents work with tools and agents built elsewhere.</li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="panel-scale" role="tabpanel" aria-labelledby="tab-scale" tabindex="0" hidden>
+            <ul>
+              <li><strong>Agent Runtime</strong> is the managed place where agents are hosted and served. It supports long-running agents that keep their state, along with sessions, and it handles the scaling.</li>
+              <li><strong>Memory Bank</strong> gives an agent long-term memory, picking out and storing useful facts about a user across conversations, so the agent can carry on later without starting from zero.</li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="panel-govern" role="tabpanel" aria-labelledby="tab-govern" tabindex="0" hidden>
+            <ul>
+              <li><strong>Agent Identity</strong> gives every agent its own unique identity, so permissions and audit records can be tied to that specific agent.</li>
+              <li><strong>Agent Registry</strong> is a central catalogue of approved agents and tools. Agents deployed on the platform are registered there automatically.</li>
+              <li><strong>Agent Gateway</strong> is a control point that checks authentication, applies policies, and governs the tool calls agents make. It works together with <strong>Model Armor</strong>, which screens prompts and responses for risky content.</li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="panel-optimise" role="tabpanel" aria-labelledby="tab-optimise" tabindex="0" hidden>
+            <ul>
+              <li><strong>Agent Simulation</strong> tests an agent against made-up user conversations before real users ever see it.</li>
+              <li><strong>Agent Evaluation</strong> scores how well the agent behaves, including on live traffic.</li>
+              <li><strong>Agent Observability</strong> shows the agent's steps and tool calls, making it far easier to understand why it answered the way it did.</li>
+              <li><strong>Agent Optimizer</strong> helps improve an agent's prompts by looking at where it failed.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">4.2 to 4.6: The Rest of the Platform</h3>
+        <div class="card-grid">
+          <details class="acc-card" open>
+            <summary><span>4.2 Compute <span class="tagline">Where the code runs</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Agent Runtime</strong> is the first choice for hosting agents on the platform.</p>
+              <p><strong>Cloud Run</strong> runs containerized code and scales automatically, even down to zero when nobody is using it. It is a common choice for custom backends and tool APIs.</p>
+              <p><strong>Cloud Run functions</strong> run small pieces of code in response to events, suiting simple tools like looking up an order status.</p>
+              <p><strong>Google Kubernetes Engine (GKE)</strong> is meant for large or complex systems that need close control over containers, and asks for more setup and operational skill.</p>
+              <p style="margin-bottom:0"><strong>Compute Engine</strong> provides virtual machines, used when full control over the machine is needed, for example for special software or GPUs.</p>
+            </div>
+          </details>
+          <details class="acc-card" open>
+            <summary><span>4.3 Data &amp; Memory <span class="tagline">What the agent knows and remembers</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Cloud Storage</strong> holds files such as PDFs, images, and documents the agent may read.</p>
+              <p><strong>BigQuery</strong> is a data warehouse for large scale analysis. Agents can use it to answer questions over business data.</p>
+              <p><strong>Firestore</strong> is a flexible document database, working well for app data such as user preferences and chat records.</p>
+              <p><strong>Cloud SQL and AlloyDB</strong> are managed relational databases holding structured business data. AlloyDB can also support vector search.</p>
+              <p><strong>RAG Engine and Vector Search</strong> help an agent find relevant information in large sets of documents, the base for Retrieval-Augmented Generation.</p>
+              <p style="margin-bottom:0"><strong>Memory Bank</strong> handles what the agent should remember about each user over time.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>4.4 Integration &amp; Orchestration <span class="tagline">Connecting the pieces</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Pub/Sub</strong> passes messages between services, letting parts of the system work independently and cope with sudden bursts of requests.</p>
+              <p><strong>Cloud Tasks</strong> queues work for later and retries it when it fails.</p>
+              <p><strong>Workflows</strong> runs a fixed sequence of steps across services, suiting processes where the order must always stay the same.</p>
+              <p><strong>Eventarc</strong> triggers actions when something happens, such as a new file arriving in storage.</p>
+              <p style="margin-bottom:0"><strong>Apigee and API Gateway</strong> manage and protect the APIs that agents use as tools.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>4.5 Security &amp; Access <span class="tagline">The safety rules</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>IAM</strong> controls who can do what on which resource, covered in detail in Part 6.</p>
+              <p><strong>Agent Identity</strong> brings agents into IAM as identities of their own, next to people and service accounts.</p>
+              <p><strong>Service accounts</strong> are identities for applications, as opposed to people.</p>
+              <p><strong>Secret Manager</strong> stores API keys and passwords safely so they never appear in code.</p>
+              <p><strong>VPC Service Controls</strong> and private networking keep sensitive data inside a defined boundary.</p>
+              <p style="margin-bottom:0"><strong>Agent Gateway and Model Armor</strong> check what goes into and comes out of the agent.</p>
+            </div>
+          </details>
+          <details class="acc-card">
+            <summary><span>4.6 Monitoring &amp; Cost <span class="tagline">Keeping control</span></span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="body">
+              <p><strong>Cloud Logging, Monitoring, and Trace</strong> record what the application did, how fast it ran, and where it failed.</p>
+              <p><strong>Agent Observability</strong> adds a view specific to agents, such as their reasoning path and tool calls.</p>
+              <p style="margin-bottom:0"><strong>Billing budgets and alerts</strong> warn the team when spending crosses a set limit. This matters because model calls can add up quickly.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ============ QUIZ: PLATFORM ============ -->
+      <section id="quiz-platform">
+        <div class="section-kicker">Quick check</div>
+        <h2>GCP &amp; the Agent Platform</h2>
+
+        <div class="quiz inline" data-quiz='[
+          {"prompt":"What was Vertex AI renamed to in April 2026?","options":["Agent Runtime","Gemini Enterprise Agent Platform","Model Garden","Gemini Enterprise"],"correct":1,"explain":"At Google Cloud Next in April 2026, Vertex AI was renamed the Gemini Enterprise Agent Platform. Existing workloads carry forward under the new name."},
+          {"prompt":"Which product is licensed per user rather than billed by consumption?","options":["Gemini Enterprise Agent Platform","Agent Runtime","Gemini Enterprise (the app)","Model Garden"],"correct":2,"explain":"Gemini Enterprise is the app employees use, licensed per user. The Agent Platform is what developers use to build agents, billed by consumption."},
+          {"prompt":"What is Model Garden?","options":["A hosting service for agents","A catalogue of models, Gemini and others, that a team can compare and choose from","A database for storing agent memory","A security scanning tool"],"correct":1,"explain":"Model Garden lists Gemini along with models from other providers, so a team can compare and choose."},
+          {"prompt":"What is the Agent Development Kit (ADK)?","options":["A low-code visual tool","An open source, model-agnostic framework for writing agents in code","A billing dashboard","A managed database"],"correct":1,"explain":"ADK is an open source framework for writing agents in code. It is model-agnostic and available in Python, Go, Java, and TypeScript."},
+          {"prompt":"Which GCP service was Agent Engine renamed to?","options":["Agent Runtime","Agent Registry","Agent Gateway","Agent Studio"],"correct":0,"explain":"Agent Engine was renamed Agent Runtime, the managed place where agents are hosted, served, and scaled."},
+          {"prompt":"Which service gives an agent long-term memory across conversations?","options":["Firestore","Cloud Storage","Memory Bank","BigQuery"],"correct":2,"explain":"Memory Bank picks out and stores useful facts about a user across conversations, so the agent can carry on later without starting from zero."},
+          {"prompt":"What does Agent Gateway do, together with Model Armor?","options":["Hosts the agent and scales it automatically","Checks authentication, applies policies, and governs tool calls, while screening prompts and responses for risky content","Stores API keys and passwords","Runs a fixed sequence of steps across services"],"correct":1,"explain":"Agent Gateway is a control point that checks authentication, applies policies, and governs tool calls. It works together with Model Armor, which screens prompts and responses for risky content."},
+          {"prompt":"Which compute option scales down to zero when nobody is using it?","options":["Compute Engine","GKE","Cloud Run","Agent Runtime"],"correct":2,"explain":"Cloud Run runs containerized code and scales automatically, even down to zero when nobody is using it."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">GCP &amp; the Agent Platform</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART 5 ============ -->
+      <section id="part-5">
+        <div class="section-kicker">Part 5</div>
+        <h2>When to Use What</h2>
+        <p>A quick decision guide.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Need</th><th scope="col">Recommended Choice</th><th scope="col">Reason</th></tr></thead>
+            <tbody>
+              <tr><td>Quick prototype or prompt testing</td><td>Google AI Studio or Gemini API</td><td>Fastest way to try an idea with little setup</td></tr>
+              <tr><td>Production model access with enterprise controls</td><td>Gemini Enterprise Agent Platform</td><td>Adds IAM, logging, and governance</td></tr>
+              <tr><td>Compare or choose between models</td><td>Model Garden</td><td>One catalogue with many models</td></tr>
+              <tr><td>Build an agent without much code</td><td>Agent Studio or Agent Garden templates</td><td>Visual tools and ready-made starting points</td></tr>
+              <tr><td>Write an agent in code</td><td>ADK</td><td>Open source, flexible, supports multi-agent designs</td></tr>
+              <tr><td>Host and scale the agent without managing servers</td><td>Agent Runtime</td><td>Managed hosting built for agents, including long-running ones</td></tr>
+              <tr><td>Let the agent remember users across sessions</td><td>Memory Bank</td><td>Stores and recalls useful facts over time</td></tr>
+              <tr><td>Give each agent its own permissions</td><td>Agent Identity</td><td>Least privilege and clean audit trails per agent</td></tr>
+              <tr><td>Keep a list of approved agents and tools</td><td>Agent Registry</td><td>One source of truth for the company</td></tr>
+              <tr><td>Control and check the agent's tool calls</td><td>Agent Gateway with Model Armor</td><td>Central policies and threat screening</td></tr>
+              <tr><td>Test and measure quality</td><td>Agent Simulation and Agent Evaluation</td><td>Finds problems before and after release</td></tr>
+              <tr><td>Understand why an agent behaved a certain way</td><td>Agent Observability</td><td>Shows reasoning and tool calls</td></tr>
+              <tr><td>Host a custom backend or tool API</td><td>Cloud Run</td><td>Simple, scalable, and cost efficient</td></tr>
+              <tr><td>A very small, event-driven tool</td><td>Cloud Run functions</td><td>Minimal code that runs only when triggered</td></tr>
+              <tr><td>Complex container systems with special needs</td><td>GKE</td><td>Maximum control, but more operational effort</td></tr>
+              <tr><td>Store documents and files</td><td>Cloud Storage</td><td>Cheap and durable file storage</td></tr>
+              <tr><td>Analyze large business datasets</td><td>BigQuery</td><td>Built for analysis at scale</td></tr>
+              <tr><td>Structured transactional data</td><td>Cloud SQL or AlloyDB</td><td>Familiar relational database</td></tr>
+              <tr><td>Let the agent search documents by meaning</td><td>RAG Engine or Vector Search</td><td>Retrieves relevant content before answering</td></tr>
+              <tr><td>Run steps in a fixed order</td><td>Workflows</td><td>Predictable and repeatable processes</td></tr>
+              <tr><td>Handle spikes or separate services</td><td>Pub/Sub</td><td>Reliable messaging between components</td></tr>
+              <tr><td>Store keys and passwords</td><td>Secret Manager</td><td>Keeps secrets out of code</td></tr>
+              <tr><td>Give employees a ready-to-use AI assistant</td><td>Gemini Enterprise (the app)</td><td>Licensed per user, no building needed</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">A Practical Way to Choose</h3>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Start small.</strong> Use AI Studio to check that the idea works.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Move to the Agent Platform</strong> once the application needs security, scale, and governance.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Pick the simplest hosting option that fits.</strong> Agent Runtime or Cloud Run covers most cases, and GKE makes sense only when a clear need appears.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Turn on the governance pieces</strong> (identity, registry, gateway) before the number of agents grows, not after.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Add data services</strong> only when the agent actually needs them.</span></li>
+        </ol>
+      </section>
+
+      <!-- ============ PART 6 ============ -->
+      <section id="part-6">
+        <div class="section-kicker">Part 6</div>
+        <h2>Providing Access: IAM Basics</h2>
+        <p>Agents can read data and take actions, so access has to be planned with care. GCP handles this through IAM.</p>
+
+        <h3>The Three Parts of an Access Rule</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Part</th><th scope="col">Meaning</th><th scope="col">Example</th></tr></thead>
+            <tbody>
+              <tr><td>Who (principal)</td><td>The person, group, agent, or service account receiving access</td><td>A developer, a team group, or an agent's identity</td></tr>
+              <tr><td>What (role)</td><td>A bundle of permissions</td><td>Agent Platform User, Storage Object Viewer</td></tr>
+              <tr><td>Where (resource)</td><td>The level at which the role applies</td><td>A project, a bucket, or a dataset</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Types of Roles</h3>
+        <div class="card-grid">
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Basic Roles</h4><p style="font-size:var(--small);margin-bottom:0">Owner, Editor, Viewer. Very broad, fine for learning, but should be avoided in production.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Predefined Roles</h4><p style="font-size:var(--small);margin-bottom:0">Created by Google for specific services. These are the usual choice.</p></div>
+          <div class="acc-card" style="padding:var(--sp-4)"><h4>Custom Roles</h4><p style="font-size:var(--small);margin-bottom:0">Let the team build an exact set of permissions when no predefined role fits.</p></div>
+        </div>
+
+        <h3 style="margin-top:var(--sp-7)">Key Principles</h3>
+        <ul class="memory-list">
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>Least privilege.</strong> Every person and agent should get only the access needed for the job. An agent that only reads documents should not be able to delete them.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>Groups over individuals.</strong> Giving a role to a group is easier to manage than assigning it to many separate users.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>One identity per agent.</strong> With Agent Identity, each agent gets its own credentials, so it is always clear which agent did what. Service accounts also work and are still widely used.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>No downloaded key files.</strong> Key files can leak. Where possible, attach the identity to the service so that no key file exists.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>Central rules for tool access.</strong> Use the registry for approved tools and the gateway for policies, so the rules live in one place rather than inside each agent.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>Separate environments.</strong> Development, testing, and production should live in different projects with different access rules.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span><strong>Regular reviews.</strong> Access that was needed during development is often not needed in production.</span></li>
+        </ul>
+
+        <h3 style="margin-top:var(--sp-7)">Example: Giving an Agent Access</h3>
+        <p>Suppose an agent needs to call a Gemini model and read files from one storage bucket. The steps below use a service account, the simplest and most common setup. Agent Identity follows the same least-privilege idea.</p>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Create an identity for the agent.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Grant it permission to use the platform's models.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Grant it read access to only the required bucket.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Attach this identity to the Cloud Run service or the Agent Runtime deployment.</span></li>
+        </ol>
+<pre><code># 1. Create a dedicated service account for the agent
+gcloud iam service-accounts create support-agent-sa \
+  --display-name="Support Agent"
+
+# 2. Allow the agent to use the platform's models
+#    (the role ID still uses the older "aiplatform" name)
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="serviceAccount:support-agent-sa@PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/aiplatform.user"
+
+# 3. Allow the agent to read only one bucket
+gcloud storage buckets add-iam-policy-binding gs://my-docs-bucket \
+  --member="serviceAccount:support-agent-sa@PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/storage.objectViewer"</code></pre>
+      </section>
+
+      <!-- ============ QUIZ: IAM ============ -->
+      <section id="quiz-iam">
+        <div class="section-kicker">Quick check</div>
+        <h2>IAM &amp; Access Basics</h2>
+
+        <div class="quiz inline" data-quiz='[
+          {"prompt":"What are the three parts of an IAM access rule?","options":["Who, What, Where","Request, Response, Result","Reject, Correct, Retry","Input, Process, Output"],"correct":0,"explain":"An access rule is made of Who (the principal), What (the role), and Where (the resource it applies to)."},
+          {"prompt":"Which type of role is very broad and should be avoided in production?","options":["Predefined roles","Custom roles","Basic roles (Owner, Editor, Viewer)","Agent Identity roles"],"correct":2,"explain":"Basic roles like Owner, Editor, and Viewer are very broad. They are fine for learning, but should be avoided in production."},
+          {"prompt":"What is the guiding principle for granting access to people and agents?","options":["Maximum convenience","Least privilege","Equal access for everyone","Broadest possible roles"],"correct":1,"explain":"Least privilege means every person and agent should get only the access needed for the job."},
+          {"prompt":"Why is \\u201cone identity per agent\\u201d recommended?","options":["It makes agents run faster","So it is always clear which agent did what, for permissions and audit records","It reduces the number of projects needed","It removes the need for IAM entirely"],"correct":1,"explain":"With Agent Identity, each agent gets its own credentials, so it is always clear which agent did what."},
+          {"prompt":"What does the guide recommend avoiding regarding key files?","options":["Using service accounts at all","Downloaded key files, since they can leak","Using Agent Identity","Granting any roles at all"],"correct":1,"explain":"Key files can leak. Where possible, the identity should be attached directly to the service so no key file exists."},
+          {"prompt":"In the example, which role lets the agent use the platform\u2019s models?","options":["roles/storage.objectViewer","roles/aiplatform.user","roles/owner","roles/editor"],"correct":1,"explain":"roles/aiplatform.user is granted so the agent can use the platform\u2019s models. The role ID still uses the older aiplatform name."},
+          {"prompt":"In the example, which role lets the agent read files from one bucket?","options":["roles/aiplatform.user","roles/storage.objectViewer","roles/storage.admin","roles/viewer"],"correct":1,"explain":"roles/storage.objectViewer is granted so the agent can read only the required bucket."},
+          {"prompt":"Why should development, testing, and production live in different projects?","options":["To reduce billing costs","So experiments never disturb real users, with different access rules for each","Because GCP requires it technically","To make the Cloud Console load faster"],"correct":1,"explain":"Separate environments mean development, testing, and production each have their own access rules, so experiments never disturb real users."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">IAM &amp; Access Basics</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+      <!-- ============ PART 7 ============ -->
+      <section id="part-7">
+        <div class="section-kicker">Part 7</div>
+        <h2>How to Get Started</h2>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Create a Google Cloud account.</strong> Sign in with a Google account and set up billing. New users often receive free credits, and there is also a free Express mode for trying things out.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Create a project.</strong> Give it a clear name, such as agent-dev, and note the project ID.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Enable billing</strong> and set a budget alert so costs do not come as a surprise.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Enable the required APIs.</strong> The platform's API must be switched on before it can be used.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Install the gcloud CLI,</strong> sign in, and select the project.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Set up access.</strong> Create an identity for the agent and assign least-privilege roles.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Try a model.</strong> Use AI Studio or the platform console to test prompts with Gemini.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Build the first agent.</strong> Use ADK, or Agent Studio if low-code is preferred, and give it one simple tool.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Test it.</strong> Use Agent Simulation to try it on made-up conversations before real users see it.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Deploy it.</strong> Use Agent Runtime so the agent is available beyond the developer's laptop. It is registered in Agent Registry automatically.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text"><strong>Add monitoring.</strong> Turn on logging and observability, then review how the agent behaves with real inputs.</span></li>
+        </ol>
+<pre><code># Basic setup commands
+gcloud auth login
+gcloud config set project PROJECT_ID
+gcloud services enable aiplatform.googleapis.com run.googleapis.com</code></pre>
+      </section>
+
+      <!-- ============ PART 8 ============ -->
+      <section id="part-8">
+        <div class="section-kicker">Part 8</div>
+        <h2>Putting It Together: Example Agent Architecture</h2>
+        <p>A customer support agent shows how the parts connect.</p>
+        <ol class="step-list">
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">A user sends a question through a web or chat interface.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The request reaches a backend running on Cloud Run.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The backend calls the agent, which is built with ADK and hosted on Agent Runtime.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">The agent uses a Gemini model to understand the question.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">If needed, it searches company documents using RAG Engine or Vector Search, backed by Cloud Storage.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">If needed, it calls a tool API to check an order stored in Cloud SQL. The call passes through Agent Gateway, which checks the agent\u2019s identity and the rules for that tool.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Memory Bank keeps useful facts about the customer, so the next conversation can pick up where this one stopped.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Secrets are read from Secret Manager, and Model Armor screens what goes in and out.</span></li>
+          <li><span class="step-badge" aria-hidden="true"></span><span class="step-text">Agent Observability and Cloud Logging record the whole journey for later review.</span></li>
+        </ol>
+      </section>
+
+      <!-- ============ SUMMARY ============ -->
+      <section id="summary">
+        <div class="section-kicker">Summary</div>
+        <h2>The journey so far</h2>
+        <ul class="memory-list">
+          <li><span class="check" aria-hidden="true">✓</span><span>Agents often start as simple personal projects, but enterprise needs such as scale, security, and cost control call for a full platform.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>GCP is a good fit because it provides models, hosting, data, security, and monitoring in one place.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Vertex AI is now the Gemini Enterprise Agent Platform, built around four ideas: build, scale, govern, and optimize.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>The newer pieces to know are Agent Runtime, Memory Bank, Agent Identity, Agent Registry, and Agent Gateway.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>GCP is organized into organizations, folders, and projects, and the project is the main working unit.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>The right choice depends on the need. Start simple and add services only when they are required.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Access is controlled through IAM. The guiding rule is least privilege, with a separate identity for each agent.</span></li>
+          <li><span class="check" aria-hidden="true">✓</span><span>Getting started takes a few steps: create a project, enable billing and APIs, set up access, test a model, build an agent, deploy it, and monitor it.</span></li>
+        </ul>
+        <div class="callout" style="margin-top:var(--sp-5)">
+          <div class="callout-label">Note for the presenter</div>
+          <p>Google renamed its AI platform in April 2026 and is still adding features, and some features may still be in preview. Names, availability, and pricing should be confirmed in the official Google Cloud documentation shortly before the session.</p>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSARY ============ -->
+      <section id="glossary">
+        <div class="section-kicker">Technical vocabulary</div>
+        <h2>Glossary, tap a card to flip it</h2>
+        <div class="glossary-grid">
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: GCP. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">GCP</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Google Cloud Platform, a set of cloud services an organization rents over the internet instead of buying and maintaining its own servers.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Gemini Enterprise Agent Platform. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Gemini Enterprise Agent Platform</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The renamed Vertex AI, organized around four ideas: build, scale, govern, and optimize.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Agent Runtime. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Agent Runtime</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The managed place where agents are hosted and served, formerly called Agent Engine.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Memory Bank. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Memory Bank</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Gives an agent long-term memory, storing useful facts about a user across conversations.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Agent Identity. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Agent Identity</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Gives every agent its own unique identity, so permissions and audit records can be tied to that specific agent.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Agent Registry. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Agent Registry</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A central catalogue of approved agents and tools. Agents deployed on the platform register here automatically.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Agent Gateway. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Agent Gateway</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A control point that checks authentication, applies policies, and governs the tool calls agents make.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Model Armor. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Model Armor</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Screens prompts and responses for risky content, working together with Agent Gateway.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: ADK. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">ADK</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Agent Development Kit, an open source, model-agnostic framework for writing agents in code.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Model Garden. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Model Garden</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>A catalogue of models, Gemini and others, letting a team compare and choose.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: RAG Engine. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">RAG Engine</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Helps an agent find relevant information in large sets of documents, the base for Retrieval-Augmented Generation.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Vector Search. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Vector Search</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Retrieves relevant content by meaning, before the agent answers.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Least Privilege. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Least Privilege</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Every person and agent should get only the access needed for the job, nothing more.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Service Account. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Service Account</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>An identity for an application, as opposed to a person, used to grant access to GCP resources.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Cloud Run. Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Cloud Run</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>Runs containerized code and scales automatically, even down to zero when nobody is using it.</p></div></div></button></div>
+          <div class="flip-card"><button type="button" aria-pressed="false" aria-label="Term: Project (GCP). Tap to reveal definition."><div class="flip-inner"><div class="flip-face flip-front"><span class="term">Project (GCP)</span><span class="hint">Tap to reveal</span></div><div class="flip-face flip-back"><p>The main working unit in GCP. Every resource, bill, and permission belongs to a project.</p></div></div></button></div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL QUIZ ============ -->
+      <section id="final-quiz">
+        <div class="section-kicker">Test yourself</div>
+        <h2>Final quiz</h2>
+        <p>Eight questions covering the whole guide. Answer, get instant feedback, and retry as many times as you like.</p>
+
+        <div class="quiz" data-quiz='[
+          {"prompt":"What is the main difference between a personal AI agent and an enterprise agent, according to the notes?","options":["The enterprise agent uses a completely different kind of AI model","The agent itself does not change much, but everything around it does, like scale, security, memory, and cost control","Personal agents cannot use APIs at all","Enterprise agents only run on Compute Engine"],"correct":1,"explain":"The agent itself does not change much between the two cases. What changes is everything around it, and that surrounding work is where most of the effort goes at enterprise level."},
+          {"prompt":"Which GCP concept is described as the main working unit, where every resource, bill, and permission belongs?","options":["Organization","Folder","Project","Resource"],"correct":2,"explain":"The project is the main working unit. Every resource, bill, and permission belongs to a project."},
+          {"prompt":"True or false: GCP requires a large upfront hardware cost.","options":["True","False"],"correct":1,"explain":"Billing is based on usage, such as compute time, storage size, or the number of model calls. There is no large upfront hardware cost."},
+          {"prompt":"Which four ideas organize the Gemini Enterprise Agent Platform?","options":["Build, Scale, Govern, Optimize","Input, Process, Output, Review","Create, Test, Deploy, Monitor","Plan, Build, Ship, Measure"],"correct":0,"explain":"The platform is organized around four ideas: build, scale, govern, and optimize."},
+          {"prompt":"Which service keeps a central, approved list of agents and tools?","options":["Agent Gateway","Agent Registry","Agent Identity","Memory Bank"],"correct":1,"explain":"Agent Registry is a central catalogue of approved agents and tools. Agents deployed on the platform are registered there automatically."},
+          {"prompt":"According to the When to Use What guide, what is recommended for a quick prototype or prompt testing?","options":["Gemini Enterprise Agent Platform","Google AI Studio or Gemini API","GKE","Agent Runtime"],"correct":1,"explain":"Google AI Studio or Gemini API is the fastest way to try an idea with little setup."},
+          {"prompt":"In the example architecture, which service checks the agent\u2019s identity and the rules for a tool when it looks up an order?","options":["Secret Manager","Memory Bank","Agent Gateway","Cloud Logging"],"correct":2,"explain":"The call passes through Agent Gateway, which checks the agent\u2019s identity and the rules for that tool."},
+          {"prompt":"What is the first step recommended in How to Get Started?","options":["Build the first agent","Create a Google Cloud account","Deploy to Agent Runtime","Enable the required APIs"],"correct":1,"explain":"The first step is to create a Google Cloud account, sign in, and set up billing, before any other setup happens."}
+        ]'>
+          <div class="quiz-header"><h3 class="quiz-title">Final knowledge check</h3><span class="quiz-score">Score: <strong><span data-score>0</span>/<span data-total>0</span></strong></span></div>
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" data-progress></div></div>
+          <div data-questions></div>
+          <div class="quiz-result" data-result><div class="score-num"><span data-final-score></span>/<span data-final-total></span></div><p data-final-msg></p><button class="btn btn-primary" data-retry>Try again</button></div>
+          <div class="quiz-nav" data-nav-controls><button class="btn btn-ghost" data-prev disabled>Back</button><button class="btn btn-primary" data-next disabled>Check answer</button></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="page" style="padding:0 24px;"><p><strong>Getting Started with GCP for Agentic AI</strong>, a reference guide.</p></div>
+    </footer>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
