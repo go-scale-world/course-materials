@@ -1,16 +1,5 @@
-# course-materials
+# ARCHIVED
 
-**Product publish surface** (public) for **Agentic AI on GCP**.
+Moved to [Product / Programs/agentic-ai-on-gcp/course-materials](https://github.com/go-scale-world/Product/tree/main/Programs/agentic-ai-on-gcp/course-materials).
 
-| Role | Location |
-|---|---|
-| Editorial source | [Product `Programs/agentic-ai-on-gcp/Core/`](https://github.com/go-scale-world/Product) |
-| This repo | Student-facing HTML |
-
-Owned by the **Product** function. See Company REPO_MAP.
-
-## Rules
-
-1. Prefer updating Product Core first, then HTML here.
-2. No secrets, scores, or private feedback.
-3. HTML carve-out from Markdown-only knowledge rules.
+See `ARCHIVED.md`.
